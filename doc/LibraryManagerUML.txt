@@ -31,21 +31,32 @@ class LibraryManager {
     +{static}main(String[]) : void
 }
 
-class HelloWorld {
-    ' class variables
-    -helloStr : String
+class Book {
+    -title : String
+    -author : String
+    -yearPublished : String
+    -iSBN : String
+    -isChecked : String
 
-    ' class methods
-    HelloWorld() : void
-    +getHelloStr() : String
-    +setHelloStr(String) : void
+    Book() : void
+    +getTitle() : String
+    +setTitle(String) : void
+    +getAuthor() : String
+    +setAuthor(String) : void
+    +getYearPublished() : String
+    +setYearPublished(String) : void
+    +getISBN() : String
+    +setISBN(String) : void
+    +getIsChecked() : boolean
+    +setIsChecked(boolean) : void
+    +toString() : String
 }
 'note left of HelloWorld: This is the HelloWorld Class
 '------------------------------------------ end classes ------------------------------------------
 
 
 '------------------------------------------ connections ------------------------------------------
-LibraryManager -- HelloWorld
+LibraryManager -- Book
 '---------------------------------------- end connections ----------------------------------------
 
 @enduml
