@@ -5,11 +5,14 @@
  * Purpose: This class defines a test suite to run the unit tests.
  */
 
-package edu.umgc.library_manager;
+package edu.umgc.librarymanager;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+/**
+ * The Suite class to use.
+ */
 @RunWith(Suite.class)
 
 @Suite.SuiteClasses({
@@ -19,6 +22,6 @@ import org.junit.runners.Suite;
 /**
  * This class defines a test suite to run the unit tests.
  */
-public class TestSuite {  
+public class TestSuite {
 
 }

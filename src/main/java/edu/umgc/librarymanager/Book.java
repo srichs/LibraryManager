@@ -5,7 +5,7 @@
  * Purpose: This class is used to model a Book.
  */
 
-package edu.umgc.library_manager;
+package edu.umgc.librarymanager;
 
 /**
  * This class models a Book.
@@ -19,6 +19,9 @@ public class Book {
     private String deweyDecimal;
     private boolean isChecked;
 
+    /**
+     * The default constructor of the Book class.
+     */
     public Book() {
         this.title = "";
         this.author = "";
@@ -28,7 +31,17 @@ public class Book {
         this.isChecked = false;
     }
 
-    public Book(String title, String author, String yearPublished, String iSBN, String deweyDecimal, boolean isChecked) {
+    /**
+     * A constructor to assign each value to a Book Object.
+     * @param title The title of the book.
+     * @param author The author of the book.
+     * @param yearPublished The year published.
+     * @param iSBN The ISBN of the book.
+     * @param deweyDecimal The Dewey Decimal System value.
+     * @param isChecked A flag for whether the book is checked out.
+     */
+    public Book(String title, String author, String yearPublished, String iSBN,
+            String deweyDecimal, boolean isChecked) {
         this.title = title;
         this.author = author;
         this.yearPublished = yearPublished;
@@ -65,8 +78,8 @@ public class Book {
         return this.iSBN;
     }
 
-    public void setISBN(String iSBN) {
-        this.iSBN = iSBN;
+    public void setISBN(String str) {
+        this.iSBN = str;
     }
 
     public String getDeweyDecimal() {
@@ -86,7 +99,8 @@ public class Book {
     }
 
     public String toString() {
-        return "Title: " + this.title + "\nAuthor: " + this.author + "\nYear Published: " + this.yearPublished + "\nISBN: " + this.iSBN + "\nDD: " + this.deweyDecimal;
+        return "Title: " + this.title + "\nAuthor: " + this.author + "\nYear Published: "
+                + this.yearPublished + "\nISBN: " + this.iSBN + "\nDD: " + this.deweyDecimal;
     }
-    
+
 }
