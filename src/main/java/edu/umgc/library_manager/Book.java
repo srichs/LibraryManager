@@ -7,7 +7,6 @@
 
 package edu.umgc.library_manager;
 
-
 /**
  * This class models a Book.
  */
