@@ -16,9 +16,6 @@ import org.junit.runner.notification.Failure;
  */
 public final class AppTest {
 
-    /**
-     * Default constructor for the class.
-     */
     private AppTest() {}
 
     /**

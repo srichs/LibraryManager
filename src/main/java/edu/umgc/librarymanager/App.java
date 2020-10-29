@@ -12,9 +12,6 @@ package edu.umgc.librarymanager;
  */
 public final class App {
 
-    /**
-     * The default constructor for the class.
-     */
     private App() {}
 
     /**
