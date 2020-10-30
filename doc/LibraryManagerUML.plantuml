@@ -8,7 +8,7 @@
 '**************************************************************************************************
 
 
-@startuml
+@startuml LibraryManager
 
 '--------------------------------------- skinparam settings ---------------------------------------
 skinparam class {
@@ -36,22 +36,12 @@ class Book {
     -author : String
     -yearPublished : String
     -iSBN : String
+    -deweyDecimal : String
     -isChecked : String
 
-    Book() : void
-    +getTitle() : String
-    +setTitle(String) : void
-    +getAuthor() : String
-    +setAuthor(String) : void
-    +getYearPublished() : String
-    +setYearPublished(String) : void
-    +getISBN() : String
-    +setISBN(String) : void
-    +getIsChecked() : boolean
-    +setIsChecked(boolean) : void
     +toString() : String
 }
-'note left of HelloWorld: This is the HelloWorld Class
+'note left of LibraryManager: This is the LibraryManager Class
 '------------------------------------------ end classes ------------------------------------------
 
 
