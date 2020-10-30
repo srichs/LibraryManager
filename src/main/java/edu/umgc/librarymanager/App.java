@@ -8,7 +8,7 @@
 package edu.umgc.librarymanager;
 
 /**
- * The main class of the App application.
+ * The main class of the application.
  */
 public final class App {
 
