@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.item.ILibraryItem;
@@ -13,6 +14,7 @@ import java.time.ZonedDateTime;
  * @author David
  */
 public interface ILibraryTransaction {
+
     Library getLibrary();
     ILibraryItem getItem();
     IUser getUser();
@@ -21,4 +23,5 @@ public interface ILibraryTransaction {
     double getFee();
     ZonedDateTime getRenewDate();
     int getRenewCount();
+
 }

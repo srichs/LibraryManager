@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package edu.umgc.librarymanager.item;
 
 import edu.umgc.librarymanager.Classification;
@@ -18,6 +19,7 @@ import java.util.HashMap;
  * @author David
  */
 public interface ILibraryItem {
+
     long getId();
     HashMap<Classification.ClassType, Classification> getClassificationCode();
     ZonedDateTime getPurchaseDate();
@@ -31,5 +33,6 @@ public interface ILibraryItem {
     ItemStatus getStatus();
     HashMap<Library, Integer> getAvailability();
     Period getCheckoutPeriod();
+
 }
 

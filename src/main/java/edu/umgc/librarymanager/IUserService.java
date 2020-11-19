@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package edu.umgc.librarymanager;
 
-import edu.umgc.librarymanager.item.ILibraryItem;
-import java.util.List;
-
 /**
- *
+ * An interface to implement a service for a user.
  * @author David
  */
 public interface IUserService {
+
     void createUser(IUser newUser);
     void updateUser(IUser user);
+
 }

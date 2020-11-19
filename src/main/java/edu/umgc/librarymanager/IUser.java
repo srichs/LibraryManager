@@ -3,15 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package edu.umgc.librarymanager;
 
 import java.time.ZonedDateTime;
 
 /**
- *
+ * An interface to be implemented for a user of the Library.
  * @author David
  */
 public interface IUser {
+
     long getId();
     ZonedDateTime createdDateTime();
     String getUserName();
@@ -19,4 +21,5 @@ public interface IUser {
     String getEmail();
     String getAddress();
     String getPhoneNumber();
+
 }

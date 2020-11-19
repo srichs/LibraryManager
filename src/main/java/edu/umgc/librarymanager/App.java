@@ -7,8 +7,6 @@
 
 package edu.umgc.librarymanager;
 
-import edu.umgc.librarymanager.item.Book;
-
 /**
  * The main class of the application.
  */
@@ -22,8 +20,6 @@ public final class App {
      */
     public static void main(String[] args) {
         System.out.println("LibraryManager\n");
-//        Book book = new Book("1984", "George Orwell", "1949", "9781443434973", "823.912", false);
-//        System.out.println(book.toString());
     }
 
 }
