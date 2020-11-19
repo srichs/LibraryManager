@@ -1,0 +1,4 @@
+/**
+ * A package that contains the classes related to the various Items in the Library.
+ */
+package edu.umgc.librarymanager.item;
