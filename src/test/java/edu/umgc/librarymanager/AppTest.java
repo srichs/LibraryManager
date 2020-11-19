@@ -16,6 +16,10 @@ import org.junit.runner.notification.Failure;
  */
 public final class AppTest {
 
+    private static final String ANSI_RESET = "\u001B[0m";
+    private static final String ANSI_RED = "\u001B[31m";
+    private static final String ANSI_GREEN = "\u001B[32m";
+
     private AppTest() {}
 
     /**
@@ -23,11 +27,18 @@ public final class AppTest {
      * @param args The command line arguments.
      */
     public static void main(String[] args) {
+        System.out.println("\n---------------------------\n  T E S T S\n---------------------------\n");
         Result result = JUnitCore.runClasses(TestSuite.class);
         for (Failure failure : result.getFailures()) {
             System.out.println(failure.toString());
         }
-        System.out.println(result.wasSuccessful());
+        if (result.wasSuccessful()) {
+            System.out.println(ANSI_GREEN + result.getRunCount() + " TESTS COMPLETED - SUCCESS - "
+                    + result.getRunTime() + " ms\n" + ANSI_RESET);
+        } else {
+            System.out.println("\n" + ANSI_RED + result.getFailureCount() + " TESTS COMPLETED - FAILED - "
+                    + result.getRunTime() + " ms\n" + ANSI_RESET);
+        }
     }
 
 }
