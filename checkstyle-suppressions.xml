@@ -8,4 +8,5 @@
   <suppress checks="MagicNumber" files=".*[\\/]src[\\/].*.*"/>
   <suppress checks="IllegalCatch" files=".*[\\/]src[\\/].*.*"/>
   <suppress checks="IllegalType" files=".*[\\/]src[\\/].*.*"/>
+  <suppress checks="EmptyLineSeparator" files=".*[\\/]src[\\/].*.*"/>
 </suppressions>
