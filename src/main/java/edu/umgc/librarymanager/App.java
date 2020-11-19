@@ -9,6 +9,7 @@ package edu.umgc.librarymanager;
 
 /**
  * The main class of the application.
+ * @author Scott
  */
 public final class App {
 

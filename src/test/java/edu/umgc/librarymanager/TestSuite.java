@@ -21,6 +21,7 @@ import org.junit.runners.Suite;
 
 /**
  * This class defines a test suite to run the unit tests.
+ * @author Scott
  */
 public class TestSuite {
 

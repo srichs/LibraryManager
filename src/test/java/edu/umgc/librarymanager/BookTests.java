@@ -14,6 +14,7 @@ package edu.umgc.librarymanager;
 
 /**
  * This class tests the Book Class.
+ * @author Scott
  */
 public class BookTests {
 

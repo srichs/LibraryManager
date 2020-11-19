@@ -13,6 +13,7 @@ import org.junit.runner.notification.Failure;
 
 /**
  * This class runs the unit tests for the project.
+ * @author Scott
  */
 public final class AppTest {
 
