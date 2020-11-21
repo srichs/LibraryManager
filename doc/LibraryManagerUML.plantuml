@@ -1,6 +1,6 @@
 '**************************************************************************************************
 '
-' Filename: LibraryManager.txt
+' Filename: LibraryManager.plantuml
 ' Author: srichs
 ' Date Created: 28 Oct 2020
 ' Purpose: Creates a UML Class Diagram for LibraryManager using PlantUML.
@@ -27,26 +27,174 @@ hide circle
 
 
 '-------------------------------------------- classes --------------------------------------------
-class LibraryManager {
+class App {
+    -App()
     +{static}main(String[]) : void
 }
 
-class Book {
-    -title : String
-    -author : String
-    -yearPublished : String
-    -iSBN : String
-    -deweyDecimal : String
-    -isChecked : String
-
-    +toString() : String
+interface ILibraryItem {
+    +getId() : long
+    +getClassificationCode() : HashMap<Classification.ClassType, Classification>
+    +getPurchaseDate() : ZonedDateTime
+    +getDescription() : String
+    +getPurchasePrice() : double
+    +getTitle() : String
+    +getPublisher() : PublishData
+    +getGenre() : String
+    +getSummary() : String
+    +getPublishDate() : ZonedDateTime
+    +getStatus() : ItemStatus
+    +getAvailability() : HashMap<Library, Integer>
+    +getCheckoutPeriod() : Period
 }
-'note left of LibraryManager: This is the LibraryManager Class
+
+class Book implements ILibraryItem {
+    -id : long
+    -classificationCode : HashMap<Classification.ClassType, Classification>
+    -purchaseDate : ZonedDateTime
+    -description : String
+    -purchasePrice : double
+    -title : String
+    -publisher : PublishData
+    -genre : String
+    -summary : String
+    -publishDate : ZonedDateTime
+    -status : ItemStatus
+    -availability : HashMap<Library, Integer>
+    -checkoutPeriod : Period
+}
+
+class EBook implements ILibraryItem {
+    -id : long
+    -classificationCode : HashMap<Classification.ClassType, Classification>
+    -purchaseDate : ZonedDateTime
+    -description : String
+    -purchasePrice : double
+    -title : String
+    -publisher : PublishData
+    -genre : String
+    -summary : String
+    -publishDate : ZonedDateTime
+    -status : ItemStatus
+    -availability : HashMap<Library, Integer>
+    -checkoutPeriod : Period
+}
+
+class Movie implements ILibraryItem {
+    -id : long
+    -classificationCode : HashMap<Classification.ClassType, Classification>
+    -purchaseDate : ZonedDateTime
+    -description : String
+    -purchasePrice : double
+    -title : String
+    -publisher : PublishData
+    -genre : String
+    -summary : String
+    -publishDate : ZonedDateTime
+    -status : ItemStatus
+    -availability : HashMap<Library, Integer>
+    -checkoutPeriod : Period
+}
+
+class VideoGame implements ILibraryItem {
+    -id : long
+    -classificationCode : HashMap<Classification.ClassType, Classification>
+    -purchaseDate : ZonedDateTime
+    -description : String
+    -purchasePrice : double
+    -title : String
+    -publisher : PublishData
+    -genre : String
+    -summary : String
+    -publishDate : ZonedDateTime
+    -status : ItemStatus
+    -availability : HashMap<Library, Integer>
+    -checkoutPeriod : Period
+}
+
+class Library {
+    +getAddress() : String
+    +getName() : String
+    +getPhoneNumber() : String
+}
+
+class PublishData {
+    +getPublisher() : String
+    +getPublishDate() : ZonedDateTime
+    +getPublishLocation() : String
+}
+
+class SearchCriteria {
+    +getTitle() : String
+    +getKeyword() : String
+}
+
+interface Classification {
+    +getCode() : String
+}
+
+interface ILibraryService {
+    +searchItems(SearchCriteria) : List<ILibraryItem>
+    +checkoutItem(ILibraryItem, IUser) : ILibraryTransaction
+    +reserveItem(ILibraryItem, IUser) : ILibraryTransaction
+    +renewItem(ILibraryItem, IUser) : ILibraryTransaction
+    +getBorrowedItems(IUser) : List<ILibraryTransaction>
+    +getFeesOwed(IUser) : double
+    +getBorrowedItemsHistory(IUser, ZonedDateTime, ZonedDateTime) : List<ILibraryTransaction>
+}
+
+interface ILibraryTransaction {
+    +getLibrary() : Library
+    +getItem() : ILibraryItem
+    +getUser() : IUser
+    +getTransactionDateTime() : ZonedDateTime
+    +getDueDate() : ZonedDateTime
+    +getFee() : double
+    +getRenewDate() : ZonedDateTime
+    +getRenewCount() : int
+}
+
+interface IUser {
+    +getId() : long
+    +createdDateTime() : ZonedDateTime
+    +getUserName() : String
+    +getPassword() : String
+    +getEmail() : String
+    +getAddress() : String
+    +getPhoneNumber() : String
+}
+
+interface IUserService {
+    +createUser(IUser) : void
+    +updateUser(IUser) : void
+}
+
+class ClassType <<enum>> {
+    DeweyDecimal
+    LibraryOfCongress
+}
+
+class ItemStatus <<enum>> {
+    Available
+    OnHold
+    CheckedOut
+    InTransit
+}
+
 '------------------------------------------ end classes ------------------------------------------
 
 
 '------------------------------------------ connections ------------------------------------------
-LibraryManager -- Book
+ILibraryItem --> ItemStatus
+ILibraryItem --> Classification
+ILibraryItem --> PublishData
+ILibraryItem --> Library
+ILibraryTransaction --> Library
+ILibraryTransaction --> IUser
+ILibraryService --> SearchCriteria
+ILibraryService --> Library
+ILibraryService --> IUser
+IUserService --> IUser
 '---------------------------------------- end connections ----------------------------------------
 
 @enduml
