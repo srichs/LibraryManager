@@ -17,6 +17,7 @@ import javax.persistence.Table;
 /**
  * Models a Dewey Decimal System category. Uses hibernate annotations to map
  * the categories code and category to the hibernate database.
+ * @author Scott
  */
 @Entity
 @Table(name = "dewey_category")
