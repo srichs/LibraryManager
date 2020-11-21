@@ -1,14 +1,14 @@
 /*
  * Filename: HibernateInit.java
  * Author: srichs
- * Date Created: 11/1/2020
- * Purpose: This class is used to initialize the Hibernate data.
+ * Date Created: 11/21/2020
  */
 
 package edu.umgc.librarymanager.data;
 
 import com.opencsv.CSVReader;
 import java.io.FileReader;
+import java.time.ZonedDateTime;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
@@ -16,6 +16,7 @@ import org.hibernate.search.Search;
 
 /**
  * Initializes the data in the Hibernate database.
+ * @author Scott
  */
 public class HibernateInit {
 
@@ -93,32 +94,31 @@ public class HibernateInit {
     }
 
     /**
-     * Initializes the hibernate database with user login data.
+     * Initializes the hibernate database with user data.
      */
     public static void initUserList() {
         String file = "./src/main/resources/data/users.csv";
         CSVReader reader = null;
-        Transaction transaction = null;
+        UserDAO uDAO = new UserDAO();
         try (Session session = HibernateUtility.getSessionFactory().openSession()) {
             reader = new CSVReader(new FileReader(file));
             String[] line;
-            transaction = session.beginTransaction();
+            uDAO.openSessionwithTransaction();
             while ((line = reader.readNext()) != null) {
                 BaseUser user = null;
                 if (line[6].equals("Librarian")) {
-                    user = new LibrarianUser(line[0], line[1], new UserLogin(line[2], line[3]), line[4],
-                        line[5]);
+                    user = new LibrarianUser(ZonedDateTime.parse(line[0]), line[1], line[2], new UserLogin(line[3],
+                            line[4]), line[5], line[6], line[7]);
                 } else if (line[6].equals("Patron")) {
-                    user = new PatronUser(line[0], line[1], new UserLogin(line[2], line[3]), line[4],
-                        line[5]);
+                    user = new PatronUser(ZonedDateTime.parse(line[0]), line[1], line[2], new UserLogin(line[3],
+                            line[4]), line[5], line[6], line[7]);
                 } else {
-                    UserException ex = new UserException("The user: " + line[2] + " could not be added");
+                    UserException ex = new UserException("The user: " + line[3] + " could not be added");
                     throw ex;
                 }
-                session.save(user);
+                uDAO.persist(user);
             }
-            transaction.commit();
-            session.close();
+            uDAO.closeSessionwithTransaction();
         } catch (Exception e) {
             e.printStackTrace();
         }
