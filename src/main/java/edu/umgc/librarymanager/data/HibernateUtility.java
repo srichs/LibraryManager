@@ -17,6 +17,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
  * @author Scott
  */
 public final class HibernateUtility {
+
     private static StandardServiceRegistry registry;
     private static SessionFactory sessionFactory;
 
@@ -51,4 +52,5 @@ public final class HibernateUtility {
             StandardServiceRegistryBuilder.destroy(registry);
         }
     }
+
 }
