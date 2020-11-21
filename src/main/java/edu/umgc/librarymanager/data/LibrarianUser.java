@@ -6,8 +6,12 @@
 
 package edu.umgc.librarymanager.data;
 
+import java.time.ZonedDateTime;
+
 /**
- * This class is the concrete class for a Librarian User and extends the BaseUser class.
+ * This class is the concrete class for a Librarian User and extends the
+ * BaseUser class.
+ * 
  * @author Scott
  */
 public class LibrarianUser extends BaseUser {
@@ -22,14 +26,17 @@ public class LibrarianUser extends BaseUser {
 
     /**
      * This is a constructor with parameters for the class variables.
+     * @param cDateTime The Date and Time of creation.
      * @param fName The User's First Name.
      * @param lName The User's Last Name.
      * @param login The login information for the User.
-     * @param phone The User's Phone Number.
      * @param email The User's Email Address.
+     * @param address The User's Address.
+     * @param phone The User's Phone Number.
      */
-    public LibrarianUser(String fName, String lName, UserLogin login, String phone, String email) {
-        super(fName, lName, login, phone, email, UserType.LIBRARIAN);
+    public LibrarianUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
+            String address, String phone) {
+        super(cDateTime, fName, lName, login, email, address, phone, UserType.LIBRARIAN);
     }
 
 }
