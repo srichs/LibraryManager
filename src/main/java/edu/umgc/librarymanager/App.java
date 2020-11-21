@@ -20,7 +20,7 @@ public final class App {
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("LibraryManager\n");
+        System.out.println("\nLibraryManager\n");
     }
 
 }
