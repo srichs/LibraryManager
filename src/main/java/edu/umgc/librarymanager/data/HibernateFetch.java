@@ -1,7 +1,7 @@
 /*
  * Filename: HibernateFetch.java
  * Author: srichs
- * Date Created: 11/1/2020
+ * Date Created: 11/21/2020
  * Purpose: This class is used to fetch data from the Hibernate database.
  */
 
@@ -15,6 +15,7 @@ import org.hibernate.Session;
 
 /**
  * Fetches data from the Hibernate database.
+ * @author Scott
  */
 public final class HibernateFetch {
 
