@@ -15,6 +15,9 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 
+/**
+ * The Test classes to run.
+ */
 @Suite.SuiteClasses({
     //BookTests.class
 })
@@ -23,6 +26,4 @@ import org.junit.runners.Suite;
  * This class defines a test suite to run the unit tests.
  * @author Scott
  */
-public class TestSuite {
-
-}
+public class TestSuite {}
