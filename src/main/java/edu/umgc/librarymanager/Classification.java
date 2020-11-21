@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Filename: Classification.java
+ * Author: David
+ * Date Created: 11/17/2020
  */
 
 package edu.umgc.librarymanager;
@@ -11,6 +11,7 @@ package edu.umgc.librarymanager;
  * @author David
  */
 public interface Classification {
+
     /**
      * An enumeration for the type of classification system.
      */
@@ -20,4 +21,5 @@ public interface Classification {
     }
 
     String getCode();
+
 }

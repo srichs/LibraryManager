@@ -1,8 +1,7 @@
 /*
  * Filename: App.java
- * Author: srichs
+ * Author: Scott
  * Date Created: 10/28/2020
- * Purpose: This class contains the main method of the App application.
  */
 
 package edu.umgc.librarymanager;

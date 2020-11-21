@@ -1,8 +1,7 @@
 /*
  * Filename: Book.java
- * Author: srichs
+ * Author: David
  * Date Created: 10/28/2020
- * Purpose: This class is used to model a Book.
  */
 
 package edu.umgc.librarymanager.item;
@@ -16,7 +15,8 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 
 /**
- * This class models a Book.
+ * This class models a Book Item.
+ * @author David
  */
 public class Book implements ILibraryItem {
 

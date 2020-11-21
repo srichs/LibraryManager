@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Filename: ILibraryItem.java
+ * Author: David
+ * Date Created: 11/17/2020
  */
 
 package edu.umgc.librarymanager.item;
@@ -15,7 +15,7 @@ import java.time.ZonedDateTime;
 import java.util.HashMap;
 
 /**
- *
+ * An interface to be implemented for an Item in a Library.
  * @author David
  */
 public interface ILibraryItem {
