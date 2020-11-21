@@ -8,6 +8,7 @@ package edu.umgc.librarymanager.data;
 
 /**
  * An enum for the type of User.
+ * @author Scott
  */
 public enum UserType {
 
