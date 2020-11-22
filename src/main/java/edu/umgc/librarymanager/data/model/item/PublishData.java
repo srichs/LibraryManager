@@ -70,7 +70,7 @@ public class PublishData {
     }
 
     public ZonedDateTime getPublishDate() {
-        return null;
+        return this.publishDate;
     }
 
     public void setPublishDate(ZonedDateTime date) {
@@ -78,7 +78,7 @@ public class PublishData {
     }
 
     public String getPublishLocation() {
-        return null;
+        return this.publishLocation;
     }
 
     public void setPublishLocation(String location) {
