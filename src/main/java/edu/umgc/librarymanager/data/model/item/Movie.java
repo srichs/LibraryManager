@@ -54,7 +54,7 @@ public class Movie extends BaseItem {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        super.setItemType(ItemType.EBOOK);
+        super.setItemType(ItemType.MOVIE);
     }
 
 }
