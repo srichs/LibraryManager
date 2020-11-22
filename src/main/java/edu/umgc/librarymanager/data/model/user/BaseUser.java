@@ -84,7 +84,7 @@ public abstract class BaseUser implements IUser {
      * @param phone The User's Phone Number.
      * @param uType The type of user.
      */
-    public BaseUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email, 
+    public BaseUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
             String address, String phone, UserType uType) {
         this.createdDateTime = cDateTime;
         this.firstName = fName;

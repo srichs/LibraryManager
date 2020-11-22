@@ -6,8 +6,8 @@
 
 package edu.umgc.librarymanager.data.access;
 
-import java.util.List;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
+import java.util.List;
 
 /**
  * Used to create a data access object for the user login information.
@@ -86,6 +86,9 @@ public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
         return logins;
     }
 
+    /**
+     * Deletes all of the UserLogin entries from the database.
+     */
     public void deleteAll() {
         List<UserLogin> entityList = findAll();
         for (UserLogin entity : entityList) {

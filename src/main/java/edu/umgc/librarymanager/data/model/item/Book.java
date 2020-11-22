@@ -25,6 +25,9 @@ public class Book extends BaseItem {
     private List<String> authors;
     private String isbn;
 
+    /**
+     * The default constructor for the class.
+     */
     public Book() {
         super();
         super.setItemType(ItemType.BOOK);
@@ -32,6 +35,20 @@ public class Book extends BaseItem {
         this.isbn = "";
     }
 
+    /**
+     * A constructor with parameters for the super class's fields.
+     * @param id The id of the item.
+     * @param classGroup The classification group of the item.
+     * @param purchaseDate The purchase date of the item.
+     * @param description The description of the item.
+     * @param price The purchase price of the item.
+     * @param title The title of the item.
+     * @param publisher The publisher of the item.
+     * @param genre The genre of the item.
+     * @param summary The summary of the item.
+     * @param status The status of the item in the Library.
+     * @param checkoutPeriod The checkout period of the item.
+     */
     public Book(long id, ClassificationGroup classGroup, ZonedDateTime purchaseDate, String description,
             BigDecimal price, String title, PublishData publisher, String genre, String summary,
             ItemStatus status, Period checkoutPeriod) {

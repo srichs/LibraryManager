@@ -6,9 +6,9 @@
 
 package edu.umgc.librarymanager.data.access;
 
-import java.util.List;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
+import java.util.List;
 
 /**
  * This class is the Data Access Object class for the DeweyCategory class.
@@ -18,6 +18,11 @@ public class DeweyCategoryDAO extends BaseDAO implements DAOInteface<DeweyCatego
 
     public DeweyCategoryDAO() {}
 
+    /**
+     * Finds a Dewey Classification given the Dewey Decimal code.
+     * @param code The Dewey Decimal Code in the format ###.###.
+     * @return The DeweyCategory value that matches the first three numbers of the code.
+     */
     @SuppressWarnings("unchecked")
     public DeweyCategory findByCode(String code) {
         if (DeweyDecimalUtility.matchesPattern(code)) {
@@ -45,12 +50,19 @@ public class DeweyCategoryDAO extends BaseDAO implements DAOInteface<DeweyCatego
         getSession().delete(entity);
     }
 
+    /**
+     * Finds all of the DeweyCategory entries in the database.
+     * @return A List of DeweyCategory Objects.
+     */
     @SuppressWarnings("unchecked")
     public List<DeweyCategory> findAll() {
         List<DeweyCategory> users = (List<DeweyCategory>) getSession().createQuery("From dewey_category").list();
         return users;
     }
 
+    /**
+     * Deletes all of the DeweyCategory entries from the database.
+     */
     public void deleteAll() {
         List<DeweyCategory> entityList = findAll();
         for (DeweyCategory entity : entityList) {

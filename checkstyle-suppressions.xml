@@ -9,4 +9,7 @@
   <suppress checks="IllegalCatch" files=".*[\\/]src[\\/].*.*"/>
   <suppress checks="IllegalType" files=".*[\\/]src[\\/].*.*"/>
   <suppress checks="EmptyLineSeparator" files=".*[\\/]src[\\/].*.*"/>
+  <suppress checks="NestedIfDepth" files=".*[\\/]src[\\/].*.*"/>
+  <suppress checks="ParameterNumber" files=".*[\\/]src[\\/].*.*"/>
+  <suppress checks="HiddenField" files=".*[\\/]src[\\/].*.*"/>
 </suppressions>

@@ -35,6 +35,9 @@ public class ClassificationGroup {
     @OneToOne(cascade = CascadeType.ALL)
     private Classification loc;
 
+    /**
+     * The default constructor of the class.
+     */
     public ClassificationGroup() {
         this.id = -1;
         this.dewey = null;
@@ -48,7 +51,7 @@ public class ClassificationGroup {
     public void setId(long id) {
         this.id = id;
     }
-    
+
     public Classification getDewey() {
         return this.dewey;
     }

@@ -10,7 +10,6 @@ import edu.umgc.librarymanager.data.model.user.IUser;
 
 /**
  * An interface to implement a Service for a user.
- * 
  * @author David
  */
 public interface IUserService {

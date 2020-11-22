@@ -21,14 +21,6 @@ import javax.persistence.Table;
 @Table(name = "classification")
 public class Classification {
 
-    /**
-     * An enumeration for the type of classification system.
-     */
-    public enum ClassType {
-        DeweyDecimal,
-        LibraryOfCongress
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "classification_id")

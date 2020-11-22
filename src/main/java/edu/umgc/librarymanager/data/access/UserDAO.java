@@ -6,9 +6,9 @@
 
 package edu.umgc.librarymanager.data.access;
 
-import java.util.List;
-import edu.umgc.librarymanager.data.model.user.IUser;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
+import edu.umgc.librarymanager.data.model.user.IUser;
+import java.util.List;
 
 /**
  * The Data Access Object class to access the base_user table of the database.
@@ -37,6 +37,9 @@ public class UserDAO extends BaseDAO implements DAOInteface<BaseUser>, IUserServ
         return users;
     }
 
+    /**
+     * Deletes all of the BaseUser entries from the database.
+     */
     public void deleteAll() {
         List<BaseUser> entityList = findAll();
         for (BaseUser entity : entityList) {

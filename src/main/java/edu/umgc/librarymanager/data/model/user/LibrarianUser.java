@@ -11,7 +11,6 @@ import java.time.ZonedDateTime;
 /**
  * This class is the concrete class for a Librarian User and extends the
  * BaseUser class.
- * 
  * @author Scott
  */
 public class LibrarianUser extends BaseUser {

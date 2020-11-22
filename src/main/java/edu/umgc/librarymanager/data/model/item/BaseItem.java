@@ -76,6 +76,9 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "type")
     private ItemType itemType;
 
+    /**
+     * The default constructor of the class.
+     */
     public BaseItem() {
         this.id = -1;
         this.classGroup = null;
@@ -91,6 +94,21 @@ public abstract class BaseItem implements ILibraryItem {
         this.itemType = null;
     }
 
+    /**
+     * A constructor with parameters for each of the class variables.
+     * @param id The id of the item.
+     * @param classGroup The classification group of the item.
+     * @param purchaseDate The purchase date of the item.
+     * @param description The description of the item.
+     * @param price The purchase price of the item.
+     * @param title The title of the item.
+     * @param publisher The publisher of the item.
+     * @param genre The genre of the item.
+     * @param summary The summary of the item.
+     * @param status The status of the item in the Library.
+     * @param checkoutPeriod The checkout period of the item.
+     * @param type The type of item.
+     */
     public BaseItem(long id, ClassificationGroup classGroup, ZonedDateTime purchaseDate,
             String description, BigDecimal price, String title, PublishData publisher, String genre, String summary,
             ItemStatus status, Period checkoutPeriod, ItemType type) {

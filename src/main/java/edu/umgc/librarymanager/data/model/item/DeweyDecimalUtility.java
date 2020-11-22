@@ -14,6 +14,11 @@ public final class DeweyDecimalUtility {
 
     private DeweyDecimalUtility() { }
 
+    /**
+     * Checks that the code matches the Regex pattern and if it does returns the first three characters of the code.
+     * @param code The Dewey Decimal code.
+     * @return A String of the first three characters of the Dewey Decimal code.
+     */
     public static String parseCode(String code) {
         if (matchesPattern(code)) {
             return String.valueOf(code.charAt(0)) + String.valueOf(code.charAt(0)) + String.valueOf(code.charAt(0));
