@@ -4,7 +4,7 @@
  * Date Created: 11/17/2020
  */
 
-package edu.umgc.librarymanager;
+package edu.umgc.librarymanager.data.model;
 
 /**
  * An enumeration to describe the status of a Library Item.

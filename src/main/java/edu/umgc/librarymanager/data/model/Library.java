@@ -4,7 +4,7 @@
  * Date Created: 11/17/2020
  */
 
-package edu.umgc.librarymanager;
+package edu.umgc.librarymanager.data.model;
 
 /**
  * A class that models some basic information for the Library.

@@ -7,4 +7,4 @@
 /**
  * A package that contains the classes related to the various Items in the Library.
  */
-package edu.umgc.librarymanager.item;
+package edu.umgc.librarymanager.data.model.item;
