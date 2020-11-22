@@ -25,14 +25,33 @@ public class Classification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "classification_id")
     private long id;
+
     @Column(name = "code")
     private String code;
+    
     @Column(name = "class_type")
     private ClassificationType classificationType;
 
+    /**
+     * The default constructor of the class.
+     */
     public Classification() {
         this.code = "";
         this.classificationType = null;
+    }
+
+    /**
+     * A constructor with parameters for each field.
+     * @param code The code of the given classification system.
+     * @param classType The type of classification system.
+     */
+    public Classification(String code, ClassificationType classType) {
+        this.code = code;
+        this.classificationType = classType;
+    }
+
+    public long getId() {
+        return this.id;
     }
 
     public String getCode() {

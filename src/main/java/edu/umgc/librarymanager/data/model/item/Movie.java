@@ -30,7 +30,6 @@ public class Movie extends BaseItem {
 
     /**
      * A constructor with parameters for the super class's fields.
-     * @param id The id of the item.
      * @param classGroup The classification group of the item.
      * @param purchaseDate The purchase date of the item.
      * @param description The description of the item.
@@ -42,10 +41,9 @@ public class Movie extends BaseItem {
      * @param status The status of the item in the Library.
      * @param checkoutPeriod The checkout period of the item.
      */
-    public Movie(long id, ClassificationGroup classGroup, ZonedDateTime purchaseDate, String description,
+    public Movie(ClassificationGroup classGroup, ZonedDateTime purchaseDate, String description,
             BigDecimal price, String title, PublishData publisher, String genre, String summary,
             ItemStatus status, Period checkoutPeriod) {
-        super.setId(id);
         super.setClassificationGroup(classGroup);
         super.setPurchaseDate(purchaseDate);
         super.setDescription(description);

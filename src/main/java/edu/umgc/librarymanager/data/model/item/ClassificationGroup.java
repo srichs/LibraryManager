@@ -39,17 +39,12 @@ public class ClassificationGroup {
      * The default constructor of the class.
      */
     public ClassificationGroup() {
-        this.id = -1;
         this.dewey = null;
         this.loc = null;
     }
 
     public long getId() {
         return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public Classification getDewey() {

@@ -21,7 +21,7 @@ public final class DeweyDecimalUtility {
      */
     public static String parseCode(String code) {
         if (matchesPattern(code)) {
-            return String.valueOf(code.charAt(0)) + String.valueOf(code.charAt(0)) + String.valueOf(code.charAt(0));
+            return String.valueOf(code.charAt(0)) + String.valueOf(code.charAt(1)) + String.valueOf(code.charAt(2));
         }
         return "";
     }

@@ -80,7 +80,6 @@ public abstract class BaseItem implements ILibraryItem {
      * The default constructor of the class.
      */
     public BaseItem() {
-        this.id = -1;
         this.classGroup = null;
         this.purchaseDate = null;
         this.description = "";
@@ -96,7 +95,6 @@ public abstract class BaseItem implements ILibraryItem {
 
     /**
      * A constructor with parameters for each of the class variables.
-     * @param id The id of the item.
      * @param classGroup The classification group of the item.
      * @param purchaseDate The purchase date of the item.
      * @param description The description of the item.
@@ -109,10 +107,9 @@ public abstract class BaseItem implements ILibraryItem {
      * @param checkoutPeriod The checkout period of the item.
      * @param type The type of item.
      */
-    public BaseItem(long id, ClassificationGroup classGroup, ZonedDateTime purchaseDate,
+    public BaseItem(ClassificationGroup classGroup, ZonedDateTime purchaseDate,
             String description, BigDecimal price, String title, PublishData publisher, String genre, String summary,
             ItemStatus status, Period checkoutPeriod, ItemType type) {
-        this.id = id;
         this.classGroup = classGroup;
         this.purchaseDate = purchaseDate;
         this.description = description;
@@ -128,10 +125,6 @@ public abstract class BaseItem implements ILibraryItem {
 
     public long getId() {
         return this.id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public ClassificationGroup getClassificationGroup() {

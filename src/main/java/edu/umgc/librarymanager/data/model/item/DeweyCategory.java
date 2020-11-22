@@ -26,12 +26,15 @@ public class DeweyCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dewey_category_id")
-    private int id;
+    private long id;
     @Column(name = "code")
     private String code;
     @Column(name = "category")
     private String category;
 
+    /**
+     * The default constructor for the class.
+     */
     public DeweyCategory() {
         this.code = "";
         this.category = "";
@@ -45,6 +48,10 @@ public class DeweyCategory {
     public DeweyCategory(String code, String cat) {
         this.code = code;
         this.category = cat;
+    }
+
+    public long getId() {
+        return this.id;
     }
 
     public String getCode() {
