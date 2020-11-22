@@ -27,13 +27,13 @@ public class PublishData {
     @Column(name = "publish_data_id")
     private long id;
 
-    @Column(name = "dewey_category_id")
+    @Column(name = "publisher")
     private String publisher;
 
-    @Column(name = "dewey_category_id")
+    @Column(name = "publish_date")
     private ZonedDateTime publishDate;
 
-    @Column(name = "dewey_category_id")
+    @Column(name = "publish_location")
     private String publishLocation;
 
     /**

@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.model.item;
 
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -37,6 +38,9 @@ public class Author {
 
     @Column(name = "suffix")
     private String suffix;
+
+    @Column(name = "book")
+    private List<BaseItem> book;
 
     /**
      * The default constructor for the class.
@@ -92,6 +96,10 @@ public class Author {
 
     public void setSuffix(String suffix) {
         this.suffix = suffix;
+    }
+
+    public List<BaseItem> getBook() {
+        return this.book;
     }
 
     /**

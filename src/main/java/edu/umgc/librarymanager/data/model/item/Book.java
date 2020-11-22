@@ -11,21 +11,20 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.OneToMany;
 
 /**
  * This class models a Book Item.
  * @author Scott
  */
 @Entity
-@Table(name = "book")
 public class Book extends BaseItem {
 
-    @ManyToMany
-    private List<String> authors;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
+    private List<Author> authors;
 
     @Column(name = "isbn")
     private String isbn;
@@ -36,7 +35,7 @@ public class Book extends BaseItem {
     public Book() {
         super();
         super.setItemType(ItemType.BOOK);
-        this.authors = new ArrayList<String>();
+        this.authors = new ArrayList<Author>();
         this.isbn = "";
     }
 
@@ -67,15 +66,15 @@ public class Book extends BaseItem {
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
         super.setItemType(ItemType.BOOK);
-        this.authors = new ArrayList<String>();
+        this.authors = new ArrayList<Author>();
         this.isbn = "";
     }
 
-    public List<String> getAuthors() {
+    public List<Author> getAuthors() {
         return this.authors;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 

@@ -11,8 +11,11 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 /**
  * This class models an E-Book Item.
@@ -22,7 +25,10 @@ import javax.persistence.Entity;
 @DiscriminatorValue("ebook")
 public class Ebook extends BaseItem {
 
-    private List<String> authors;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
+    private List<Author> authors;
+
+    @Column(name = "isbn")
     private String isbn;
 
     /**
@@ -31,7 +37,7 @@ public class Ebook extends BaseItem {
     public Ebook() {
         super();
         super.setItemType(ItemType.EBOOK);
-        this.authors = new ArrayList<String>();
+        this.authors = new ArrayList<Author>();
         this.isbn = "";
     }
 
@@ -64,11 +70,11 @@ public class Ebook extends BaseItem {
         super.setItemType(ItemType.EBOOK);
     }
 
-    public List<String> getAuthors() {
+    public List<Author> getAuthors() {
         return this.authors;
     }
 
-    public void setAuthors(List<String> authors) {
+    public void setAuthors(List<Author> authors) {
         this.authors = authors;
     }
 

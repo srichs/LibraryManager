@@ -38,17 +38,17 @@ public class BookTest {
         Period period = Period.between(checkDate, dueDate);
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
                 "The summary.", ItemStatus.AVAILABLE, period);
-        List<String> authors = new ArrayList<String>();
-        authors.add("John Doe");
-        authors.add("David Smith");
+        List<Author> authors = new ArrayList<Author>();
+        authors.add(new Author("John", "", "Doe", ""));
+        authors.add(new Author("David", "", "Smith", ""));
         book.setAuthors(authors);
         book.setISBN("9283923231865");
     }
 
     @Test
     public void getAuthors_Test() {
-        assertEquals("John Doe", book.getAuthors().get(0));
-        assertEquals("David Smith", book.getAuthors().get(1));
+        assertEquals("John Doe", book.getAuthors().get(0).toString());
+        assertEquals("David Smith", book.getAuthors().get(1).toString());
     }
 
     @Test
