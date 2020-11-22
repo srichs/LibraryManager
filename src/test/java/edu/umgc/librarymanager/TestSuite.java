@@ -13,6 +13,7 @@ import edu.umgc.librarymanager.data.model.item.ClassificationGroupTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationTest;
 import edu.umgc.librarymanager.data.model.item.DeweyCategoryTest;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtilityTest;
+import edu.umgc.librarymanager.data.model.item.PublishDataTest;
 
 /**
  * The Suite class to use.
@@ -26,7 +27,8 @@ import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtilityTest;
     DeweyCategoryTest.class,
     DeweyDecimalUtilityTest.class,
     ClassificationTest.class,
-    ClassificationGroupTest.class
+    ClassificationGroupTest.class,
+    PublishDataTest.class
 })
 
 /**
