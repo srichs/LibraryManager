@@ -98,12 +98,29 @@ public abstract class BaseUser implements IUser {
         this.userType = uType;
     }
 
+    @Override
     public long getId() {
         return this.id;
     }
 
-    public ZonedDateTime getCreatedDateTime() {
-        return this.createdDateTime;
+    @Override
+    public ZonedDateTime createdDateTime() {
+        return this.createdDateTime();
+    }
+
+    @Override
+    public String getUserName() {
+        return this.login.getUsername();
+    }
+
+    @Override
+    public String getPassword() {
+        return this.login.getPassword();
+    }
+
+    @Override
+    public String getPhoneNumber() {
+        return this.phone;
     }
 
     public void setCreatedDateTime(ZonedDateTime zdt) {
@@ -150,11 +167,7 @@ public abstract class BaseUser implements IUser {
         this.address = address;
     }
 
-    public String getPhone() {
-        return this.phone;
-    }
-
-    public void setPhone(String phone) {
+    public void setPhoneNumber(String phone) {
         this.phone = phone;
     }
 

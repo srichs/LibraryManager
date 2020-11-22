@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -39,7 +40,7 @@ public class Author {
     @Column(name = "suffix")
     private String suffix;
 
-    @Column(name = "book")
+    @ManyToMany(mappedBy = "author")
     private List<BaseItem> book;
 
     /**
@@ -49,6 +50,31 @@ public class Author {
         this.firstName = "";
         this.middleName = "";
         this.lastName = "";
+        this.suffix = "";
+    }
+
+    /**
+     * A constructor that takes a first and last name as parameters.
+     * @param fName The first name of the author.
+     * @param lName The last name of the author.
+     */
+    public Author(String fName, String lName) {
+        this.firstName = fName;
+        this.middleName = "";
+        this.lastName = lName;
+        this.suffix = "";
+    }
+
+    /**
+     * A constructor that takes a first, middle, and last name as parameters.
+     * @param fName The first name of the author.
+     * @param mName The middle name of the author.
+     * @param lName The last name of the author.
+     */
+    public Author(String fName, String mName, String lName) {
+        this.firstName = fName;
+        this.middleName = mName;
+        this.lastName = lName;
         this.suffix = "";
     }
 

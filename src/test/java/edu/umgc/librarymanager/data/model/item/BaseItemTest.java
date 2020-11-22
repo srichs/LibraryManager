@@ -11,6 +11,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,8 +37,10 @@ public class BaseItemTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 5);
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
+        List<Author> authors = new ArrayList<Author>();
+        authors.add(new Author("John", "", "Doe", ""));
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
-                "The summary.", ItemStatus.AVAILABLE, period);
+                "The summary.", ItemStatus.AVAILABLE, period, authors, "9382658374958");
     }
 
     @Test

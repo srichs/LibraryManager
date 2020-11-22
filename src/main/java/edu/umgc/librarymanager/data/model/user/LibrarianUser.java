@@ -22,7 +22,7 @@ public class LibrarianUser extends BaseUser {
      */
     public LibrarianUser() {
         super();
-        super.setUserType(UserType.LIBRARIAN);
+        super.setUserType(UserType.Librarian);
     }
 
     /**
@@ -37,32 +37,7 @@ public class LibrarianUser extends BaseUser {
      */
     public LibrarianUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
             String address, String phone) {
-        super(cDateTime, fName, lName, login, email, address, phone, UserType.LIBRARIAN);
-    }
-
-    @Override
-    public long getId() {
-        return super.getId();
-    }
-
-    @Override
-    public ZonedDateTime createdDateTime() {
-        return super.getCreatedDateTime();
-    }
-
-    @Override
-    public String getUserName() {
-        return super.getLogin().getUsername();
-    }
-
-    @Override
-    public String getPassword() {
-        return super.getLogin().getPassword();
-    }
-
-    @Override
-    public String getPhoneNumber() {
-        return super.getPhone();
+        super(cDateTime, fName, lName, login, email, address, phone, UserType.Librarian);
     }
 
 }

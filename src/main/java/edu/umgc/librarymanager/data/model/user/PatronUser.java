@@ -19,7 +19,7 @@ public class PatronUser extends BaseUser {
 
     public PatronUser() {
         super();
-        super.setUserType(UserType.PATRON);
+        super.setUserType(UserType.Patron);
     }
 
     /**
@@ -34,32 +34,7 @@ public class PatronUser extends BaseUser {
      */
     public PatronUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
             String address, String phone) {
-        super(cDateTime, fName, lName, login, email, address, phone, UserType.PATRON);
-    }
-
-    @Override
-    public long getId() {
-        return super.getId();
-    }
-
-    @Override
-    public ZonedDateTime createdDateTime() {
-        return super.getCreatedDateTime();
-    }
-
-    @Override
-    public String getUserName() {
-        return super.getLogin().getUsername();
-    }
-
-    @Override
-    public String getPassword() {
-        return super.getLogin().getPassword();
-    }
-
-    @Override
-    public String getPhoneNumber() {
-        return super.getPhone();
+        super(cDateTime, fName, lName, login, email, address, phone, UserType.Patron);
     }
 
 }

@@ -29,8 +29,8 @@ public class BaseUserTest {
     }
 
     @Test
-    public void getCreatedDateTime_Test() {
-        assertEquals("2019-12-05T10:48-05:00[America/New_York]", user.getCreatedDateTime().toString());
+    public void createdDateTime_Test() {
+        assertEquals("2019-12-05T10:48-05:00[America/New_York]", user.createdDateTime().toString());
     }
 
     @Test
@@ -54,6 +54,11 @@ public class BaseUserTest {
     }
 
     @Test
+    public void getPassword_Test() {
+        assertEquals(true, user.getLogin().checkPassword(user.getPassword()));
+    }
+
+    @Test
     public void getEmail_Test() {
         assertEquals("john.doe@gmail.com", user.getEmail());
     }
@@ -64,15 +69,15 @@ public class BaseUserTest {
     }
 
     @Test
-    public void getPhone_Test() {
-        assertEquals("555-867-5309", user.getPhone());
+    public void getPhoneNumber_Test() {
+        assertEquals("555-867-5309", user.getPhoneNumber());
     }
 
     @Test
     public void getUserType_Test() {
-        assertEquals(UserType.PATRON, user.getUserType());
+        assertEquals(UserType.Patron, user.getUserType());
         BaseUser user2 = new LibrarianUser();
-        assertEquals(UserType.LIBRARIAN, user2.getUserType());
+        assertEquals(UserType.Librarian, user2.getUserType());
     }
 
 }

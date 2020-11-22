@@ -9,25 +9,15 @@ package edu.umgc.librarymanager.data.model.item;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 
 /**
  * This class models a Book Item.
  * @author Scott
  */
 @Entity
-public class Book extends BaseItem {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
-    private List<Author> authors;
-
-    @Column(name = "isbn")
-    private String isbn;
+public class Book extends BaseBook {
 
     /**
      * The default constructor for the class.
@@ -35,8 +25,6 @@ public class Book extends BaseItem {
     public Book() {
         super();
         super.setItemType(ItemType.BOOK);
-        this.authors = new ArrayList<Author>();
-        this.isbn = "";
     }
 
     /**
@@ -54,7 +42,7 @@ public class Book extends BaseItem {
      */
     public Book(ClassificationGroup classGroup, ZonedDateTime purchaseDate, String description,
             BigDecimal price, String title, PublishData publisher, String genre, String summary,
-            ItemStatus status, Period checkoutPeriod) {
+            ItemStatus status, Period checkoutPeriod, List<Author> authors, String isbn) {
         super.setClassificationGroup(classGroup);
         super.setPurchaseDate(purchaseDate);
         super.setDescription(description);
@@ -66,24 +54,10 @@ public class Book extends BaseItem {
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
         super.setItemType(ItemType.BOOK);
-        this.authors = new ArrayList<Author>();
-        this.isbn = "";
+        super.setAuthors(authors);
+        super.setISBN(isbn);
     }
 
-    public List<Author> getAuthors() {
-        return this.authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public String getISBN() {
-        return this.isbn;
-    }
-
-    public void setISBN(String isbn) {
-        this.isbn = isbn;
-    }
+    
 
 }
