@@ -19,7 +19,7 @@ import javax.persistence.Entity;
  * @author Scott
  */
 @Entity
-@DiscriminatorValue("book")
+@DiscriminatorValue("book_item")
 public class Book extends BaseItem {
 
     private List<String> authors;

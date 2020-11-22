@@ -17,7 +17,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import edu.umgc.librarymanager.IUser;
 
 /**
  * Models a library management system user. Uses hibernate annotations to map the

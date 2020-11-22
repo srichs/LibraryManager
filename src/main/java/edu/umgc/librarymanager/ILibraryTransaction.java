@@ -8,6 +8,8 @@ package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.data.model.Library;
 import edu.umgc.librarymanager.data.model.item.ILibraryItem;
+import edu.umgc.librarymanager.data.model.user.IUser;
+
 import java.time.ZonedDateTime;
 
 /**

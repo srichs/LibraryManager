@@ -7,8 +7,7 @@
 package edu.umgc.librarymanager.data.access;
 
 import java.util.List;
-import edu.umgc.librarymanager.IUser;
-import edu.umgc.librarymanager.IUserService;
+import edu.umgc.librarymanager.data.model.user.IUser;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 
 /**

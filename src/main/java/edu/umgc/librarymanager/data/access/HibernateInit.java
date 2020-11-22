@@ -13,7 +13,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
-
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.LibrarianUser;
