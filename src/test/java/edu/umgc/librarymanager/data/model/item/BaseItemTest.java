@@ -6,19 +6,18 @@
 
 package edu.umgc.librarymanager.data.model.item;
 
-import org.junit.Before;
-import org.junit.Test;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
 /**
  * A Test Class to test the BaseItem class.
- * 
  * @author Scott
  */
 public class BaseItemTest {
@@ -46,7 +45,7 @@ public class BaseItemTest {
 
     @Test
     public void getPurchaseDate_Test() {
-        assertEquals("2019-12-05T10:48:00-05:00[America/New_York]", book.getPurchaseDate().toString());
+        assertEquals("2019-12-05T10:48-05:00[America/New_York]", book.getPurchaseDate().toString());
     }
 
     @Test
@@ -81,7 +80,7 @@ public class BaseItemTest {
 
     @Test
     public void getPublishDate_Test() {
-        assertEquals("2019-12-15T12:48:00-05:00[America/New_York]", book.getPublishDate());
+        assertEquals("2019-12-15T12:48-05:00[America/New_York]", book.getPublishDate().toString());
     }
 
     @Test

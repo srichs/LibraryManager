@@ -28,7 +28,7 @@ public class Classification {
 
     @Column(name = "code")
     private String code;
-    
+
     @Column(name = "class_type")
     private ClassificationType classificationType;
 
