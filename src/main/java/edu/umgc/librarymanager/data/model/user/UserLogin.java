@@ -4,7 +4,7 @@
  * Date Created: 11/21/2020
  */
 
-package edu.umgc.librarymanager.data.model;
+package edu.umgc.librarymanager.data.model.user;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import org.hibernate.search.annotations.Field;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -32,7 +31,6 @@ public class UserLogin {
     @Column(name = "user_login_id")
     private long id;
 
-    @Field
     @Column(name = "username")
     private String username;
 

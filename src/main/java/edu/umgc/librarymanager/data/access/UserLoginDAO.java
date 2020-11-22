@@ -7,7 +7,7 @@
 package edu.umgc.librarymanager.data.access;
 
 import java.util.List;
-import edu.umgc.librarymanager.data.model.UserLogin;
+import edu.umgc.librarymanager.data.model.user.UserLogin;
 
 /**
  * Used to create a data access object for the user login information.

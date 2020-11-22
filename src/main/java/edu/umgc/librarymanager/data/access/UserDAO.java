@@ -9,7 +9,7 @@ package edu.umgc.librarymanager.data.access;
 import java.util.List;
 import edu.umgc.librarymanager.IUser;
 import edu.umgc.librarymanager.IUserService;
-import edu.umgc.librarymanager.data.model.BaseUser;
+import edu.umgc.librarymanager.data.model.user.BaseUser;
 
 /**
  * The Data Access Object class to access the base_user table of the database.

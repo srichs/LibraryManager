@@ -5,7 +5,7 @@
  * Purpose: This class is used to model a Dewey Decimal Category.
  */
 
-package edu.umgc.librarymanager.data.model;
+package edu.umgc.librarymanager.data.model.item;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -1,25 +1,22 @@
 /*
- * Filename: LibrarianUser.java
+ * Filename: PatronUser.java
  * Author: Scott
  * Date Created: 11/21/2020
  */
 
-package edu.umgc.librarymanager.data.model;
+package edu.umgc.librarymanager.data.model.user;
 
 import java.time.ZonedDateTime;
 
 /**
- * This class is the concrete class for a Librarian User and extends the
- * BaseUser class.
+ * This class is the concrete class for a Patron User and extends the BaseUser
+ * class.
  * 
  * @author Scott
  */
-public class LibrarianUser extends BaseUser {
+public class PatronUser extends BaseUser {
 
-    /**
-     * The default constructor for the class.
-     */
-    public LibrarianUser() {
+    public PatronUser() {
         super();
         super.setUserType(UserType.PATRON);
     }
@@ -34,9 +31,9 @@ public class LibrarianUser extends BaseUser {
      * @param address The User's Address.
      * @param phone The User's Phone Number.
      */
-    public LibrarianUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
+    public PatronUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
             String address, String phone) {
-        super(cDateTime, fName, lName, login, email, address, phone, UserType.LIBRARIAN);
+        super(cDateTime, fName, lName, login, email, address, phone, UserType.PATRON);
     }
 
     @Override

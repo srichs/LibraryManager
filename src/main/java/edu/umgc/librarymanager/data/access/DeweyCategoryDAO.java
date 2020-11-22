@@ -7,8 +7,8 @@
 package edu.umgc.librarymanager.data.access;
 
 import java.util.List;
-import edu.umgc.librarymanager.data.model.DeweyCategory;
-import edu.umgc.librarymanager.data.model.DeweyDecimalUtility;
+import edu.umgc.librarymanager.data.model.item.DeweyCategory;
+import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
 
 /**
  * This class is the Data Access Object class for the DeweyCategory class.

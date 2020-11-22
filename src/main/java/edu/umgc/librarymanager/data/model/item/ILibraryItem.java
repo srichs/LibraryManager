@@ -6,15 +6,9 @@
 
 package edu.umgc.librarymanager.data.model.item;
 
-import edu.umgc.librarymanager.data.model.Classification;
-import edu.umgc.librarymanager.data.model.ItemStatus;
-import edu.umgc.librarymanager.data.model.Library;
-import edu.umgc.librarymanager.data.model.PublishData;
-
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.HashMap;
 
 /**
  * An interface to be implemented for an Item in a Library.
@@ -23,7 +17,7 @@ import java.util.HashMap;
 public interface ILibraryItem {
 
     long getId();
-    HashMap<Classification.ClassType, Classification> getClassificationCode();
+    ClassificationGroup getClassificationGroup();
     ZonedDateTime getPurchaseDate();
     String getDescription();
     BigDecimal getPurchasePrice();
@@ -33,7 +27,6 @@ public interface ILibraryItem {
     String getSummary();
     ZonedDateTime getPublishDate();
     ItemStatus getStatus();
-    HashMap<Library, Integer> getAvailability();
     Period getCheckoutPeriod();
 
 }

@@ -4,7 +4,7 @@
  * Date Created: 11/17/2020
  */
 
-package edu.umgc.librarymanager.data.model;
+package edu.umgc.librarymanager.data.model.item;
 
 import java.time.ZonedDateTime;
 
