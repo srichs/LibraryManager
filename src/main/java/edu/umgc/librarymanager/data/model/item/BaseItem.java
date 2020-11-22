@@ -215,4 +215,8 @@ public abstract class BaseItem implements ILibraryItem {
         this.itemType = itemType;
     }
 
+    public String toString() {
+        return "Title: " + this.title + "\nPrice: $" + this.purchasePrice.toPlainString() + "\nGenre: " + this.genre;
+    }
+
 }

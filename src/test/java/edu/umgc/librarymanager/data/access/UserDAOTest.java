@@ -35,10 +35,13 @@ public class UserDAOTest {
         userDAO.openSessionwithTransaction();
         userDAO.createUser(user);
         user = userDAO.findAll().get(0);
+        userDAO.commit();
     }
 
     @After
     public void tearDown() {
+        userDAO.getTransaction().begin();
+        userDAO.deleteAll();
         userDAO.closeSessionwithTransaction();
     }
 
@@ -49,16 +52,20 @@ public class UserDAOTest {
 
     @Test
     public void update_Test() {
+        userDAO.getTransaction().begin();
         user.setFirstName("David");
         user.setLastName("Smith");
         userDAO.update(user);
         assertEquals("David", userDAO.findAll().get(0).getFirstName());
+        userDAO.commit();
     }
 
     @Test
     public void deleteAll_Test() {
+        userDAO.getTransaction().begin();
         userDAO.deleteAll();
         assertEquals(0, userDAO.findAll().size());
+        userDAO.commit();
     }
 
 }

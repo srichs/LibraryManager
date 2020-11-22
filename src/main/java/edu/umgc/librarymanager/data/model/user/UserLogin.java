@@ -55,6 +55,10 @@ public class UserLogin {
         this.password = hashPassword(password);
     }
 
+    public long getId() {
+        return this.id;
+    }
+
     public String getUsername() {
         return this.username;
     }

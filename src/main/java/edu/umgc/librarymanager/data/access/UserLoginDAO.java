@@ -25,7 +25,7 @@ public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
     @SuppressWarnings("unchecked")
     public boolean searchByUsername(String username) {
         List<UserLogin> logins = (List<UserLogin>) getSession()
-                .createQuery("From UserLogin.ul Where ul.username = :uname")
+                .createQuery("From UserLogin ul Where ul.username = :uname")
                 .setParameter("uname", username).getResultList();
         if (logins.size() > 0) {
             if (logins.get(0).getUsername() == username) {

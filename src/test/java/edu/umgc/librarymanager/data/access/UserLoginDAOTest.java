@@ -29,10 +29,13 @@ public class UserLoginDAOTest {
         loginDAO.openSessionwithTransaction();
         loginDAO.persist(login);
         login = loginDAO.findAll().get(0);
+        loginDAO.commit();
     }
 
     @After
     public void tearDown() {
+        loginDAO.getTransaction().begin();
+        loginDAO.deleteAll();
         loginDAO.closeSessionwithTransaction();
     }
 
@@ -53,17 +56,21 @@ public class UserLoginDAOTest {
 
     @Test
     public void update_Test() {
+        loginDAO.getTransaction().begin();
         login.setUsername("dsmith1");
         login.setPassword("87654321");
         loginDAO.update(login);
         assertEquals("dsmith1", loginDAO.findAll().get(0).getUsername());
         assertEquals(true, loginDAO.findAll().get(0).checkPassword("87654321"));
+        loginDAO.commit();
     }
 
     @Test
     public void deleteAll_Test() {
+        loginDAO.getTransaction().begin();
         loginDAO.deleteAll();
         assertEquals(0, loginDAO.findAll().size());
+        loginDAO.commit();
     }
 
 }

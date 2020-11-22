@@ -58,6 +58,4 @@ public class Book extends BaseBook {
         super.setISBN(isbn);
     }
 
-    
-
 }

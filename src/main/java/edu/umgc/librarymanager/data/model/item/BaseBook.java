@@ -93,6 +93,10 @@ public class BaseBook extends BaseItem {
         super.setItemType(type);
     }
 
+    /**
+     * Creates a String of the authors separated by commas.
+     * @return A comma separated String of authors.
+     */
     public String authorsToString() {
         String str = "";
         for (int i = 0; i < this.authors.size(); i++) {

@@ -61,4 +61,8 @@ public abstract class BaseDAO {
         this.transaction = transaction;
     }
 
+    public void commit() {
+        transaction.commit();
+    }
+
 }

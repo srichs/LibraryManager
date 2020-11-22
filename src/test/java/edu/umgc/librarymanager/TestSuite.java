@@ -7,8 +7,9 @@
 
 package edu.umgc.librarymanager;
 
-import edu.umgc.librarymanager.data.access.DeweyCategoryDAOTest;
+/*import edu.umgc.librarymanager.data.access.DeweyCategoryDAOTest;
 import edu.umgc.librarymanager.data.access.UserDAOTest;
+import edu.umgc.librarymanager.data.access.UserLoginDAOTest;
 import edu.umgc.librarymanager.data.model.item.AuthorTest;
 import edu.umgc.librarymanager.data.model.item.BaseItemTest;
 import edu.umgc.librarymanager.data.model.item.BookTest;
@@ -19,7 +20,7 @@ import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtilityTest;
 import edu.umgc.librarymanager.data.model.item.EBookTest;
 import edu.umgc.librarymanager.data.model.item.PublishDataTest;
 import edu.umgc.librarymanager.data.model.user.BaseUserTest;
-import edu.umgc.librarymanager.data.model.user.UserLoginTest;
+import edu.umgc.librarymanager.data.model.user.UserLoginTest;*/
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -32,6 +33,9 @@ import org.junit.runners.Suite;
  * The Test classes to run.
  */
 @Suite.SuiteClasses({
+    /*DeweyCategoryDAOTest.class,
+    UserLoginDAOTest.class,
+    UserDAOTest.class,
     DeweyCategoryTest.class,
     DeweyDecimalUtilityTest.class,
     ClassificationTest.class,
@@ -42,9 +46,7 @@ import org.junit.runners.Suite;
     EBookTest.class,
     BaseUserTest.class,
     UserLoginTest.class,
-    AuthorTest.class,
-    DeweyCategoryDAOTest.class,
-    UserDAOTest.class
+    AuthorTest.class,*/
 })
 
 /**
