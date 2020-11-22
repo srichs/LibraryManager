@@ -37,8 +37,19 @@ public class UserLogin {
     @Column(name = "password")
     private String password;
 
-    public UserLogin() { }
+    /**
+     * The default constructor for the class.
+     */
+    public UserLogin() {
+        this.username = "";
+        this.password = "";
+    }
 
+    /**
+     * A constructor with parameters for each field.
+     * @param name The username.
+     * @param pw The password in plaintext.
+     */
     public UserLogin(String name, String pw) {
         this.username = name;
         this.password = hashPassword(pw);

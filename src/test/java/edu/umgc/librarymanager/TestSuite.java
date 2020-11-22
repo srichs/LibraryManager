@@ -15,6 +15,7 @@ import edu.umgc.librarymanager.data.model.item.DeweyCategoryTest;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtilityTest;
 import edu.umgc.librarymanager.data.model.item.EBookTest;
 import edu.umgc.librarymanager.data.model.item.PublishDataTest;
+import edu.umgc.librarymanager.data.model.user.BaseUserTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -34,7 +35,8 @@ import org.junit.runners.Suite;
     PublishDataTest.class,
     BaseItemTest.class,
     BookTest.class,
-    EBookTest.class
+    EBookTest.class,
+    BaseUserTest.class
 })
 
 /**
