@@ -8,6 +8,7 @@
 package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.data.model.item.BaseItemTest;
+import edu.umgc.librarymanager.data.model.item.BookTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroupTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationTest;
 import edu.umgc.librarymanager.data.model.item.DeweyCategoryTest;
@@ -30,7 +31,8 @@ import org.junit.runners.Suite;
     ClassificationTest.class,
     ClassificationGroupTest.class,
     PublishDataTest.class,
-    BaseItemTest.class
+    BaseItemTest.class,
+    BookTest.class
 })
 
 /**
