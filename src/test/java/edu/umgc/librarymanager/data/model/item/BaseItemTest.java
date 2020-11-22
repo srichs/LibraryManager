@@ -96,6 +96,12 @@ public class BaseItemTest {
     @Test
     public void getItemType_Test() {
         assertEquals(ItemType.BOOK, book.getItemType());
+        Ebook ebook = new Ebook();
+        Movie movie = new Movie();
+        VideoGame game = new VideoGame();
+        assertEquals(ItemType.EBOOK, ebook.getItemType());
+        assertEquals(ItemType.MOVIE, movie.getItemType());
+        assertEquals(ItemType.GAME, game.getItemType());
     }
 
 }
