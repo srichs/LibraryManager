@@ -55,7 +55,7 @@ public class BaseUserTest {
 
     @Test
     public void getPassword_Test() {
-        assertEquals(true, user.getLogin().checkPassword(user.getPassword()));
+        assertEquals(user.getLogin().getPassword(), user.getPassword());
     }
 
     @Test

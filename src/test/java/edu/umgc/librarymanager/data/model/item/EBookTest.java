@@ -39,16 +39,16 @@ public class EBookTest {
         ebook = new Ebook(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
                 "The summary.", ItemStatus.Available, period);
         List<Author> authors = new ArrayList<Author>();
-        authors.add(new Author("John", "", "Doe", ""));
-        authors.add(new Author("David", "", "Smith", ""));
+        authors.add(new Author("John Doe"));
+        authors.add(new Author("David Smith"));
         ebook.setAuthors(authors);
         ebook.setISBN("9283923231865");
     }
 
     @Test
     public void getAuthors_Test() {
-        assertEquals("John Doe", ebook.getAuthors().get(0).toString());
-        assertEquals("David Smith", ebook.getAuthors().get(1).toString());
+        assertEquals("John Doe", ebook.getAuthors().get(0).getName());
+        assertEquals("David Smith", ebook.getAuthors().get(1).getName());
     }
 
     @Test

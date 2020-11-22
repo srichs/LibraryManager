@@ -38,7 +38,7 @@ public class BaseItemTest {
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
         List<Author> authors = new ArrayList<Author>();
-        authors.add(new Author("John", "", "Doe", ""));
+        authors.add(new Author("John Doe"));
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
                 "The summary.", ItemStatus.Available, period, authors, "9382658374958");
     }
