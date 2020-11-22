@@ -1,5 +1,5 @@
 /*
- * Filename: BookTest.java
+ * Filename: EBookTest.java
  * Author: Scott
  * Date Created: 11/21/2020
  */
@@ -22,9 +22,9 @@ import static org.junit.Assert.assertEquals;
  * A Test Class to test the Book class.
  * @author Scott
  */
-public class BookTest {
+public class EBookTest {
 
-    private Book book;
+    private Ebook ebook;
 
     @Before
     public void setUp() {
@@ -36,24 +36,24 @@ public class BookTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 5);
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
-        book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
+        ebook = new Ebook(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
                 "The summary.", ItemStatus.Available, period);
         List<String> authors = new ArrayList<String>();
         authors.add("John Doe");
         authors.add("David Smith");
-        book.setAuthors(authors);
-        book.setISBN("9283923231865");
+        ebook.setAuthors(authors);
+        ebook.setISBN("9283923231865");
     }
 
     @Test
     public void getAuthors_Test() {
-        assertEquals("John Doe", book.getAuthors().get(0));
-        assertEquals("David Smith", book.getAuthors().get(1));
+        assertEquals("John Doe", ebook.getAuthors().get(0));
+        assertEquals("David Smith", ebook.getAuthors().get(1));
     }
 
     @Test
     public void getISBN_Test() {
-        assertEquals("9283923231865", book.getISBN());
+        assertEquals("9283923231865", ebook.getISBN());
     }
 
 }
