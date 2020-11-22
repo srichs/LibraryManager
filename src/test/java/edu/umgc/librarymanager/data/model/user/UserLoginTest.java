@@ -51,7 +51,7 @@ public class UserLoginTest {
 
     @Test
     public void checkPassword_Test() {
-        assertNotEquals(true, login.checkPassword("12345678"));
+        assertEquals(true, login.checkPassword("12345678"));
     }
 
 }

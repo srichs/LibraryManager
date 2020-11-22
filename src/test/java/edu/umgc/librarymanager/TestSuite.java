@@ -7,6 +7,7 @@
 
 package edu.umgc.librarymanager;
 
+import edu.umgc.librarymanager.data.access.DeweyCategoryDAOTest;
 import edu.umgc.librarymanager.data.model.item.BaseItemTest;
 import edu.umgc.librarymanager.data.model.item.BookTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroupTest;
@@ -38,7 +39,8 @@ import org.junit.runners.Suite;
     BookTest.class,
     EBookTest.class,
     BaseUserTest.class,
-    UserLoginTest.class
+    UserLoginTest.class,
+    DeweyCategoryDAOTest.class
 })
 
 /**
