@@ -11,18 +11,23 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.DiscriminatorValue;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * This class models a Book Item.
  * @author Scott
  */
 @Entity
-@DiscriminatorValue("book_item")
+@Table(name = "book")
 public class Book extends BaseItem {
 
+    @ManyToMany
     private List<String> authors;
+
+    @Column(name = "isbn")
     private String isbn;
 
     /**
