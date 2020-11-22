@@ -47,12 +47,12 @@ public class UserLogin {
 
     /**
      * A constructor with parameters for each field.
-     * @param name The username.
-     * @param pw The password in plaintext.
+     * @param username The username.
+     * @param password The password in plaintext.
      */
-    public UserLogin(String name, String pw) {
-        this.username = name;
-        this.password = hashPassword(pw);
+    public UserLogin(String username, String password) {
+        this.username = username;
+        this.password = hashPassword(password);
     }
 
     public String getUsername() {

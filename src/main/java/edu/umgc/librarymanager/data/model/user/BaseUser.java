@@ -35,8 +35,8 @@ public abstract class BaseUser implements IUser {
     @Column(name = "base_user_id")
     private int id;
 
-    @Column(name = "created_date_time")
-    private ZonedDateTime createdDateTime;
+    @Column(name = "date_time_created")
+    private ZonedDateTime dateTimeCreated;
 
     @Column(name = "first_name")
     private String firstName;
@@ -65,7 +65,7 @@ public abstract class BaseUser implements IUser {
      */
     public BaseUser() {
         this.id = -1;
-        this.createdDateTime = ZonedDateTime.now();
+        this.dateTimeCreated = ZonedDateTime.now();
         this.firstName = "";
         this.lastName = "";
         this.login = new UserLogin();
@@ -88,7 +88,7 @@ public abstract class BaseUser implements IUser {
      */
     public BaseUser(ZonedDateTime cDateTime, String fName, String lName, UserLogin login, String email,
             String address, String phone, UserType uType) {
-        this.createdDateTime = cDateTime;
+        this.dateTimeCreated = cDateTime;
         this.firstName = fName;
         this.lastName = lName;
         this.login = login;
@@ -105,7 +105,7 @@ public abstract class BaseUser implements IUser {
 
     @Override
     public ZonedDateTime createdDateTime() {
-        return this.createdDateTime();
+        return this.dateTimeCreated;
     }
 
     @Override
@@ -124,7 +124,7 @@ public abstract class BaseUser implements IUser {
     }
 
     public void setCreatedDateTime(ZonedDateTime zdt) {
-        this.createdDateTime = zdt;
+        this.dateTimeCreated = zdt;
     }
 
     public String getFirstName() {
