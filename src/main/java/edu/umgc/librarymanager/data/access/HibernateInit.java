@@ -13,12 +13,13 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
-import edu.umgc.librarymanager.data.BaseUser;
-import edu.umgc.librarymanager.data.DeweyCategory;
-import edu.umgc.librarymanager.data.LibrarianUser;
-import edu.umgc.librarymanager.data.PatronUser;
-import edu.umgc.librarymanager.data.UserException;
-import edu.umgc.librarymanager.data.UserLogin;
+
+import edu.umgc.librarymanager.data.model.BaseUser;
+import edu.umgc.librarymanager.data.model.DeweyCategory;
+import edu.umgc.librarymanager.data.model.LibrarianUser;
+import edu.umgc.librarymanager.data.model.PatronUser;
+import edu.umgc.librarymanager.data.model.UserException;
+import edu.umgc.librarymanager.data.model.UserLogin;
 
 /**
  * Initializes the data in the Hibernate database.

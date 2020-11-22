@@ -4,7 +4,7 @@
  * Date Created: 11/21/2020
  */
 
-package edu.umgc.librarymanager.data;
+package edu.umgc.librarymanager.data.model;
 
 /**
  * A Utility class for the Dewey Decimal System of Classification.

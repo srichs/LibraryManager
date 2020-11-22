@@ -7,15 +7,18 @@
 package edu.umgc.librarymanager.data.access;
 
 import java.util.List;
-import edu.umgc.librarymanager.data.BaseUser;
+import edu.umgc.librarymanager.IUser;
+import edu.umgc.librarymanager.IUserService;
+import edu.umgc.librarymanager.data.model.BaseUser;
 
 /**
  * The Data Access Object class to access the base_user table of the database.
  * @author Scott
  */
-public class UserDAO extends BaseDAO implements DAOInteface<BaseUser> {
+public class UserDAO extends BaseDAO implements DAOInteface<BaseUser>, IUserService {
 
-    public UserDAO() {}
+    public UserDAO() {
+    }
 
     public void persist(BaseUser entity) {
         getSession().save(entity);
@@ -40,6 +43,16 @@ public class UserDAO extends BaseDAO implements DAOInteface<BaseUser> {
         for (BaseUser entity : entityList) {
             delete(entity);
         }
+    }
+
+    @Override
+    public void createUser(IUser newUser) {
+        getSession().save(newUser);
+    }
+
+    @Override
+    public void updateUser(IUser user) {
+        getSession().update(user);
     }
 
 }

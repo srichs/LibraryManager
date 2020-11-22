@@ -4,7 +4,7 @@
  * Date Created: 11/21/2020
  */
 
-package edu.umgc.librarymanager.data;
+package edu.umgc.librarymanager.data.model;
 
 import java.time.ZonedDateTime;
 import javax.persistence.CascadeType;
@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import edu.umgc.librarymanager.IUser;
 
 /**
  * Models a library management system user. Uses hibernate annotations to map the
@@ -26,7 +27,7 @@ import javax.persistence.Table;
 @Entity
 //@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "base_user")
-public abstract class BaseUser {
+public abstract class BaseUser implements IUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -96,7 +97,7 @@ public abstract class BaseUser {
         this.userType = uType;
     }
 
-    public int getID() {
+    public long getId() {
         return this.id;
     }
 
