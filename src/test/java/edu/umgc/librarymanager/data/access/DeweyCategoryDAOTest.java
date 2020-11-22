@@ -29,10 +29,13 @@ public class DeweyCategoryDAOTest {
         deweyDAO.openSessionwithTransaction();
         deweyDAO.persist(dewey);
         dewey = deweyDAO.findByCode("004");
+        deweyDAO.commit();
     }
 
     @After
     public void tearDown() {
+        deweyDAO.getTransaction().begin();
+        deweyDAO.deleteAll();
         deweyDAO.closeSessionwithTransaction();
     }
 
@@ -43,16 +46,20 @@ public class DeweyCategoryDAOTest {
 
     @Test
     public void update_Test() {
+        deweyDAO.getTransaction().begin();
         dewey.setCode("032");
         dewey.setCategory("General encyclopedic works in English");
         deweyDAO.update(dewey);
         assertEquals(dewey, deweyDAO.findByCode("032"));
+        deweyDAO.commit();
     }
 
     @Test
     public void deleteAll_Test() {
+        deweyDAO.getTransaction().begin();
         deweyDAO.deleteAll();
         assertEquals(null, deweyDAO.findByCode("004"));
+        deweyDAO.commit();
     }
 
 }

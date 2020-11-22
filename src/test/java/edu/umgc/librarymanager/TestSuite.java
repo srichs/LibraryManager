@@ -2,7 +2,6 @@
  * Filename: TestSuite.java
  * Author: srichs
  * Date Created: 10/28/2020
- * Purpose: This class defines a test suite to run the unit tests.
  */
 
 package edu.umgc.librarymanager;
@@ -20,20 +19,20 @@ import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtilityTest;
 import edu.umgc.librarymanager.data.model.item.EBookTest;
 import edu.umgc.librarymanager.data.model.item.PublishDataTest;
 import edu.umgc.librarymanager.data.model.user.BaseUserTest;
-import edu.umgc.librarymanager.data.model.user.UserLoginTest;*/
+import edu.umgc.librarymanager.data.model.user.UserLoginTest;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.runners.Suite;*/
 
 /**
  * The Suite class to use.
  */
-@RunWith(Suite.class)
+//@RunWith(Suite.class)
 
 /**
  * The Test classes to run.
  */
-@Suite.SuiteClasses({
-    /*DeweyCategoryDAOTest.class,
+/*@Suite.SuiteClasses({
+    DeweyCategoryDAOTest.class,
     UserLoginDAOTest.class,
     UserDAOTest.class,
     DeweyCategoryTest.class,
@@ -46,11 +45,13 @@ import org.junit.runners.Suite;
     EBookTest.class,
     BaseUserTest.class,
     UserLoginTest.class,
-    AuthorTest.class,*/
-})
+    AuthorTest.class,
+})*/
 
 /**
- * This class defines a test suite to run the unit tests.
+ * This class defines a test suite to run the unit tests. Maven Test
+ * is preferred over manually running the AppTest main method. To use
+ * Maven install and then use the command mvn test.
  * @author Scott
  */
 public class TestSuite {}
