@@ -62,6 +62,8 @@ public class Book extends BaseItem {
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
         super.setItemType(ItemType.BOOK);
+        this.authors = new ArrayList<String>();
+        this.isbn = "";
     }
 
     public List<String> getAuthors() {
