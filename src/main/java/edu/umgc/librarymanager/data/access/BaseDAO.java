@@ -12,7 +12,8 @@ import org.hibernate.Transaction;
 
 /**
  * A base class for a Data Access Object. It allows a session to be opened and a
- * transaction to be started.
+ * transaction to be started and provides basic functions through implementation
+ * of the DAOInterface.
  * @param <T> The type of entity for data access.
  * @author Scott
  */

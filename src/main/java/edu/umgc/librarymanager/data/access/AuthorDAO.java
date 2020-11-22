@@ -10,7 +10,7 @@ import edu.umgc.librarymanager.data.model.item.Author;
 import java.util.List;
 
 /**
- * Used to create a data access object for the user login information.
+ * This class is the Data Access Object class for the Author class.
  * @author Scott
  */
 public class AuthorDAO extends BaseDAO<Author> {

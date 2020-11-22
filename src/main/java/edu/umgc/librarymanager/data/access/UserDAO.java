@@ -12,7 +12,7 @@ import edu.umgc.librarymanager.data.model.user.IUser;
 import java.util.List;
 
 /**
- * The Data Access Object class to access the base_user table of the database.
+ * This class is the Data Access Object class for the BaseUser class.
  * @author Scott
  */
 public class UserDAO extends BaseDAO<BaseUser> implements IUserService {

@@ -10,7 +10,7 @@ import edu.umgc.librarymanager.data.model.user.UserLogin;
 import java.util.List;
 
 /**
- * Used to create a data access object for the user login information.
+ * This class is the Data Access Object class for the UserLogin class.
  * @author Scott
  */
 public class UserLoginDAO extends BaseDAO<UserLogin> {
