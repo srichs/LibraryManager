@@ -15,19 +15,19 @@ public enum ItemType {
     /**
      * Enum for a Book Item.
      */
-    BOOK,
+    Book,
     /**
      * Enum for a E-Book Item.
      */
-    EBOOK,
+    EBook,
     /**
      * Enum for a Movie Item.
      */
-    MOVIE,
+    Movie,
     /**
      * Enum for a Game Item.
      */
-    GAME;
+    VideoGame;
 
     public ItemType getItemType() {
         return this;
@@ -41,13 +41,13 @@ public enum ItemType {
     public static ItemType stringToItemType(String type) {
         switch (type) {
             case "Book":
-                return BOOK;
+                return Book;
             case "E-Book":
-                return EBOOK;
+                return EBook;
             case "Movie":
-                return MOVIE;
+                return Movie;
             case "Video Game":
-                return GAME;
+                return VideoGame;
             default:
                 return null;
         }
@@ -58,13 +58,13 @@ public enum ItemType {
      */
     public String toString() {
         switch (this) {
-            case BOOK:
+            case Book:
                 return "Book";
-            case EBOOK:
+            case EBook:
                 return "E-Book";
-            case MOVIE:
+            case Movie:
                 return "Movie";
-            case GAME:
+            case VideoGame:
                 return "Video Game";
             default:
                 return "";

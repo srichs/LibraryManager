@@ -15,11 +15,11 @@ public enum UserType {
     /**
      * Enum for a Librarian User.
      */
-    LIBRARIAN,
+    Librarian,
     /**
      * Enum for a Patron User.
      */
-    PATRON;
+    Patron;
 
     public UserType getUserType() {
         return this;
@@ -33,9 +33,9 @@ public enum UserType {
     public static UserType stringToUserType(String type) {
         switch (type) {
             case "Librarian":
-                return LIBRARIAN;
+                return Librarian;
             case "Patron":
-                return PATRON;
+                return Patron;
             default:
                 return null;
         }
@@ -46,9 +46,9 @@ public enum UserType {
      */
     public String toString() {
         switch (this) {
-            case LIBRARIAN:
+            case Librarian:
                 return "Librarian";
-            case PATRON:
+            case Patron:
                 return "Patron";
             default:
                 return "";

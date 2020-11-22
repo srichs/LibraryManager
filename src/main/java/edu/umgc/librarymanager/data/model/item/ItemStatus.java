@@ -15,19 +15,19 @@ public enum ItemStatus {
     /**
      * Item is available for checkout.
      */
-    AVAILABLE,
+    Available,
     /**
      * Item has been reserved by another user.
      */
-    ON_HOLD,
+    OnHold,
     /**
      * Item has been checked out.
      */
-    CHECKED_OUT,
+    CheckedOut,
     /**
      * The item is in transit.
      */
-    IN_TRANSIT;
+    InTransit;
 
     public ItemStatus getItemStatus() {
         return this;
@@ -41,13 +41,13 @@ public enum ItemStatus {
     public static ItemStatus stringToItemStatus(String type) {
         switch (type) {
             case "Available":
-                return AVAILABLE;
+                return Available;
             case "On Hold":
-                return ON_HOLD;
+                return OnHold;
             case "Checked Out":
-                return CHECKED_OUT;
+                return CheckedOut;
             case "In Transit":
-                return IN_TRANSIT;
+                return InTransit;
             default:
                 return null;
         }
@@ -58,13 +58,13 @@ public enum ItemStatus {
      */
     public String toString() {
         switch (this) {
-            case AVAILABLE:
+            case Available:
                 return "Available";
-            case ON_HOLD:
+            case OnHold:
                 return "On Hold";
-            case CHECKED_OUT:
+            case CheckedOut:
                 return "Checked Out";
-            case IN_TRANSIT:
+            case InTransit:
                 return "In Transit";
             default:
                 return "";

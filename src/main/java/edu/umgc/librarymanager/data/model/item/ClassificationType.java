@@ -15,11 +15,11 @@ public enum ClassificationType {
     /**
      * Enum for a Dewey Decimal Classification.
      */
-    DEWEY_DECIMAL,
+    DeweyDecimal,
     /**
      * Enum for a Library of Congress Classification.
      */
-    LIBRARY_OF_CONGRESS;
+    LibraryOfCongress;
 
     public ClassificationType getClassificationType() {
         return this;
@@ -33,9 +33,9 @@ public enum ClassificationType {
     public static ClassificationType stringToClassificationType(String type) {
         switch (type) {
             case "Dewey Decimal":
-                return DEWEY_DECIMAL;
+                return DeweyDecimal;
             case "Library of Congress":
-                return LIBRARY_OF_CONGRESS;
+                return LibraryOfCongress;
             default:
                 return null;
         }
@@ -46,9 +46,9 @@ public enum ClassificationType {
      */
     public String toString() {
         switch (this) {
-            case DEWEY_DECIMAL:
+            case DeweyDecimal:
                 return "Dewey Decimal";
-            case LIBRARY_OF_CONGRESS:
+            case LibraryOfCongress:
                 return "Library of Congress";
             default:
                 return "";
