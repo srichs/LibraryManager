@@ -30,7 +30,7 @@ public abstract class BaseUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "abstract_user_id")
+    @Column(name = "base_user_id")
     private int id;
 
     @Column(name = "created_date_time")
