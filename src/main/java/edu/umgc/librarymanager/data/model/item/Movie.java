@@ -25,7 +25,7 @@ public class Movie extends BaseItem {
      */
     public Movie() {
         super();
-        super.setItemType(ItemType.MOVIE);
+        super.setItemType(ItemType.Movie);
     }
 
     /**
@@ -54,7 +54,7 @@ public class Movie extends BaseItem {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        super.setItemType(ItemType.MOVIE);
+        super.setItemType(ItemType.Movie);
     }
 
 }

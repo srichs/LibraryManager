@@ -24,7 +24,7 @@ public class Book extends BaseBook {
      */
     public Book() {
         super();
-        super.setItemType(ItemType.BOOK);
+        super.setItemType(ItemType.Book);
     }
 
     /**
@@ -53,7 +53,7 @@ public class Book extends BaseBook {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        super.setItemType(ItemType.BOOK);
+        super.setItemType(ItemType.Book);
         super.setAuthors(authors);
         super.setISBN(isbn);
     }

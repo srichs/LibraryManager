@@ -28,29 +28,29 @@ public class ClassificationGroupTest {
 
     @Test
     public void getDewey_Test() {
-        Classification classification = new Classification("328.8", ClassificationType.DEWEY_DECIMAL);
+        Classification classification = new Classification("328.8", ClassificationType.DeweyDecimal);
         classGroup.setDewey(classification);
         assertEquals("328.8", classGroup.getDewey().getCode());
     }
 
     @Test
     public void setDewey_Test() {
-        classGroup2.setDewey(new Classification("842.32", ClassificationType.DEWEY_DECIMAL));
+        classGroup2.setDewey(new Classification("842.32", ClassificationType.DeweyDecimal));
         assertEquals("842.32", classGroup2.getDewey().getCode());
-        assertEquals(ClassificationType.DEWEY_DECIMAL, classGroup2.getDewey().getClassificationType());
+        assertEquals(ClassificationType.DeweyDecimal, classGroup2.getDewey().getClassificationType());
     }
 
     @Test
     public void getLOC_Test() {
-        Classification classification = new Classification("AB", ClassificationType.LIBRARY_OF_CONGRESS);
+        Classification classification = new Classification("AB", ClassificationType.LibraryOfCongress);
         classGroup.setLOC(classification);
         assertEquals("AB", classGroup.getLOC().getCode());
     }
 
     @Test
     public void setLOC_Test() {
-        classGroup2.setLOC(new Classification("AB", ClassificationType.LIBRARY_OF_CONGRESS));
-        assertEquals(ClassificationType.LIBRARY_OF_CONGRESS, classGroup2.getLOC().getClassificationType());
+        classGroup2.setLOC(new Classification("AB", ClassificationType.LibraryOfCongress));
+        assertEquals(ClassificationType.LibraryOfCongress, classGroup2.getLOC().getClassificationType());
     }
 
 }

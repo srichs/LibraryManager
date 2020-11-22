@@ -29,7 +29,7 @@ public class BookTest {
     @Before
     public void setUp() {
         ClassificationGroup classGroup = new ClassificationGroup();
-        classGroup.setDewey(new Classification("004.32", ClassificationType.DEWEY_DECIMAL));
+        classGroup.setDewey(new Classification("004.32", ClassificationType.DeweyDecimal));
         ZonedDateTime zdt = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
         ZonedDateTime zdt2 = ZonedDateTime.parse("2019-12-15T12:48:00-05:00[America/New_York]");
         PublishData publish = new PublishData("A Publisher", zdt2, "Denver, CO");
@@ -40,7 +40,7 @@ public class BookTest {
         authors.add(new Author("John", "", "Doe", ""));
         authors.add(new Author("David", "", "Smith", ""));
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
-                "The summary.", ItemStatus.AVAILABLE, period, authors, "9283923231865");
+                "The summary.", ItemStatus.Available, period, authors, "9283923231865");
     }
 
     @Test

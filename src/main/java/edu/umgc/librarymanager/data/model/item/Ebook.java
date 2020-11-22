@@ -36,7 +36,7 @@ public class Ebook extends BaseItem {
      */
     public Ebook() {
         super();
-        super.setItemType(ItemType.EBOOK);
+        super.setItemType(ItemType.EBook);
         this.authors = new ArrayList<Author>();
         this.isbn = "";
     }
@@ -67,7 +67,7 @@ public class Ebook extends BaseItem {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        super.setItemType(ItemType.EBOOK);
+        super.setItemType(ItemType.EBook);
     }
 
     public List<Author> getAuthors() {

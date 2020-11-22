@@ -22,7 +22,7 @@ public class ClassificationTest {
 
     @Before
     public void setUp() {
-        classification = new Classification("000", ClassificationType.DEWEY_DECIMAL);
+        classification = new Classification("000", ClassificationType.DeweyDecimal);
         classification2 = new Classification();
     }
 
@@ -39,13 +39,13 @@ public class ClassificationTest {
 
     @Test
     public void getClassification_Test() {
-        assertEquals(ClassificationType.DEWEY_DECIMAL, classification.getClassificationType());
+        assertEquals(ClassificationType.DeweyDecimal, classification.getClassificationType());
     }
 
     @Test
     public void setCategory_Test() {
-        classification2.setClassificationType(ClassificationType.LIBRARY_OF_CONGRESS);
-        assertEquals(ClassificationType.LIBRARY_OF_CONGRESS, classification2.getClassificationType());
+        classification2.setClassificationType(ClassificationType.LibraryOfCongress);
+        assertEquals(ClassificationType.LibraryOfCongress, classification2.getClassificationType());
     }
 
 }

@@ -25,7 +25,7 @@ public class VideoGame extends BaseItem {
      */
     public VideoGame() {
         super();
-        super.setItemType(ItemType.GAME);
+        super.setItemType(ItemType.VideoGame);
     }
 
     /**
@@ -54,7 +54,7 @@ public class VideoGame extends BaseItem {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        super.setItemType(ItemType.GAME);
+        super.setItemType(ItemType.VideoGame);
     }
 
 }

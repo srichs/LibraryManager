@@ -30,7 +30,7 @@ public class BaseItemTest {
     @Before
     public void setUp() {
         ClassificationGroup classGroup = new ClassificationGroup();
-        classGroup.setDewey(new Classification("004.32", ClassificationType.DEWEY_DECIMAL));
+        classGroup.setDewey(new Classification("004.32", ClassificationType.DeweyDecimal));
         ZonedDateTime zdt = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
         ZonedDateTime zdt2 = ZonedDateTime.parse("2019-12-15T12:48:00-05:00[America/New_York]");
         PublishData publish = new PublishData("A Publisher", zdt2, "Denver, CO");
@@ -40,7 +40,7 @@ public class BaseItemTest {
         List<Author> authors = new ArrayList<Author>();
         authors.add(new Author("John", "", "Doe", ""));
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
-                "The summary.", ItemStatus.AVAILABLE, period, authors, "9382658374958");
+                "The summary.", ItemStatus.Available, period, authors, "9382658374958");
     }
 
     @Test
@@ -90,7 +90,7 @@ public class BaseItemTest {
 
     @Test
     public void getStatus_Test() {
-        assertEquals(ItemStatus.AVAILABLE, book.getStatus());
+        assertEquals(ItemStatus.Available, book.getStatus());
     }
 
     @Test
@@ -100,13 +100,13 @@ public class BaseItemTest {
 
     @Test
     public void getItemType_Test() {
-        assertEquals(ItemType.BOOK, book.getItemType());
+        assertEquals(ItemType.Book, book.getItemType());
         Ebook ebook = new Ebook();
         Movie movie = new Movie();
         VideoGame game = new VideoGame();
-        assertEquals(ItemType.EBOOK, ebook.getItemType());
-        assertEquals(ItemType.MOVIE, movie.getItemType());
-        assertEquals(ItemType.GAME, game.getItemType());
+        assertEquals(ItemType.EBook, ebook.getItemType());
+        assertEquals(ItemType.Movie, movie.getItemType());
+        assertEquals(ItemType.VideoGame, game.getItemType());
     }
 
 }
