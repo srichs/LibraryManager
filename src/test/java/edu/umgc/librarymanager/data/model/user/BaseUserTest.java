@@ -24,7 +24,8 @@ public class BaseUserTest {
     public void setUp() {
         ZonedDateTime zdt = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
         UserLogin login = new UserLogin("jdoe1", "12345678");
-        user = new PatronUser(zdt, "John", "Doe", login, "john.doe@gmail.com", "123 Fake St, Los Angeles, CA 90220", "555-867-5309");
+        user = new PatronUser(zdt, "John", "Doe", login, "john.doe@gmail.com", "123 Fake St, Los Angeles, CA 90220",
+                "555-867-5309");
     }
 
     @Test

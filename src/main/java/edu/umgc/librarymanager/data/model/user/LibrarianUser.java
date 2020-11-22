@@ -20,7 +20,7 @@ public class LibrarianUser extends BaseUser {
      */
     public LibrarianUser() {
         super();
-        super.setUserType(UserType.PATRON);
+        super.setUserType(UserType.LIBRARIAN);
     }
 
     /**
