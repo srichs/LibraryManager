@@ -15,6 +15,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -24,8 +26,8 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "base_user")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseUser implements IUser {
 
     @Id

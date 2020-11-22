@@ -27,10 +27,10 @@ public class DeweyCategoryDAO extends BaseDAO implements DAOInteface<DeweyCatego
     public DeweyCategory findByCode(String code) {
         if (DeweyDecimalUtility.matchesPattern(code)) {
             List<DeweyCategory> categories = (List<DeweyCategory>) getSession()
-                .createQuery("Select category From dewey_category Where category.code = :code")
+                .createQuery("From DeweyCategory dc Where dc.code = :code")
                 .setParameter("code", code).list();
             if (categories.size() > 0) {
-                if (categories.get(0).getCode() == code) {
+                if (categories.get(0).getCode().equals(code)) {
                     return categories.get(0);
                 }
             }
@@ -56,7 +56,7 @@ public class DeweyCategoryDAO extends BaseDAO implements DAOInteface<DeweyCatego
      */
     @SuppressWarnings("unchecked")
     public List<DeweyCategory> findAll() {
-        List<DeweyCategory> users = (List<DeweyCategory>) getSession().createQuery("From dewey_category").list();
+        List<DeweyCategory> users = (List<DeweyCategory>) getSession().createQuery("From DeweyCategory").list();
         return users;
     }
 

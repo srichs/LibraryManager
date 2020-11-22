@@ -12,7 +12,6 @@ import java.time.ZonedDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,9 +30,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "base_item")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "disc_col", length = 20)
-@DiscriminatorValue("b_item")
 public abstract class BaseItem implements ILibraryItem {
 
     @Id

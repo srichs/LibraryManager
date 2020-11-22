@@ -25,7 +25,7 @@ public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
     @SuppressWarnings("unchecked")
     public boolean searchByUsername(String username) {
         List<UserLogin> logins = (List<UserLogin>) getSession()
-                .createQuery("Select login From user_login Where login.username = :uname")
+                .createQuery("From UserLogin.ul Where ul.username = :uname")
                 .setParameter("uname", username).getResultList();
         if (logins.size() > 0) {
             if (logins.get(0).getUsername() == username) {
@@ -43,7 +43,7 @@ public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
     @SuppressWarnings("unchecked")
     public UserLogin findByUsername(String username) {
         List<UserLogin> logins = (List<UserLogin>) getSession()
-                .createQuery("Select login From user_login Where login.username = :uname")
+                .createQuery("From UserLogin ul Where ul.username = :uname")
                 .setParameter("uname", username).list();
         if (logins.size() > 0) {
             if (logins.get(0).getUsername() == username) {
@@ -82,7 +82,7 @@ public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
 
     @SuppressWarnings("unchecked")
     public List<UserLogin> findAll() {
-        List<UserLogin> logins = (List<UserLogin>) getSession().createQuery("From user_login").list();
+        List<UserLogin> logins = (List<UserLogin>) getSession().createQuery("From UserLogin").list();
         return logins;
     }
 

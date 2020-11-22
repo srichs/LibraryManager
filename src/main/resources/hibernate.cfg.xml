@@ -30,5 +30,9 @@
         <property name="hibernate.search.default.directory_provider" value="filesystem" />
         <property name="hibernate.search.default.indexBase" value="./src/main/resources/indexes/" />-->
         <mapping class="edu.umgc.librarymanager.data.model.item.DeweyCategory" />
+        <mapping class="edu.umgc.librarymanager.data.model.user.BaseUser" />
+        <mapping class="edu.umgc.librarymanager.data.model.user.LibrarianUser" />
+        <mapping class="edu.umgc.librarymanager.data.model.user.PatronUser" />
+        <mapping class="edu.umgc.librarymanager.data.model.user.UserLogin" />
     </session-factory>
 </hibernate-configuration>

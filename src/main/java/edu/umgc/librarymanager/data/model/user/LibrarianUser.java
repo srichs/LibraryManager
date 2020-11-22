@@ -7,12 +7,16 @@
 package edu.umgc.librarymanager.data.model.user;
 
 import java.time.ZonedDateTime;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * This class is the concrete class for a Librarian User and extends the
  * BaseUser class.
  * @author Scott
  */
+@Entity
+@Table(name = "librarian_user")
 public class LibrarianUser extends BaseUser {
 
     /**

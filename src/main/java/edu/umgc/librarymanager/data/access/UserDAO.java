@@ -16,8 +16,7 @@ import java.util.List;
  */
 public class UserDAO extends BaseDAO implements DAOInteface<BaseUser>, IUserService {
 
-    public UserDAO() {
-    }
+    public UserDAO() {}
 
     public void persist(BaseUser entity) {
         getSession().save(entity);
@@ -33,7 +32,7 @@ public class UserDAO extends BaseDAO implements DAOInteface<BaseUser>, IUserServ
 
     @SuppressWarnings("unchecked")
     public List<BaseUser> findAll() {
-        List<BaseUser> users = (List<BaseUser>) getSession().createQuery("From base_user").list();
+        List<BaseUser> users = (List<BaseUser>) getSession().createQuery("From BaseUser").list();
         return users;
     }
 
