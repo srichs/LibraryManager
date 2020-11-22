@@ -14,8 +14,26 @@ import java.util.List;
  * @author Scott
  */
 public class ItemDAO extends BaseDAO<BaseItem> {
-    
+
     public ItemDAO() {}
+
+    /**
+     * Retrieves an item's information from the database given the title.
+     * @param title The item's title.
+     * @return The item's information.
+     */
+    @SuppressWarnings("unchecked")
+    public BaseItem findByTitle(String title) {
+        List<BaseItem> items = (List<BaseItem>) getSession()
+                .createQuery("From BaseItem i Where i.title = :title")
+                .setParameter("title", title).list();
+        if (items.size() > 0) {
+            if (items.get(0).getTitle() == title) {
+                return items.get(0);
+            }
+        }
+        return null;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
