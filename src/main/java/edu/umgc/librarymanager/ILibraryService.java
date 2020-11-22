@@ -4,10 +4,8 @@
  * Date Created: 11/17/2020
  */
 
-package edu.umgc.librarymanager.data.access;
+package edu.umgc.librarymanager;
 
-import edu.umgc.librarymanager.ILibraryTransaction;
-import edu.umgc.librarymanager.SearchCriteria;
 import edu.umgc.librarymanager.data.model.item.ILibraryItem;
 import edu.umgc.librarymanager.data.model.user.IUser;
 import java.time.ZonedDateTime;
