@@ -35,7 +35,7 @@ public class BaseItemTest {
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
-                "The summary.", ItemStatus.Available, period);
+                "The summary.", ItemStatus.AVAILABLE, period);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class BaseItemTest {
 
     @Test
     public void getStatus_Test() {
-        assertEquals(ItemStatus.Available, book.getStatus());
+        assertEquals(ItemStatus.AVAILABLE, book.getStatus());
     }
 
     @Test
