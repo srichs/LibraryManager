@@ -13,7 +13,7 @@ import java.util.List;
  * Used to create a data access object for the user login information.
  * @author Scott
  */
-public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
+public class UserLoginDAO extends BaseDAO<UserLogin> {
 
     public UserLoginDAO() {}
 
@@ -68,32 +68,11 @@ public class UserLoginDAO extends BaseDAO implements DAOInteface<UserLogin> {
         return login.checkPassword(password);
     }
 
-    public void persist(UserLogin entity) {
-        getSession().save(entity);
-    }
-
-    public void update(UserLogin entity) {
-        getSession().update(entity);
-    }
-
-    public void delete(UserLogin entity) {
-        getSession().delete(entity);
-    }
-
+    @Override
     @SuppressWarnings("unchecked")
     public List<UserLogin> findAll() {
-        List<UserLogin> logins = (List<UserLogin>) getSession().createQuery("From UserLogin").list();
-        return logins;
-    }
-
-    /**
-     * Deletes all of the UserLogin entries from the database.
-     */
-    public void deleteAll() {
-        List<UserLogin> entityList = findAll();
-        for (UserLogin entity : entityList) {
-            delete(entity);
-        }
+        List<UserLogin> list = (List<UserLogin>) getSession().createQuery("From UserLogin").list();
+        return list;
     }
 
 }

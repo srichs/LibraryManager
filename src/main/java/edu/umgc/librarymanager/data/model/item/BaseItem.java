@@ -215,6 +215,17 @@ public abstract class BaseItem implements ILibraryItem {
         this.itemType = itemType;
     }
 
+    /**
+     * Checks if an item is a Book or E-Book.
+     * @return A boolean value for if the item is a Book or E-Book.
+     */
+    public boolean isBook() {
+        if (this.itemType == ItemType.Book || this.itemType == ItemType.EBook) {
+            return true;
+        }
+        return false;
+    }
+
     public String toString() {
         return "Title: " + this.title + "\nPrice: $" + this.purchasePrice.toPlainString() + "\nGenre: " + this.genre;
     }

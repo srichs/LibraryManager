@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.model.item;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,13 +33,14 @@ public class Author {
     private String name;
 
     @ManyToMany(mappedBy = "author")
-    private List<BaseItem> book;
+    private List<BaseBook> books;
 
     /**
      * The default constructor for the class.
      */
     public Author() {
         this.name = "";
+        this.books = new ArrayList<BaseBook>();
     }
 
     /**
@@ -47,6 +49,12 @@ public class Author {
      */
     public Author(String name) {
         this.name = name;
+        this.books = new ArrayList<BaseBook>();
+    }
+
+    public Author(String name, List<BaseBook> books) {
+        this.name = name;
+        this.books = books;
     }
 
     public String getName() {
@@ -57,8 +65,12 @@ public class Author {
         this.name = name;
     }
 
-    public List<BaseItem> getBook() {
-        return this.book;
+    public List<BaseBook> getBooks() {
+        return this.books;
+    }
+
+    public void setBooks(List<BaseBook> books) {
+        this.books = books;
     }
 
 }
