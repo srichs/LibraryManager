@@ -6,10 +6,10 @@
 
 package edu.umgc.librarymanager.data.access;
 
+import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 
 import static org.junit.Assert.assertEquals;
 
@@ -46,7 +46,7 @@ public class DeweyCategoryDAOTest {
         dewey.setCode("032");
         dewey.setCategory("General encyclopedic works in English");
         deweyDAO.update(dewey);
-        assertEquals(dewey, deweyDAO.findByCode("004"));
+        assertEquals(dewey, deweyDAO.findByCode("032"));
     }
 
     @Test
