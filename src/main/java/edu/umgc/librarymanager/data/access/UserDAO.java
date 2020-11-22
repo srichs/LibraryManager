@@ -4,9 +4,10 @@
  * Date Created: 11/21/2020
  */
 
-package edu.umgc.librarymanager.data;
+package edu.umgc.librarymanager.data.access;
 
 import java.util.List;
+import edu.umgc.librarymanager.data.BaseUser;
 
 /**
  * The Data Access Object class to access the base_user table of the database.

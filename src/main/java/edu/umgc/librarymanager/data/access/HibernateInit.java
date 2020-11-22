@@ -4,7 +4,7 @@
  * Date Created: 11/21/2020
  */
 
-package edu.umgc.librarymanager.data;
+package edu.umgc.librarymanager.data.access;
 
 import com.opencsv.CSVReader;
 import java.io.FileReader;
@@ -13,6 +13,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import edu.umgc.librarymanager.data.BaseUser;
+import edu.umgc.librarymanager.data.DeweyCategory;
+import edu.umgc.librarymanager.data.LibrarianUser;
+import edu.umgc.librarymanager.data.PatronUser;
+import edu.umgc.librarymanager.data.UserException;
+import edu.umgc.librarymanager.data.UserLogin;
 
 /**
  * Initializes the data in the Hibernate database.
