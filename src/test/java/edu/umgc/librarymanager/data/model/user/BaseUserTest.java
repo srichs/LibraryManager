@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * A Test Class to test the BaseItem class.
+ * A Test Class to test the BaseUser class.
  * @author Scott
  */
 public class BaseUserTest {
