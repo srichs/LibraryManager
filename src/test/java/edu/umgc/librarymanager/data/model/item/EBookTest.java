@@ -36,13 +36,11 @@ public class EBookTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 5);
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
-        ebook = new Ebook(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
-                "The summary.", ItemStatus.Available, period);
         List<Author> authors = new ArrayList<Author>();
         authors.add(new Author("John Doe"));
         authors.add(new Author("David Smith"));
-        ebook.setAuthors(authors);
-        ebook.setISBN("9283923231865");
+        ebook = new Ebook(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
+        "The summary.", ItemStatus.Available, period, authors, "9283923231865");
     }
 
     @Test

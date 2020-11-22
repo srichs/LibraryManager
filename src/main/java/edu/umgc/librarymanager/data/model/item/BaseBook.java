@@ -13,10 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * The abstract base class for a Book in a library, it extends the BaseItem
@@ -24,11 +22,10 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
-@Table(name = "base_book")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BaseBook extends BaseItem {
 
     @ManyToMany
+    @JoinTable(name = "book_authors")
     private List<Author> authors;
 
     @Column(name = "isbn")

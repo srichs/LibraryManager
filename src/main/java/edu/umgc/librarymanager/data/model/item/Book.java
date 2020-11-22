@@ -11,12 +11,15 @@ import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * This class models a Book Item.
  * @author Scott
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Book extends BaseBook {
 
     /**

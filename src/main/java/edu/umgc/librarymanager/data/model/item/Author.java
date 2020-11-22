@@ -32,7 +32,7 @@ public class Author {
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "author")
+    @ManyToMany(mappedBy = "authors")
     private List<BaseBook> books;
 
     /**

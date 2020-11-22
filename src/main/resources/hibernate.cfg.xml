@@ -31,15 +31,16 @@
         <property name="hibernate.search.default.directory_provider" value="filesystem" />
         <property name="hibernate.search.default.indexBase" value="./src/main/resources/indexes/" />-->
         <mapping class="edu.umgc.librarymanager.data.model.item.DeweyCategory" />
-        <mapping class="edu.umgc.librarymanager.data.model.item.BaseItem" />
-        <!--<mapping class="edu.umgc.librarymanager.data.model.item.Author" />
-        <mapping class="edu.umgc.librarymanager.data.model.item.Book" />
-        <mapping class="edu.umgc.librarymanager.data.model.item.Ebook" />
-        <mapping class="edu.umgc.librarymanager.data.model.item.Movie" />
-        <mapping class="edu.umgc.librarymanager.data.model.item.VideoGame" />-->
         <mapping class="edu.umgc.librarymanager.data.model.item.Classification" />
         <mapping class="edu.umgc.librarymanager.data.model.item.ClassificationGroup" />
         <mapping class="edu.umgc.librarymanager.data.model.item.PublishData" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.BaseItem" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.BaseBook" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.Author" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.Book" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.Ebook" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.Movie" />
+        <mapping class="edu.umgc.librarymanager.data.model.item.VideoGame" />
         <mapping class="edu.umgc.librarymanager.data.model.user.BaseUser" />
         <mapping class="edu.umgc.librarymanager.data.model.user.LibrarianUser" />
         <mapping class="edu.umgc.librarymanager.data.model.user.PatronUser" />

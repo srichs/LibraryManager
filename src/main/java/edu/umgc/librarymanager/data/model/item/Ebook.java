@@ -9,27 +9,18 @@ package edu.umgc.librarymanager.data.model.item;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * This class models an E-Book Item.
  * @author Scott
  */
 @Entity
-@DiscriminatorValue("ebook")
-public class Ebook extends BaseItem {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "book")
-    private List<Author> authors;
-
-    @Column(name = "isbn")
-    private String isbn;
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Ebook extends BaseBook {
 
     /**
      * The default constructor for the class.
@@ -37,8 +28,6 @@ public class Ebook extends BaseItem {
     public Ebook() {
         super();
         super.setItemType(ItemType.EBook);
-        this.authors = new ArrayList<Author>();
-        this.isbn = "";
     }
 
     /**
@@ -56,7 +45,7 @@ public class Ebook extends BaseItem {
      */
     public Ebook(ClassificationGroup classGroup, ZonedDateTime purchaseDate, String description,
             BigDecimal price, String title, PublishData publisher, String genre, String summary,
-            ItemStatus status, Period checkoutPeriod) {
+            ItemStatus status, Period checkoutPeriod, List<Author> authors, String isbn) {
         super.setClassificationGroup(classGroup);
         super.setPurchaseDate(purchaseDate);
         super.setDescription(description);
@@ -67,23 +56,9 @@ public class Ebook extends BaseItem {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        super.setItemType(ItemType.EBook);
-    }
-
-    public List<Author> getAuthors() {
-        return this.authors;
-    }
-
-    public void setAuthors(List<Author> authors) {
-        this.authors = authors;
-    }
-
-    public String getISBN() {
-        return this.isbn;
-    }
-
-    public void setISBN(String isbn) {
-        this.isbn = isbn;
+        super.setItemType(ItemType.Book);
+        super.setAuthors(authors);
+        super.setISBN(isbn);
     }
 
 }
