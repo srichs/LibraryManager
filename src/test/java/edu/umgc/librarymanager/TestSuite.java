@@ -9,6 +9,7 @@ package edu.umgc.librarymanager;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import edu.umgc.librarymanager.data.model.item.BaseItemTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroupTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationTest;
 import edu.umgc.librarymanager.data.model.item.DeweyCategoryTest;
@@ -28,7 +29,8 @@ import edu.umgc.librarymanager.data.model.item.PublishDataTest;
     DeweyDecimalUtilityTest.class,
     ClassificationTest.class,
     ClassificationGroupTest.class,
-    PublishDataTest.class
+    PublishDataTest.class,
+    BaseItemTest.class
 })
 
 /**
