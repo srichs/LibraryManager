@@ -6,7 +6,7 @@
 
 /**
  *
- * @author Lucy
+ * @author Cindy
  */
 public class LibraryInterface_Form extends javax.swing.JApplet {
 
