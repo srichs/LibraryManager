@@ -35,6 +35,9 @@ public class Library {
     @Column(name = "phone")
     private String phone;
 
+    /**
+     * The default constructor for the class.
+     */
     public Library() {
         this.address = "";
         this.name = "";
