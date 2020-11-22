@@ -9,6 +9,10 @@ package edu.umgc.librarymanager;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
+import edu.umgc.librarymanager.data.model.item.ClassificationGroupTest;
+import edu.umgc.librarymanager.data.model.item.ClassificationTest;
+import edu.umgc.librarymanager.data.model.item.DeweyCategoryTest;
+import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtilityTest;
 
 /**
  * The Suite class to use.
@@ -19,7 +23,10 @@ import org.junit.runners.Suite;
  * The Test classes to run.
  */
 @Suite.SuiteClasses({
-    //BookTests.class
+    DeweyCategoryTest.class,
+    DeweyDecimalUtilityTest.class,
+    ClassificationTest.class,
+    ClassificationGroupTest.class
 })
 
 /**

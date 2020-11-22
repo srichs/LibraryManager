@@ -34,10 +34,10 @@ public final class AppTest {
             System.out.println(failure.toString());
         }
         if (result.wasSuccessful()) {
-            System.out.println(result.getRunCount() + " TESTS RUN - " + ANSI_GREEN + "SUCCESS"
+            System.out.println(result.getRunCount() + " TESTS RAN - " + ANSI_GREEN + "SUCCESS"
                     + ANSI_RESET + " - " + result.getRunTime() + " ms\n" + ANSI_RESET);
         } else {
-            System.out.println("\n" + result.getRunCount() + " TESTS RUN - " + ANSI_RED
+            System.out.println("\n" + result.getRunCount() + " TESTS RAN - " + ANSI_RED
                     + result.getFailureCount() + " FAILED" + ANSI_RESET + " - " + result.getRunTime()
                     + " ms\n" + ANSI_RESET);
         }
