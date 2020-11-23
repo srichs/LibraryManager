@@ -7,7 +7,6 @@
 package edu.umgc.librarymanager.data.access;
 
 import com.opencsv.CSVReader;
-import edu.umgc.librarymanager.data.model.item.Author;
 import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
@@ -23,8 +22,6 @@ import edu.umgc.librarymanager.data.model.user.UserLogin;
 import java.io.FileReader;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
@@ -81,10 +78,8 @@ public final class HibernateInit {
                 classGroup.setLOC(new Classification(line[2], ClassType.LibraryOfCongress));
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
-                List<Author> authors = new ArrayList<Author>();
-                authors.add(new Author(line[10]));
                 Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, "A Genre",
-                        line[8], ItemStatus.Available, null, authors, line[11]);
+                        line[8], ItemStatus.Available, null, line[10], line[11]);
                 session.save(book);
             }
             session.close();

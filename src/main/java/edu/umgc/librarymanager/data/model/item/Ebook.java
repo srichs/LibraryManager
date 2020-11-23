@@ -9,7 +9,6 @@ package edu.umgc.librarymanager.data.model.item;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
@@ -42,10 +41,12 @@ public class Ebook extends BaseBook {
      * @param summary The summary of the item.
      * @param status The status of the item in the Library.
      * @param checkoutPeriod The checkout period of the item.
+     * @param authors A string of authors separated by commas.
+     * @param isbn The 13 digit ISBN number of the book.
      */
     public Ebook(ClassificationGroup classGroup, ZonedDateTime purchaseDate, String description,
             BigDecimal price, String title, PublishData publisher, String genre, String summary,
-            ItemStatus status, Period checkoutPeriod, List<Author> authors, String isbn) {
+            ItemStatus status, Period checkoutPeriod, String authors, String isbn) {
         super.setClassificationGroup(classGroup);
         super.setPurchaseDate(purchaseDate);
         super.setDescription(description);

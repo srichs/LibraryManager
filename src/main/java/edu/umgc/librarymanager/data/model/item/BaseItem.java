@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.model.item;
 
+import edu.umgc.librarymanager.data.model.Library;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
@@ -22,7 +23,6 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import edu.umgc.librarymanager.data.model.Library;
 
 /**
  * The abstract base class for an Item in a library, it implements the ILibraryItem

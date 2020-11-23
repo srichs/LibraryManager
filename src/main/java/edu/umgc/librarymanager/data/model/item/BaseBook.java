@@ -13,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 /**
  * The abstract base class for a Book in a library, it extends the BaseItem
@@ -22,11 +22,11 @@ import javax.persistence.ManyToMany;
  * @author Scott
  */
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BaseBook extends BaseItem {
 
-    @ManyToMany
-    @JoinTable(name = "book_authors")
-    private List<Author> authors;
+    @Column(name = "authors")
+    private String authors;
 
     @Column(name = "isbn")
     private String isbn;
@@ -36,7 +36,7 @@ public class BaseBook extends BaseItem {
      */
     public BaseBook() {
         super();
-        this.authors = new ArrayList<Author>();
+        this.authors = "";
         this.isbn = "";
     }
 
@@ -66,15 +66,15 @@ public class BaseBook extends BaseItem {
         super.setSummary(summary);
         super.setStatus(status);
         super.setCheckoutPeriod(checkoutPeriod);
-        this.authors = new ArrayList<Author>();
+        this.authors = "";
         this.isbn = "";
     }
 
-    public List<Author> getAuthors() {
+    public String getAuthors() {
         return this.authors;
     }
 
-    public void setAuthors(List<Author> authors) {
+    public void setAuthors(String authors) {
         this.authors = authors;
     }
 
@@ -91,18 +91,21 @@ public class BaseBook extends BaseItem {
     }
 
     /**
-     * Creates a String of the authors separated by commas.
-     * @return A comma separated String of authors.
+     * Separates the comma separated list of authors and returns a List
+     * of authors.
+     * @return A List of Strings of author names.
      */
-    public String authorsToString() {
-        String str = "";
-        for (int i = 0; i < this.authors.size(); i++) {
-            str += authors.get(i);
-            if (i < this.authors.size() - 1) {
-                str += ", ";
+    public List<String> getAuthorList() {
+        List<String> list = new ArrayList<String>();
+        if (!this.authors.contains(",")) {
+            list.add(this.authors);
+        } else {
+            String[] array = this.authors.split(",");
+            for (int i = 0; i < array.length; i++) {
+                list.add(array[i]);
             }
         }
-        return str;
+        return list;
     }
 
 }

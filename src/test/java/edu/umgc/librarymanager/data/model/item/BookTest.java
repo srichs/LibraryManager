@@ -11,8 +11,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,17 +34,14 @@ public class BookTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 5);
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
-        List<Author> authors = new ArrayList<Author>();
-        authors.add(new Author("John Doe"));
-        authors.add(new Author("David Smith"));
         book = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish, "A Genre",
-                "The summary.", ItemStatus.Available, period, authors, "9283923231865");
+                "The summary.", ItemStatus.Available, period, "John Doe, David Smith", "9283923231865");
     }
 
     @Test
     public void getAuthors_Test() {
-        assertEquals("John Doe", book.getAuthors().get(0).getName());
-        assertEquals("David Smith", book.getAuthors().get(1).getName());
+        assertEquals("John Doe, David Smith", book.getAuthors());
+        assertEquals("David Smith", book.getAuthorList().get(1));
     }
 
     @Test

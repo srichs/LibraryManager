@@ -6,13 +6,12 @@
 
 package edu.umgc.librarymanager.data.access;
 
-import edu.umgc.librarymanager.data.model.item.Author;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.Book;
+import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
-import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.item.PublishData;
 import java.math.BigDecimal;
@@ -20,8 +19,6 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,11 +44,9 @@ public class ItemDAOTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 5);
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
-        List<Author> authors = new ArrayList<Author>();
-        authors.add(new Author("John Doe"));
-        authors.add(new Author("David Smith"));
         BaseItem item = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title",
-                publish, "A Genre", "The summary.", ItemStatus.Available, period, authors, "9283923231865");
+                publish, "A Genre", "The summary.", ItemStatus.Available, period, "John Doe, David Smith", 
+                "9283923231865");
         itemDAO = new ItemDAO();
         itemDAO.openSessionwithTransaction();
         itemDAO.persist(item);

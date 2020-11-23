@@ -6,11 +6,11 @@
 
 package edu.umgc.librarymanager.data.model.item;
 
+import edu.umgc.librarymanager.data.model.Library;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
-import edu.umgc.librarymanager.data.model.Library;
 
 /**
  * An interface to be implemented for an Item in a Library.
