@@ -6,10 +6,9 @@
 
 package edu.umgc.librarymanager;
 
-/*import edu.umgc.librarymanager.data.access.DeweyCategoryDAOTest;
+import edu.umgc.librarymanager.data.access.DeweyCategoryDAOTest;
 import edu.umgc.librarymanager.data.access.UserDAOTest;
 import edu.umgc.librarymanager.data.access.UserLoginDAOTest;
-import edu.umgc.librarymanager.data.model.item.AuthorTest;
 import edu.umgc.librarymanager.data.model.item.BaseItemTest;
 import edu.umgc.librarymanager.data.model.item.BookTest;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroupTest;
@@ -21,17 +20,17 @@ import edu.umgc.librarymanager.data.model.item.PublishDataTest;
 import edu.umgc.librarymanager.data.model.user.BaseUserTest;
 import edu.umgc.librarymanager.data.model.user.UserLoginTest;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;*/
+import org.junit.runners.Suite;
 
 /**
  * The Suite class to use.
  */
-//@RunWith(Suite.class)
+@RunWith(Suite.class)
 
 /**
  * The Test classes to run.
  */
-/*@Suite.SuiteClasses({
+@Suite.SuiteClasses({
     DeweyCategoryDAOTest.class,
     UserLoginDAOTest.class,
     UserDAOTest.class,
@@ -44,9 +43,8 @@ import org.junit.runners.Suite;*/
     BookTest.class,
     EBookTest.class,
     BaseUserTest.class,
-    UserLoginTest.class,
-    AuthorTest.class,
-})*/
+    UserLoginTest.class
+})
 
 /**
  * This class defines a test suite to run the unit tests. Maven Test

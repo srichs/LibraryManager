@@ -146,6 +146,11 @@
         <configuration>
           <forkedProcessExitTimeoutInSeconds>60</forkedProcessExitTimeoutInSeconds>
           <forkCount>1</forkCount>
+          <excludes>
+            <exclude>**/AppTest.java</exclude>
+            <exclude>**/TestSuite.java</exclude>
+            <exclude>**/*DAOTest.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
