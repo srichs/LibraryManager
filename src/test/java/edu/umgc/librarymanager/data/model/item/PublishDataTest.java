@@ -48,7 +48,7 @@ public class PublishDataTest {
     public void setPublishDate_Test() {
         ZonedDateTime zdt = ZonedDateTime.parse("2020-05-23T07:23:00-05:00[America/New_York]");
         publish2.setPublishDate(zdt);
-        assertEquals("2020-05-23T08:23-04:00[America/New_York]", publish2.getPublishDate().toString());
+        assertEquals("2020-05-23T07:23-04:00[America/New_York]", publish2.getPublishDate().toString());
     }
 
     @Test
