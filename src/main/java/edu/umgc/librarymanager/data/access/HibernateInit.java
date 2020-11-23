@@ -24,7 +24,9 @@ import org.hibernate.search.Search;
  * Initializes the data in the Hibernate database.
  * @author Scott
  */
-public class HibernateInit {
+public final class HibernateInit {
+
+    private HibernateInit() {}
 
     /**
      * This method is used to call other methods that initialize the database from .csv data files.
@@ -112,11 +114,16 @@ public class HibernateInit {
             uDAO.openSessionwithTransaction();
             while ((line = reader.readNext()) != null) {
                 BaseUser user = null;
-                if (line[6].equals("Librarian")) {
-                    user = new LibrarianUser(ZonedDateTime.parse(line[0]), line[1], line[2], new UserLogin(line[3],
+                String dtg = line[0].trim();
+                if ((int) dtg.charAt(0) == 65279) {
+                    dtg = dtg.substring(1);
+                }
+                ZonedDateTime zdt = ZonedDateTime.parse(dtg);
+                if (line[8].equals("Librarian")) {
+                    user = new LibrarianUser(zdt, line[1], line[2], new UserLogin(line[3],
                             line[4]), line[5], line[6], line[7]);
-                } else if (line[6].equals("Patron")) {
-                    user = new PatronUser(ZonedDateTime.parse(line[0]), line[1], line[2], new UserLogin(line[3],
+                } else if (line[8].equals("Patron")) {
+                    user = new PatronUser(zdt, line[1], line[2], new UserLogin(line[3],
                             line[4]), line[5], line[6], line[7]);
                 } else {
                     UserException ex = new UserException("The user: " + line[3] + " could not be added");
@@ -128,51 +135,6 @@ public class HibernateInit {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Saves an object to the hibernate database.
-     * @param obj The Object to save to the hibernate database.
-     */
-    public static void saveObjToHibernate(Object obj) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtility.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(obj);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Saves an Array of Book objects to the hibernate database.
-     * @param array An Array of Objects to save to the hibernate database.
-     */
-    public static void saveArrayToHibernate(Object[] array) {
-        Transaction transaction = null;
-        try (Session session = HibernateUtility.getSessionFactory().openSession()) {
-            transaction = session.beginTransaction();
-            for (int i = 0; i < array.length; i++) {
-                session.save((DeweyCategory) array[i]);
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Shuts down the hibernate service.
-     */
-    public void shutdown() {
-        HibernateUtility.shutdown();
     }
 
 }
