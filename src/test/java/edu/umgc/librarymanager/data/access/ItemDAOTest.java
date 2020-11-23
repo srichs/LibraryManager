@@ -44,14 +44,14 @@ public class ItemDAOTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 5);
         LocalDate dueDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         Period period = Period.between(checkDate, dueDate);
-        BaseItem item = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title",
-                publish, "A Genre", "The summary.", ItemStatus.Available, period, "John Doe, David Smith", 
+        item = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title",
+                publish, "A Genre", "The summary.", ItemStatus.Available, period, "John Doe, David Smith",
                 "9283923231865");
         itemDAO = new ItemDAO();
         itemDAO.openSessionwithTransaction();
         itemDAO.persist(item);
-        //item = itemDAO.findAll().get(0);
-        itemDAO.closeSessionwithTransaction();
+        item = itemDAO.findAll().get(0);
+        itemDAO.commit();
     }
 
     @After
@@ -68,9 +68,7 @@ public class ItemDAOTest {
 
     @Test
     public void findByTitle_Test() {
-        itemDAO.getTransaction().begin();
         assertEquals(item, itemDAO.findByTitle("Some Title"));
-        itemDAO.commit();
     }
 
     @Test

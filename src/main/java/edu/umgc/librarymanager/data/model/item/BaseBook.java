@@ -102,7 +102,7 @@ public class BaseBook extends BaseItem {
         } else {
             String[] array = this.authors.split(",");
             for (int i = 0; i < array.length; i++) {
-                list.add(array[i]);
+                list.add(array[i].trim());
             }
         }
         return list;
