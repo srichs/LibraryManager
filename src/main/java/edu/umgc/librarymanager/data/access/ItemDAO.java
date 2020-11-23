@@ -24,21 +24,26 @@ public class ItemDAO extends BaseDAO<BaseItem> {
      */
     @SuppressWarnings("unchecked")
     public BaseItem findByTitle(String title) {
+        openSession();
         List<BaseItem> items = (List<BaseItem>) getSession()
                 .createQuery("From BaseItem i Where i.title = :title")
                 .setParameter("title", title).list();
         if (items.size() > 0) {
             if (items.get(0).getTitle() == title) {
+                closeSession();
                 return items.get(0);
             }
         }
+        closeSession();
         return null;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<BaseItem> findAll() {
+        openSession();
         List<BaseItem> list = (List<BaseItem>) getSession().createQuery("From BaseItem").list();
+        closeSession();
         return list;
     }
 

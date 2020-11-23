@@ -32,7 +32,9 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
     @Override
     @SuppressWarnings("unchecked")
     public List<BaseUser> findAll() {
+        openSession();
         List<BaseUser> list = (List<BaseUser>) getSession().createQuery("From BaseUser").list();
+        closeSession();
         return list;
     }
 

@@ -20,7 +20,9 @@ public class AuthorDAO extends BaseDAO<Author> {
     @Override
     @SuppressWarnings("unchecked")
     public List<Author> findAll() {
+        openSession();
         List<Author> list = (List<Author>) getSession().createQuery("From Author").list();
+        closeSession();
         return list;
     }
 
