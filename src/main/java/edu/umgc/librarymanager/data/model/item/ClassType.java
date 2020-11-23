@@ -1,5 +1,5 @@
 /*
- * Filename: ClassificationType.java
+ * Filename: ClassType.java
  * Author: Scott
  * Date Created: 11/21/2020
  */
@@ -10,7 +10,7 @@ package edu.umgc.librarymanager.data.model.item;
  * An enum for the type of Classification.
  * @author Scott
  */
-public enum ClassificationType {
+public enum ClassType {
 
     /**
      * Enum for a Dewey Decimal Classification.
@@ -21,7 +21,7 @@ public enum ClassificationType {
      */
     LibraryOfCongress;
 
-    public ClassificationType getClassificationType() {
+    public ClassType getClassType() {
         return this;
     }
 
@@ -30,7 +30,7 @@ public enum ClassificationType {
      * @param type The ClassificationType String
      * @return The ClassificationType value of the String.
      */
-    public static ClassificationType stringToClassificationType(String type) {
+    public static ClassType stringToClassType(String type) {
         switch (type) {
             case "Dewey Decimal":
                 return DeweyDecimal;

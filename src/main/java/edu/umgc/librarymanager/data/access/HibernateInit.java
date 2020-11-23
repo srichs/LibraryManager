@@ -9,9 +9,9 @@ package edu.umgc.librarymanager.data.access;
 import com.opencsv.CSVReader;
 import edu.umgc.librarymanager.data.model.item.Author;
 import edu.umgc.librarymanager.data.model.item.Book;
+import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
-import edu.umgc.librarymanager.data.model.item.ClassificationType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.item.PublishData;
@@ -77,8 +77,8 @@ public final class HibernateInit {
             reader.readNext();
             while ((line = reader.readNext()) != null) {
                 ClassificationGroup classGroup = new ClassificationGroup();
-                classGroup.setDewey(new Classification(line[1], ClassificationType.DeweyDecimal));
-                classGroup.setLOC(new Classification(line[2], ClassificationType.LibraryOfCongress));
+                classGroup.setDewey(new Classification(line[1], ClassType.DeweyDecimal));
+                classGroup.setLOC(new Classification(line[2], ClassType.LibraryOfCongress));
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
                 List<Author> authors = new ArrayList<Author>();

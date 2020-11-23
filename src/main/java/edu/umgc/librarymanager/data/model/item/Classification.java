@@ -30,14 +30,14 @@ public class Classification {
     private String code;
 
     @Column(name = "class_type")
-    private ClassificationType classificationType;
+    private ClassType classType;
 
     /**
      * The default constructor of the class.
      */
     public Classification() {
         this.code = "";
-        this.classificationType = null;
+        this.classType = null;
     }
 
     /**
@@ -45,9 +45,9 @@ public class Classification {
      * @param code The code of the given classification system.
      * @param classType The type of classification system.
      */
-    public Classification(String code, ClassificationType classType) {
+    public Classification(String code, ClassType classType) {
         this.code = code;
-        this.classificationType = classType;
+        this.classType = classType;
     }
 
     public long getId() {
@@ -62,12 +62,12 @@ public class Classification {
         this.code = code;
     }
 
-    public ClassificationType getClassificationType() {
-        return this.classificationType;
+    public ClassType getClassType() {
+        return this.classType;
     }
 
-    public void setClassificationType(ClassificationType classType) {
-        this.classificationType = classType;
+    public void setClassType(ClassType classType) {
+        this.classType = classType;
     }
 
 }

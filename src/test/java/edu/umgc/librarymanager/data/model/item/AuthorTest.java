@@ -43,7 +43,7 @@ public class AuthorTest {
     @Test
     public void getBooks_Test() {
         ClassificationGroup classGroup = new ClassificationGroup();
-        classGroup.setDewey(new Classification("004.32", ClassificationType.DeweyDecimal));
+        classGroup.setDewey(new Classification("004.32", ClassType.DeweyDecimal));
         ZonedDateTime zdt = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
         ZonedDateTime zdt2 = ZonedDateTime.parse("2019-12-15T12:48:00-05:00[America/New_York]");
         PublishData publish = new PublishData("A Publisher", zdt2, "Denver, CO");

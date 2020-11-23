@@ -12,7 +12,7 @@ import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.Classification;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
-import edu.umgc.librarymanager.data.model.item.ClassificationType;
+import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.item.PublishData;
 import java.math.BigDecimal;
@@ -40,7 +40,7 @@ public class ItemDAOTest {
     @Before
     public void setUp() {
         ClassificationGroup classGroup = new ClassificationGroup();
-        classGroup.setDewey(new Classification("004.32", ClassificationType.DeweyDecimal));
+        classGroup.setDewey(new Classification("004.32", ClassType.DeweyDecimal));
         ZonedDateTime zdt = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
         ZonedDateTime zdt2 = ZonedDateTime.parse("2019-12-15T12:48:00-05:00[America/New_York]");
         PublishData publish = new PublishData("A Publisher", zdt2, "Denver, CO");
