@@ -15,14 +15,14 @@ import java.util.List;
  */
 public class AuthorDAO extends BaseDAO<Author> {
 
-    public AuthorDAO() {}
+    public AuthorDAO() {
+        super();
+    }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<Author> findAll() {
-        openSession();
         List<Author> list = (List<Author>) getSession().createQuery("From Author").list();
-        closeSession();
         return list;
     }
 

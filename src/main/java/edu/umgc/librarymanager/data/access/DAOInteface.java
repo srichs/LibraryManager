@@ -20,8 +20,5 @@ public interface DAOInteface<T> {
     void delete(T entity);
     List<T> findAll();
     void deleteAll();
-    void quickPersist(T entity);
-    void quickUpdate(T entity);
-    void quickDelete(T entity);
 
 }

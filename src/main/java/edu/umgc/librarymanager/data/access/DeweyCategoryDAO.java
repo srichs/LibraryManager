@@ -16,7 +16,9 @@ import java.util.List;
  */
 public class DeweyCategoryDAO extends BaseDAO<DeweyCategory> {
 
-    public DeweyCategoryDAO() {}
+    public DeweyCategoryDAO() {
+        super();
+    }
 
     /**
      * Finds a Dewey Classification given the Dewey Decimal code.
@@ -25,28 +27,23 @@ public class DeweyCategoryDAO extends BaseDAO<DeweyCategory> {
      */
     @SuppressWarnings("unchecked")
     public DeweyCategory findByCode(String code) {
-        openSession();
         if (DeweyDecimalUtility.matchesPattern(code)) {
             List<DeweyCategory> categories = (List<DeweyCategory>) getSession()
                 .createQuery("From DeweyCategory dc Where dc.code = :code")
                 .setParameter("code", code).list();
             if (categories.size() > 0) {
                 if (categories.get(0).getCode().equals(code)) {
-                    closeSession();
                     return categories.get(0);
                 }
             }
         }
-        closeSession();
         return null;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public List<DeweyCategory> findAll() {
-        openSession();
         List<DeweyCategory> list = (List<DeweyCategory>) getSession().createQuery("From DeweyCategory").list();
-        closeSession();
         return list;
     }
 

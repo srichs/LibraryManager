@@ -17,7 +17,9 @@ import java.util.List;
  */
 public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
 
-    public UserDAO() {}
+    public UserDAO() {
+        super();
+    }
 
     @Override
     public void createUser(IUser newUser) {
@@ -32,9 +34,7 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
     @Override
     @SuppressWarnings("unchecked")
     public List<BaseUser> findAll() {
-        openSession();
         List<BaseUser> list = (List<BaseUser>) getSession().createQuery("From BaseUser").list();
-        closeSession();
         return list;
     }
 

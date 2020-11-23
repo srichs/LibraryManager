@@ -88,33 +88,10 @@ public abstract class BaseDAO<T> implements DAOInteface<T> {
 
     @Override
     public void deleteAll() {
-        openSession();
         List<T> entityList = findAll();
         for (T entity : entityList) {
             delete(entity);
         }
-        closeSession();
-    }
-
-    @Override
-    public void quickPersist(T entity) {
-        openSessionwithTransaction();
-        getSession().save(entity);
-        closeSessionwithTransaction();
-    }
-
-    @Override
-    public void quickUpdate(T entity) {
-        openSessionwithTransaction();
-        getSession().update(entity);
-        closeSessionwithTransaction();
-    }
-
-    @Override
-    public void quickDelete(T entity) {
-        openSessionwithTransaction();
-        getSession().delete(entity);
-        closeSessionwithTransaction();
     }
 
 }

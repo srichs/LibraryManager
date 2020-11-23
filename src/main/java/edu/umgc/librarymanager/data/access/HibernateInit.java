@@ -7,14 +7,24 @@
 package edu.umgc.librarymanager.data.access;
 
 import com.opencsv.CSVReader;
+import edu.umgc.librarymanager.data.model.item.Author;
+import edu.umgc.librarymanager.data.model.item.Book;
+import edu.umgc.librarymanager.data.model.item.Classification;
+import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
+import edu.umgc.librarymanager.data.model.item.ClassificationType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
+import edu.umgc.librarymanager.data.model.item.ItemStatus;
+import edu.umgc.librarymanager.data.model.item.PublishData;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.LibrarianUser;
 import edu.umgc.librarymanager.data.model.user.PatronUser;
 import edu.umgc.librarymanager.data.model.user.UserException;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
@@ -34,7 +44,7 @@ public final class HibernateInit {
     public static void initHibernate() {
         initDeweyCategoryList();
         initUserList();
-        //initHibernateBookList();
+        initHibernateBookList();
         //buildSearchIndex();
     }
 
@@ -58,26 +68,30 @@ public final class HibernateInit {
     /**
      * Initializes the hibernate database with book data.
      */
-    /*public static void initHibernateBookList() {
+    public static void initHibernateBookList() {
         String file = "./src/main/resources/data/books.csv";
         CSVReader reader = null;
-        Transaction transaction = null;
         try (Session session = HibernateUtility.getSessionFactory().openSession()) {
             reader = new CSVReader(new FileReader(file));
             String[] line;
             reader.readNext();
-            transaction = session.beginTransaction();
             while ((line = reader.readNext()) != null) {
-                Book book = new Book(line[1], line[2], Integer.valueOf(line[3]), line[4],
-                        new DeweyDecimal(line[5]), new CheckedOut());
+                ClassificationGroup classGroup = new ClassificationGroup();
+                classGroup.setDewey(new Classification(line[1], ClassificationType.DeweyDecimal));
+                classGroup.setLOC(new Classification(line[2], ClassificationType.LibraryOfCongress));
+                ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
+                PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
+                List<Author> authors = new ArrayList<Author>();
+                authors.add(new Author(line[10]));
+                Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, "A Genre",
+                        line[8], ItemStatus.Available, null, authors, line[11]);
                 session.save(book);
             }
-            transaction.commit();
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     /**
      * Initializes the hibernate database with book data.
@@ -107,11 +121,11 @@ public final class HibernateInit {
     public static void initUserList() {
         String file = "./src/main/resources/data/users.csv";
         CSVReader reader = null;
-        UserDAO uDAO = new UserDAO();
+        Transaction transaction = null;
         try (Session session = HibernateUtility.getSessionFactory().openSession()) {
             reader = new CSVReader(new FileReader(file));
             String[] line;
-            uDAO.openSessionwithTransaction();
+            transaction = session.beginTransaction();
             while ((line = reader.readNext()) != null) {
                 BaseUser user = null;
                 String dtg = line[0].trim();
@@ -129,9 +143,10 @@ public final class HibernateInit {
                     UserException ex = new UserException("The user: " + line[3] + " could not be added");
                     throw ex;
                 }
-                uDAO.persist(user);
+                session.save(user);
             }
-            uDAO.closeSessionwithTransaction();
+            transaction.commit();
+            session.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

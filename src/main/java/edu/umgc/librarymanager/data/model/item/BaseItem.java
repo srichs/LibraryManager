@@ -58,7 +58,7 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "genre")
     private String genre;
 
-    @Column(name = "summary")
+    @Column(name = "summary", length = 1000)
     private String summary;
 
     @Enumerated(EnumType.ORDINAL)

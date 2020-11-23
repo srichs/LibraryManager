@@ -15,7 +15,9 @@ import java.util.List;
  */
 public class UserLoginDAO extends BaseDAO<UserLogin> {
 
-    public UserLoginDAO() {}
+    public UserLoginDAO() {
+        super();
+    }
 
     /**
      * Searches for whether a user exists in the database.
