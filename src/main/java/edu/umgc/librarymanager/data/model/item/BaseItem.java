@@ -9,6 +9,7 @@ package edu.umgc.librarymanager.data.model.item;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +22,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import edu.umgc.librarymanager.data.model.Library;
 
 /**
  * The abstract base class for an Item in a library, it implements the ILibraryItem
@@ -119,8 +121,17 @@ public abstract class BaseItem implements ILibraryItem {
         this.itemType = type;
     }
 
+    @Override
     public long getId() {
         return this.id;
+    }
+
+    @Override
+    public HashMap<ClassType, Classification> getClassificationCode() {
+        HashMap<ClassType, Classification> hMap = new HashMap<ClassType, Classification>();
+        hMap.put(this.classGroup.getDewey().getClassType(), this.classGroup.getDewey());
+        hMap.put(this.classGroup.getLOC().getClassType(), this.classGroup.getLOC());
+        return hMap;
     }
 
     public ClassificationGroup getClassificationGroup() {
@@ -131,6 +142,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.classGroup = classGroup;
     }
 
+    @Override
     public ZonedDateTime getPurchaseDate() {
         return this.purchaseDate;
     }
@@ -139,6 +151,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.purchaseDate = purchaseDate;
     }
 
+    @Override
     public String getDescription() {
         return this.description;
     }
@@ -147,6 +160,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.description = description;
     }
 
+    @Override
     public BigDecimal getPurchasePrice() {
         return this.purchasePrice;
     }
@@ -155,6 +169,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.purchasePrice = price;
     }
 
+    @Override
     public String getTitle() {
         return this.title;
     }
@@ -163,6 +178,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.title = title;
     }
 
+    @Override
     public PublishData getPublisher() {
         return this.publisher;
     }
@@ -171,6 +187,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.publisher = publisher;
     }
 
+    @Override
     public String getGenre() {
         return this.genre;
     }
@@ -179,6 +196,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.genre = genre;
     }
 
+    @Override
     public String getSummary() {
         return this.summary;
     }
@@ -187,10 +205,12 @@ public abstract class BaseItem implements ILibraryItem {
         this.summary = summary;
     }
 
+    @Override
     public ZonedDateTime getPublishDate() {
         return this.publisher.getPublishDate();
     }
 
+    @Override
     public ItemStatus getStatus() {
         return this.status;
     }
@@ -199,6 +219,12 @@ public abstract class BaseItem implements ILibraryItem {
         this.status = status;
     }
 
+    @Override
+    public HashMap<Library, Integer> getAvailability() {
+        return null; // TODO
+    }
+
+    @Override
     public Period getCheckoutPeriod() {
         return this.checkoutPeriod;
     }
