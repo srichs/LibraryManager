@@ -7,6 +7,7 @@
 
 package edu.umgc.librarymanager;
 
+import edu.umgc.librarymanager.data.access.HibernateUtility;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
@@ -34,13 +35,14 @@ public final class AppTest {
             System.out.println(failure.toString());
         }
         if (result.wasSuccessful()) {
-            System.out.println(result.getRunCount() + " TESTS RUN - " + ANSI_GREEN + "SUCCESS"
+            System.out.println("\n" + result.getRunCount() + " TESTS RAN - " + ANSI_GREEN + "SUCCESS"
                     + ANSI_RESET + " - " + result.getRunTime() + " ms\n" + ANSI_RESET);
         } else {
-            System.out.println("\n" + result.getRunCount() + " TESTS RUN - " + ANSI_RED
+            System.out.println("\n" + result.getRunCount() + " TESTS RAN - " + ANSI_RED
                     + result.getFailureCount() + " FAILED" + ANSI_RESET + " - " + result.getRunTime()
                     + " ms\n" + ANSI_RESET);
         }
+        HibernateUtility.shutdown();
     }
 
 }

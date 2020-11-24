@@ -6,6 +6,8 @@
 
 package edu.umgc.librarymanager;
 
+import edu.umgc.librarymanager.data.DatabaseTest;
+
 /**
  * The main class of the application.
  * @author Scott
@@ -19,7 +21,7 @@ public final class App {
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("\nLibraryManager\n");
+        DatabaseTest.runTest();
     }
 
 }

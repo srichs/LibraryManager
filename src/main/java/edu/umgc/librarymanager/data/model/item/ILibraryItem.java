@@ -4,12 +4,10 @@
  * Date Created: 11/17/2020
  */
 
-package edu.umgc.librarymanager.item;
+package edu.umgc.librarymanager.data.model.item;
 
-import edu.umgc.librarymanager.Classification;
-import edu.umgc.librarymanager.ItemStatus;
-import edu.umgc.librarymanager.Library;
-import edu.umgc.librarymanager.PublishData;
+import edu.umgc.librarymanager.data.model.Library;
+import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.HashMap;
@@ -21,10 +19,10 @@ import java.util.HashMap;
 public interface ILibraryItem {
 
     long getId();
-    HashMap<Classification.ClassType, Classification> getClassificationCode();
+    HashMap<ClassType, Classification> getClassificationCode();
     ZonedDateTime getPurchaseDate();
     String getDescription();
-    double getPurchasePrice();
+    BigDecimal getPurchasePrice();
     String getTitle();
     PublishData getPublisher();
     String getGenre();
