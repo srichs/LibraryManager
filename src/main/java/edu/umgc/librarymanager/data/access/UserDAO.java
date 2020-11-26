@@ -6,7 +6,7 @@
 
 package edu.umgc.librarymanager.data.access;
 
-import edu.umgc.librarymanager.IUserService;
+import edu.umgc.librarymanager.service.IUserService;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.IUser;
 import java.util.HashMap;
