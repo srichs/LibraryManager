@@ -21,7 +21,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-
 /**
  * This class is used to create a transaction that can be stored in the
  * database. The class has annotations so that a transaction will be stored
