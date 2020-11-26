@@ -81,7 +81,7 @@ public class GUIController implements ActionListener {
             currentUser = null;
             frame.getLayout().show(frame.getPanels(), AppGUI.LOGIN);
             if (inactivity) {
-                DialogUtil.informationMessage(username + " has been logged out due to inactivity.",
+                DialogUtil.informationMessage("user was logged out due to inactivity.",
                         "Logged Out");
             } else {
                 DialogUtil.informationMessage(username + " has been logged out.", "Logged Out");
