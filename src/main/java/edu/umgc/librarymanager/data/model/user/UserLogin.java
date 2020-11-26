@@ -100,4 +100,17 @@ public class UserLogin {
         return false;
     }
 
+    /**
+     * Checks a plaintext password against the hashed password.
+     * @param pword The password in plaintext as a char array.
+     * @return A boolean value for whether the password matches.
+     */
+    public boolean checkPassword(char[] pword) {
+        String pw = String.valueOf(pword);
+        if (BCrypt.checkpw(pw, this.password)) {
+            return true;
+        }
+        return false;
+    }
+
 }

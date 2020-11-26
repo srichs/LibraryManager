@@ -6,7 +6,7 @@
 
 package edu.umgc.librarymanager;
 
-import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.gui.AppGUI;
 
 /**
  * The main class of the application.
@@ -21,7 +21,9 @@ public final class App {
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        DatabaseTest.runTest();
+        AppGUI app = new AppGUI();
+        app.run();
+        //DatabaseTest.runTest();
     }
 
 }

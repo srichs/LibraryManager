@@ -4,9 +4,9 @@
 
 A system for managing a library.
 
-The 'research' directory will be used to save information that is related to the project and helps define how a library operates.
+The project is built using the Maven Build Tool with JUnit tests integrated. Continuous integration is conducted using GitHub actions and the status of the current build is displayed in the badge above. Hibernate is used with an H2 database to store the information that is used for the project.
 
-## Source Directory Structure (Proposed)
+## Source Directory Structure
 
 ### Packages
 * edu.umgc.librarymanager

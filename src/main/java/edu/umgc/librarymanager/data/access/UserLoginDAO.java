@@ -30,6 +30,7 @@ public class UserLoginDAO extends BaseDAO<UserLogin> {
                 .createQuery("From UserLogin ul Where ul.username = :uname")
                 .setParameter("uname", username).getResultList();
         if (logins.size() > 0) {
+            System.out.println(username + " - " + logins.get(0).getUsername());
             if (logins.get(0).getUsername() == username) {
                 return true;
             }
@@ -63,6 +64,21 @@ public class UserLoginDAO extends BaseDAO<UserLogin> {
      * @return A boolean value for whether the user is authenticated.
      */
     public boolean authenicateUser(String username, String password) {
+        UserLogin login = findByUsername(username);
+        if (login == null) {
+            return false;
+        }
+        return login.checkPassword(password);
+    }
+
+    /**
+     * Authenticates a user for the given username and password. The password parameter is
+     * in plaintext, but it is stored in the database as an encrypted string.
+     * @param username The username of the user.
+     * @param password The plaintext password of the user as a char array.
+     * @return A boolean value for whether the user is authenticated.
+     */
+    public boolean authenicateUser(String username, char[] password) {
         UserLogin login = findByUsername(username);
         if (login == null) {
             return false;
