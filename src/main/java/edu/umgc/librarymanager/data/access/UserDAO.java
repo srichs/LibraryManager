@@ -41,7 +41,7 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
 
     /**
      * Creates a HashMap of users so they can be searched by username.
-     * @return A HashMap<String, BaseUser> where String is the username.
+     * @return A HashMap.
      */
     @SuppressWarnings("unchecked")
     public HashMap<String, BaseUser> getUserHashMap() {

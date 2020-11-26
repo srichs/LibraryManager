@@ -30,6 +30,7 @@ public class MainFrame extends JFrame {
 
     /**
      * Constructor for the NVMainFrame Class.
+     * @param control The GUIController to be the ActionListener.
      */
     public MainFrame(GUIController control) {
         super();
