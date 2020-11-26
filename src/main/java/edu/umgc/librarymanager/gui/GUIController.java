@@ -70,7 +70,7 @@ public class GUIController implements ActionListener {
         if (user != null) {
             currentUser = user;
             frame.getLayout().show(frame.getPanels(), AppGUI.BLANK);
-            listener = new InactivityListener(frame, logoutAction, 4);
+            listener = new InactivityListener(frame, logoutAction, 5); // user is logged out after 5 min inactivity
             listener.start();
         }
     }
