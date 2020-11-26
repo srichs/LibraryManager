@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.gui;
 
+import edu.umgc.librarymanager.data.access.HibernateUtility;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Dimension;
@@ -43,6 +44,7 @@ public class MainFrame extends JFrame {
         this.setBackground(AppGUI.BACKGROUND_COLOR);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
+                HibernateUtility.shutdown();
                 System.exit(0);
             }
         });
