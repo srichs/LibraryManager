@@ -6,12 +6,12 @@
 
 package edu.umgc.librarymanager.data.model;
 
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ILibraryItem;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.IUser;
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,6 +20,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 
 /**
  * This class is used to create a transaction that can be stored in the
@@ -56,7 +57,7 @@ public class BaseTransaction implements ILibraryTransaction {
 
     @Column(name = "renew_date")
     private ZonedDateTime renewDate;
-    
+
     @Column(name = "renew_count")
     private int renewCount;
 
