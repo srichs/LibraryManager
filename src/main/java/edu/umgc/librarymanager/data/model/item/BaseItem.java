@@ -23,6 +23,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  * The abstract base class for an Item in a library, it implements the ILibraryItem
@@ -30,6 +33,7 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
+@Indexed
 @Table(name = "base_item")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseItem implements ILibraryItem {
@@ -39,6 +43,7 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "user_login_id")
     private long id;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private ClassificationGroup classGroup;
 
@@ -51,18 +56,22 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
 
+    @Field
     @Column(name = "title")
     private String title;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private PublishData publisher;
 
+    @Field
     @Column(name = "genre")
     private String genre;
 
     @Column(name = "summary", length = 1000)
     private String summary;
 
+    @Field
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private ItemStatus status;
@@ -70,6 +79,7 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "period")
     private Period checkoutPeriod;
 
+    @Field
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "type")
     private ItemType itemType;

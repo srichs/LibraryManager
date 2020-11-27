@@ -22,6 +22,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  * This class is used to create a transaction that can be stored in the
@@ -30,6 +33,7 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
+@Indexed
 @Table(name = "base_transaction")
 public class BaseTransaction implements ILibraryTransaction {
 
@@ -38,18 +42,22 @@ public class BaseTransaction implements ILibraryTransaction {
     @Column(name = "transaction_id")
     private long id;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private Library library;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private BaseItem item;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private BaseUser user;
 
     @Column(name = "transaction_date")
     private ZonedDateTime transactionDateTime;
 
+    @Field
     @Column(name = "due_date")
     private ZonedDateTime dueDate;
 
@@ -62,6 +70,7 @@ public class BaseTransaction implements ILibraryTransaction {
     @Column(name = "renew_count")
     private int renewCount;
 
+    @Field
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "type")
     private TransactionType transactionType;

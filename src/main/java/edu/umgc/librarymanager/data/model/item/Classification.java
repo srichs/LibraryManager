@@ -12,12 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * An Interface to implement the Classification System for an Item.
  * @author David
  */
 @Entity
+@Indexed
 @Table(name = "classification")
 public class Classification {
 
@@ -26,6 +29,7 @@ public class Classification {
     @Column(name = "classification_id")
     private long id;
 
+    @Field
     @Column(name = "code")
     private String code;
 

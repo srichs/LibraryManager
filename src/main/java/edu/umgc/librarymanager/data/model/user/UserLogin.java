@@ -12,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
@@ -21,6 +23,7 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author Scott
  */
 @Entity
+@Indexed
 @Table(name = "user_login")
 public class UserLogin {
 
@@ -31,6 +34,7 @@ public class UserLogin {
     @Column(name = "user_login_id")
     private long id;
 
+    @Field
     @Column(name = "username")
     private String username;
 

@@ -19,6 +19,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  * Models a library management system user. Uses hibernate annotations to map the
@@ -26,6 +29,7 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
+@Indexed
 @Table(name = "base_user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseUser implements IUser {
@@ -38,15 +42,19 @@ public abstract class BaseUser implements IUser {
     @Column(name = "date_time_created")
     private ZonedDateTime dateTimeCreated;
 
+    @Field
     @Column(name = "first_name")
     private String firstName;
 
+    @Field
     @Column(name = "last_name")
     private String lastName;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private UserLogin login;
 
+    @Field
     @Column(name = "email")
     private String email;
 

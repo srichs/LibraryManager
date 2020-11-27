@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
  * A Composite Class that stores information for Dewey Decimal and
@@ -21,6 +23,7 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
+@Indexed
 @Table(name = "classification_group")
 public class ClassificationGroup {
 
@@ -29,9 +32,11 @@ public class ClassificationGroup {
     @Column(name = "classification_group_id")
     private long id;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private Classification dewey;
 
+    @IndexedEmbedded
     @OneToOne(cascade = CascadeType.ALL)
     private Classification loc;
 

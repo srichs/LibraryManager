@@ -10,15 +10,12 @@ import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 
 /**
  * This class models an E-Book Item.
  * @author Scott
  */
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Ebook extends BaseBook {
 
     /**

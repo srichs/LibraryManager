@@ -12,12 +12,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * A class that models some basic information for the Library.
  * @author David
  */
 @Entity
+@Indexed
 @Table(name = "library")
 public class Library {
 
@@ -29,6 +32,7 @@ public class Library {
     @Column(name = "address")
     private String address;
 
+    @Field
     @Column(name = "name")
     private String name;
 

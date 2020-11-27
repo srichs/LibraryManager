@@ -15,6 +15,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * The abstract base class for a Book in a library, it extends the BaseItem
@@ -22,12 +24,15 @@ import javax.persistence.InheritanceType;
  * @author Scott
  */
 @Entity
+@Indexed
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class BaseBook extends BaseItem {
 
+    @Field
     @Column(name = "authors")
     private String authors;
 
+    @Field
     @Column(name = "isbn")
     private String isbn;
 

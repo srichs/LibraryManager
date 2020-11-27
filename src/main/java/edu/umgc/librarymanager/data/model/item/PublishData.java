@@ -13,12 +13,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * A class that is used to model some information about the publishing of an item.
  * @author David
  */
 @Entity
+@Indexed
 @Table(name = "publish_data")
 public class PublishData {
 
@@ -27,9 +30,11 @@ public class PublishData {
     @Column(name = "publish_data_id")
     private long id;
 
+    @Field
     @Column(name = "publisher")
     private String publisher;
 
+    @Field
     @Column(name = "publish_date")
     private ZonedDateTime publishDate;
 

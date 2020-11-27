@@ -9,7 +9,6 @@ package edu.umgc.librarymanager.data.model.item;
 import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 /**
@@ -17,7 +16,6 @@ import javax.persistence.Entity;
  * @author David
  */
 @Entity
-@DiscriminatorValue("movie")
 public class Movie extends BaseItem {
 
     /**
