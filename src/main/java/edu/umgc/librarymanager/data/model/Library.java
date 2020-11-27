@@ -44,6 +44,18 @@ public class Library {
         this.phone = "";
     }
 
+    /**
+     * A constructor with a parameter for each field of the class.
+     * @param address The address of the Library.
+     * @param name The name of the Library.
+     * @param phone The phone number of the Library.
+     */
+    public Library(String address, String name, String phone) {
+        this.address = address;
+        this.name = name;
+        this.phone = phone;
+    }
+
     public String getAddress() {
         return this.address;
     }

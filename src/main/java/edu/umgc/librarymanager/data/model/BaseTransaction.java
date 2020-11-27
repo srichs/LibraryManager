@@ -15,6 +15,8 @@ import java.time.ZonedDateTime;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -60,6 +62,10 @@ public class BaseTransaction implements ILibraryTransaction {
     @Column(name = "renew_count")
     private int renewCount;
 
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "type")
+    private TransactionType transactionType;
+
     /**
      * The default constructor of the class.
      */
@@ -72,6 +78,7 @@ public class BaseTransaction implements ILibraryTransaction {
         this.fee = null;
         this.renewDate = null;
         this.renewCount = 0;
+        this.transactionType = null;
     }
 
     /**
@@ -86,7 +93,7 @@ public class BaseTransaction implements ILibraryTransaction {
      * @param renewCount The renewal count.
      */
     public BaseTransaction(Library library, BaseItem item, BaseUser user, ZonedDateTime transactionDate,
-            ZonedDateTime dueDate, double fee, ZonedDateTime renewDate, int renewCount) {
+            ZonedDateTime dueDate, double fee, ZonedDateTime renewDate, int renewCount, TransactionType type) {
         this.library = library;
         this.item = item;
         this.user = user;
@@ -95,6 +102,7 @@ public class BaseTransaction implements ILibraryTransaction {
         this.fee = new BigDecimal(fee);
         this.renewDate = renewDate;
         this.renewCount = renewCount;
+        this.transactionType = type;
     }
 
     public long getId() {
@@ -171,6 +179,14 @@ public class BaseTransaction implements ILibraryTransaction {
 
     public void setRenewCount(int renewCount) {
         this.renewCount = renewCount;
+    }
+
+    public TransactionType getTransactionType() {
+        return this.transactionType;
+    }
+
+    public void setTransactionType(TransactionType transactionType) {
+        this.transactionType = transactionType;
     }
 
 }
