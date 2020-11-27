@@ -46,8 +46,9 @@ public class BaseTransactionTest {
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         LocalDate dueDate = LocalDate.of(2020, Month.DECEMBER, 10);
         Period period = Period.between(checkDate, dueDate);
-        BaseItem item = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"), "Some Title", publish,
-                "A Genre", "The summary.", ItemStatus.Available, period, "John Doe, David Smith", "9283923231865");
+        BaseItem item = new Book(classGroup, zdt, "Description.", new BigDecimal("23.48"),
+                "Some Title", publish, "A Genre", "The summary.", ItemStatus.Available, period,
+                "John Doe, David Smith", "9283923231865");
         ZonedDateTime zdt3 = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
         UserLogin login = new UserLogin("jdoe1", "12345678");
         BaseUser user = new PatronUser(zdt3, "John", "Doe", login, "john.doe@gmail.com",
@@ -55,13 +56,35 @@ public class BaseTransactionTest {
         ZonedDateTime transDate = ZonedDateTime.parse("2020-11-26T10:48:00-05:00[America/New_York]");
         ZonedDateTime dueDate2 = ZonedDateTime.parse("2020-12-10T10:48:00-05:00[America/New_York]");
         double fee = 3.57;
-        transaction = new BaseTransaction(library, item, user, transDate, dueDate2, fee, null, 0,
+        transaction = new BaseTransaction(library, item, user, transDate, dueDate2, fee, null, 4,
                 TransactionType.CheckOut);
     }
 
     @Test
     public void getLibrary_Test() {
         assertEquals("Nashville Public Library", transaction.getLibrary().getName());
+    }
+
+    @Test
+    public void getItem_Test() {
+        assertEquals("Some Title", transaction.getItem().getTitle());
+        assertEquals("The summary.", transaction.getItem().getSummary());
+    }
+
+    @Test
+    public void getUser_Test() {
+        assertEquals("John", ((BaseUser) transaction.getUser()).getFirstName());
+        assertEquals("123 Fake St, Los Angeles, CA 90220", transaction.getUser().getAddress());
+    }
+
+    @Test
+    public void getFee_Test() {
+        assertEquals(3.57, transaction.getFee(), 0.001);
+    }
+
+    @Test
+    public void getRenewCount_Test() {
+        assertEquals(4, transaction.getRenewCount());
     }
 
 }
