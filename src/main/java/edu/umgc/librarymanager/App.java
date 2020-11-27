@@ -6,6 +6,8 @@
 
 package edu.umgc.librarymanager;
 
+import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.data.access.HibernateInit;
 import edu.umgc.librarymanager.gui.AppGUI;
 
 /**
@@ -21,6 +23,8 @@ public final class App {
      * @param args command line arguments
      */
     public static void main(String[] args) {
+        System.out.println(DatabaseTest.getHeader());
+        //HibernateInit.buildSearchIndex();
         AppGUI app = new AppGUI();
         app.run();
         //DatabaseTest.runTest();
