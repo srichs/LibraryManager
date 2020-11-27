@@ -6,7 +6,6 @@
 
 package edu.umgc.librarymanager.gui;
 
-import java.awt.Color;
 import javax.swing.SwingUtilities;
 
 /**
@@ -15,10 +14,6 @@ import javax.swing.SwingUtilities;
  */
 public class AppGUI {
 
-    /**
-     * The background color that is used throughout the application.
-     */
-    protected static final Color BACKGROUND_COLOR = Color.LIGHT_GRAY;
     /**
      * A String for the login panel.
      */

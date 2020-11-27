@@ -98,7 +98,6 @@ public class LoginPanel extends JPanel {
 
     private void createLoginPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        //mainPanel.setBackground(AppGUI.BACKGROUND_COLOR);
         mainPanel.setSize(new Dimension(400, 300));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         JPanel titlePanel = new JPanel();
@@ -152,7 +151,6 @@ public class LoginPanel extends JPanel {
         mainPanel.add(titlePanel, BorderLayout.PAGE_START);
         mainPanel.add(loginPanel, BorderLayout.CENTER);
         mainPanel.add(buttonPanel, BorderLayout.PAGE_END);
-        //this.setBackground(AppGUI.BACKGROUND_COLOR);
         this.setLayout(new FlowLayout());
         this.add(mainPanel);
         this.setVisible(true);

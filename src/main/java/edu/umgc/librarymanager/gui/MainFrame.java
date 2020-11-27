@@ -41,7 +41,6 @@ public class MainFrame extends JFrame {
         this.setResizable(true);
         this.setMinimumSize(new Dimension(900, 500));
         this.setLayout(new BorderLayout());
-        this.setBackground(AppGUI.BACKGROUND_COLOR);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
                 HibernateUtility.shutdown();
