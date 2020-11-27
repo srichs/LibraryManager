@@ -8,6 +8,7 @@ package edu.umgc.librarymanager.data.model.user;
 
 import java.time.ZonedDateTime;
 import javax.persistence.Entity;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * This class is the concrete class for a Librarian User and extends the
@@ -15,6 +16,7 @@ import javax.persistence.Entity;
  * @author Scott
  */
 @Entity
+@Indexed
 public class LibrarianUser extends BaseUser {
 
     /**

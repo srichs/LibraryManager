@@ -20,7 +20,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
@@ -29,7 +28,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  * @author Scott
  */
 @Entity
-@Indexed
 @Table(name = "base_user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseUser implements IUser {

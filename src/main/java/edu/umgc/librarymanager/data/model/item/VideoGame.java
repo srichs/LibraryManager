@@ -10,12 +10,14 @@ import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import javax.persistence.Entity;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * This class models a Video Game Item.
  * @author David
  */
 @Entity
+@Indexed
 public class VideoGame extends BaseItem {
 
     /**

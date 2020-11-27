@@ -8,6 +8,7 @@ package edu.umgc.librarymanager.data.model.user;
 
 import java.time.ZonedDateTime;
 import javax.persistence.Entity;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * This class is the concrete class for a Patron User and extends the BaseUser
@@ -15,6 +16,7 @@ import javax.persistence.Entity;
  * @author Scott
  */
 @Entity
+@Indexed
 public class PatronUser extends BaseUser {
 
     public PatronUser() {

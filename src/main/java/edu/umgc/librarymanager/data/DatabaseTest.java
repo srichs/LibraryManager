@@ -49,13 +49,13 @@ public final class DatabaseTest {
         System.out.println(createHeader("User Information  -  Username and Encrypted Password"));
         UserDAO userDAO = new UserDAO();
         userDAO.openSessionwithTransaction();
-        BaseUser aUser = userDAO.searchByUsername("srichards1");
+        //BaseUser aUser = userDAO.searchByUsername("srichards1");
         List<BaseUser> users = userDAO.findAll();
         userDAO.closeSessionwithTransaction();
         for (int i = 0; i < users.size(); i++) {
             System.out.println(users.get(i).getLogin().getUsername() + " - " + users.get(i).getLogin().getPassword());
         }
-        System.out.println(aUser.getEmail());
+        //System.out.println(aUser.getEmail());
 
         // Retrieves the Books in the database then prints the titles of index 0 - 30. Then it prints the dewey decimal
         // code of index 23.

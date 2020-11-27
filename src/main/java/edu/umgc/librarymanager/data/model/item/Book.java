@@ -10,12 +10,14 @@ import java.math.BigDecimal;
 import java.time.Period;
 import java.time.ZonedDateTime;
 import javax.persistence.Entity;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * This class models a Book Item.
  * @author Scott
  */
 @Entity
+@Indexed
 public class Book extends BaseBook {
 
     /**

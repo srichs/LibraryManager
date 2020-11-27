@@ -52,11 +52,15 @@ public final class HibernateInit {
         new Runnable() {
             public void run() {
                 Session session = HibernateUtility.getSessionFactory().openSession();
+                session.getTransaction().begin();
                 FullTextSession fullTextSession = Search.getFullTextSession(session);
                 try {
                     fullTextSession.createIndexer().startAndWait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                } finally {
+                    session.getTransaction().commit();
+                    session.close();
                 }
             }
         };

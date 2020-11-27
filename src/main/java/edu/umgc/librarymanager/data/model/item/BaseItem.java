@@ -24,7 +24,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
@@ -33,7 +32,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  * @author Scott
  */
 @Entity
-@Indexed
 @Table(name = "base_item")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseItem implements ILibraryItem {
@@ -56,7 +54,7 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "purchase_price")
     private BigDecimal purchasePrice;
 
-    @Field
+    @Field(name = "title")
     @Column(name = "title")
     private String title;
 
