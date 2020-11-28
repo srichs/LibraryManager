@@ -12,10 +12,16 @@ import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import java.util.List;
+import javax.persistence.Query;
+import org.hibernate.Session;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
  * Used to show some basic functionality of the database.
@@ -73,6 +79,33 @@ public final class DatabaseTest {
 
         HibernateUtility.shutdown();
         System.out.println(createHeader("Database Test Complete"));
+    }
+
+    @SuppressWarnings("unchecked")
+    public static void search() {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        FullTextSession fullTextSession = Search.getFullTextSession(session);
+        session.getTransaction().begin();
+
+        QueryBuilder qb = fullTextSession.getSearchFactory()
+                .buildQueryBuilder().forEntity(Book.class).get();
+        org.apache.lucene.search.Query luceneQuery = qb
+                .keyword()
+                .onFields()
+                .matching("H*")
+                .createQuery();
+
+        Query query = fullTextSession.createFullTextQuery(luceneQuery, Book.class);
+        List<Book> result = query.getResultList();
+
+        if (result.size() == 0) {
+            System.out.println("No Hunger found.");
+        } else {
+            System.out.println(result.get(0).getTitle());
+        }
+
+        session.getTransaction().commit();
+        session.close();
     }
 
     /**
