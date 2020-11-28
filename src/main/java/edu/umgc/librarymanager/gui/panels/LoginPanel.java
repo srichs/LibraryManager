@@ -4,10 +4,12 @@
  * Date Created: 11/25/2020
  */
 
-package edu.umgc.librarymanager.gui;
+package edu.umgc.librarymanager.gui.panels;
 
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
+import edu.umgc.librarymanager.gui.DialogUtil;
+import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -42,7 +44,7 @@ public class LoginPanel extends JPanel {
      */
     public LoginPanel(GUIController control) {
         super();
-        createLoginPanel(control);
+        createPanel(control);
         loadHashMap();
     }
 
@@ -72,6 +74,14 @@ public class LoginPanel extends JPanel {
         userDAO.closeSessionwithTransaction();
     }
 
+    public void addUserToMap(BaseUser user) {
+        this.users.put(user.getUserName(), user);
+    }
+
+    public HashMap<String, BaseUser> getUsers() {
+        return this.users;
+    }
+
     public void clearFields() {
         this.usernameField.setText("");
         this.passwordField.setText("");
@@ -88,15 +98,15 @@ public class LoginPanel extends JPanel {
                 clearFields();
                 return this.users.get(username);
             } else {
-                DialogUtil.warningMessage("Incorrect Password. Access denied.", "Login Failure");
+                DialogUtil.warningMessage("Incorrect password. Access denied.", "Login Failure");
             }
         } else {
-            DialogUtil.warningMessage("The Username was not recognized.", "Login Failure");
+            DialogUtil.warningMessage("The username was not recognized.", "Login Failure");
         }
         return null;
     }
 
-    private void createLoginPanel(GUIController control) {
+    private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setSize(new Dimension(400, 300));
         mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));

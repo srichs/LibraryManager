@@ -14,19 +14,9 @@ import javax.swing.SwingUtilities;
  */
 public class AppGUI {
 
-    /**
-     * A String for the login panel.
-     */
-    protected static final String LOGIN = "LoginPanel";
-    /**
-     * A blank JPanel for testing.
-     */
-    protected static final String BLANK = "BlankPanel";
-
     private GUIController controller;
 
-    public AppGUI() {
-    }
+    public AppGUI() {}
 
     public GUIController getController() {
         return this.controller;
