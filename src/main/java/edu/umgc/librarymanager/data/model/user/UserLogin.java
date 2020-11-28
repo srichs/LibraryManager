@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.model.user;
 
+import java.util.Random;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -57,6 +58,11 @@ public class UserLogin {
     public UserLogin(String username, String password) {
         this.username = username;
         this.password = hashPassword(password);
+    }
+
+    public UserLogin(String username, char[] password) {
+        this.username = username;
+        this.password = hashPassword(String.valueOf(password));
     }
 
     public long getId() {
@@ -115,6 +121,36 @@ public class UserLogin {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Generates a random password with the given number of characters.
+     * @param numChars The number of characters to make the password.
+     * @return A String containing the password.
+     */
+    public static String genPasswordStr(int numChars) {
+        String password = "";
+        for (int i = 0; i < numChars; i++) {
+            Random r = new Random();
+            int result = r.nextInt(90-33) + 33;
+            password += Character.toString(result);
+        }
+        return password;
+    }
+
+    /**
+     * Generates a random password with the given number of characters.
+     * @param numChars The number of characters to make the password.
+     * @return A char array containing the password.
+     */
+    public static char[] genPasswordChar(int numChars) {
+        char[] password = new char[numChars];
+        for (int i = 0; i < numChars; i++) {
+            Random r = new Random();
+            int result = r.nextInt(90-33) + 33;
+            password[i] = (char) result;
+        }
+        return password;
     }
 
 }
