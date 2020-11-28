@@ -21,33 +21,58 @@ public class MenuBar extends JMenuBar {
 
     public MenuBar(GUIController control) {
         super();
-        createMenuBar(control);
+        setLoginMenuBar(control);
     }
 
-    private void createMenuBar(GUIController control) {
+    public void setPatronMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        JMenuItem newItem = new JMenuItem("New");
-        newItem.setActionCommand("new");
-        newItem.addActionListener((ActionListener) control);
-        fileMenu.add(newItem);
+        addMenuItem("Main Menu", fileMenu, "patron_menu", control);
+        addMenuItem("Search", fileMenu, "search", control);
+        addMenuItem("View Profile", fileMenu, "profile", control);
+        addMenuItem("View Checked Items", fileMenu, "checked_items", control);
         fileMenu.addSeparator();
-        JMenuItem logoutItem = new JMenuItem("Logout");
-        logoutItem.setActionCommand("logout");
-        logoutItem.addActionListener((ActionListener) control);
-        fileMenu.add(logoutItem);
+        addMenuItem("Logout", fileMenu, "logout", control);
         JMenu helpMenu = new JMenu("Help");
-        JMenuItem about = new JMenuItem("About");
-        about.setActionCommand("about");
-        about.addActionListener((ActionListener) control);
-        JMenuItem help = new JMenuItem("Help");
-        help.setActionCommand("help");
-        help.addActionListener((ActionListener) control);
-        helpMenu.add(about);
-        helpMenu.add(help);
+        addMenuItem("About", helpMenu, "about", control);
+        addMenuItem("Help", helpMenu, "help", control);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
+        this.removeAll();
         this.add(menuBar);
+    }
+
+    public void setLibrarianMenuBar(GUIController control) {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        addMenuItem("Main Menu", fileMenu, "librarian_menu", control);
+        addMenuItem("View Profile", fileMenu, "profile", control);
+        fileMenu.addSeparator();
+        addMenuItem("Logout", fileMenu, "logout", control);
+        JMenu helpMenu = new JMenu("Help");
+        addMenuItem("About", helpMenu, "about", control);
+        addMenuItem("Help", helpMenu, "help", control);
+        menuBar.add(fileMenu);
+        menuBar.add(helpMenu);
+        this.removeAll();
+        this.add(menuBar);
+    }
+
+    public void setLoginMenuBar(GUIController control) {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu helpMenu = new JMenu("Help");
+        addMenuItem("About", helpMenu, "about", control);
+        addMenuItem("Help", helpMenu, "help", control);
+        menuBar.add(helpMenu);
+        this.removeAll();
+        this.add(menuBar);
+    }
+
+    private static void addMenuItem(String title, JMenu menu, String command, GUIController control) {
+        JMenuItem item = new JMenuItem(title);
+        item.setActionCommand(command);
+        item.addActionListener((ActionListener) control);
+        menu.add(item);
     }
 
 }
