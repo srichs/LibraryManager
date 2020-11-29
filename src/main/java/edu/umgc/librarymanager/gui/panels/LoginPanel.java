@@ -6,9 +6,7 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
-import edu.umgc.librarymanager.data.access.UserDAO;
-import edu.umgc.librarymanager.data.model.user.BaseUser;
-import edu.umgc.librarymanager.gui.DialogUtil;
+import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,7 +16,6 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -36,7 +33,6 @@ public class LoginPanel extends JPanel {
 
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private HashMap<String, BaseUser> users;
 
     /**
      * The constructor of the class.
@@ -45,7 +41,6 @@ public class LoginPanel extends JPanel {
     public LoginPanel(GUIController control) {
         super();
         createPanel(control);
-        loadHashMap();
     }
 
     public JTextField getUsernameField() {
@@ -56,7 +51,7 @@ public class LoginPanel extends JPanel {
         this.usernameField = field;
     }
 
-    public JTextField getPasswordField() {
+    public JPasswordField getPasswordField() {
         return passwordField;
     }
 
@@ -64,46 +59,9 @@ public class LoginPanel extends JPanel {
         this.passwordField = field;
     }
 
-    /**
-     * Loads a HashMap with the users from the database.
-     */
-    public void loadHashMap() {
-        UserDAO userDAO = new UserDAO();
-        userDAO.openSessionwithTransaction();
-        this.users = userDAO.getUserHashMap();
-        userDAO.closeSessionwithTransaction();
-    }
-
-    public void addUserToMap(BaseUser user) {
-        this.users.put(user.getUserName(), user);
-    }
-
-    public HashMap<String, BaseUser> getUsers() {
-        return this.users;
-    }
-
     public void clearFields() {
         this.usernameField.setText("");
         this.passwordField.setText("");
-    }
-
-    /**
-     * Attempts to authenticate a user and returns if it authenticated.
-     * @return A BaseUser or null if not logged on.
-     */
-    public BaseUser tryLogin() {
-        String username = usernameField.getText().toString();
-        if (this.users.containsKey(username)) {
-            if (this.users.get(username).getLogin().checkPassword(passwordField.getPassword())) {
-                clearFields();
-                return this.users.get(username);
-            } else {
-                DialogUtil.warningMessage("Incorrect password. Access denied.", "Login Failure");
-            }
-        } else {
-            DialogUtil.warningMessage("The username was not recognized.", "Login Failure");
-        }
-        return null;
     }
 
     private void createPanel(GUIController control) {
@@ -126,7 +84,7 @@ public class LoginPanel extends JPanel {
         this.usernameField = new JTextField();
         this.passwordField = new JPasswordField();
         JButton loginButton = new JButton("Login");
-        loginButton.setActionCommand("login");
+        loginButton.setActionCommand(Command.LOGIN);
         loginButton.addActionListener((ActionListener) control);
 
         titlePanel.add(titleLabel, BorderLayout.CENTER);
