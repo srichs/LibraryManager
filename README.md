@@ -1,6 +1,6 @@
 # LibraryManager
 
-![](https://github.com/srichs/LibraryManager/workflows/maven-test/badge.svg)
+![](https://github.com/srichs/LibraryManager/workflows/build/badge.svg)
 
 A system for managing a library.
 
