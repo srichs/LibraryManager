@@ -40,10 +40,10 @@ public class MenuBar extends JMenuBar {
         addMenuItem("View Profile", fileMenu, "profile", control);
         addMenuItem("View Checked Items", fileMenu, "checked_items", control);
         fileMenu.addSeparator();
-        addMenuItem("Logout", fileMenu, "logout", control);
+        addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");
-        addMenuItem("About", helpMenu, "about", control);
-        addMenuItem("Help", helpMenu, "help", control);
+        addMenuItem("About", helpMenu, Command.ABOUT, control);
+        addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         this.removeAll();
@@ -58,12 +58,12 @@ public class MenuBar extends JMenuBar {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
         addMenuItem("Main Menu", fileMenu, "librarian_menu", control);
-        addMenuItem("View Profile", fileMenu, "profile", control);
+        addMenuItem("Manage Users", fileMenu, "manage_users", control);
         fileMenu.addSeparator();
-        addMenuItem("Logout", fileMenu, "logout", control);
+        addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");
-        addMenuItem("About", helpMenu, "about", control);
-        addMenuItem("Help", helpMenu, "help", control);
+        addMenuItem("About", helpMenu, Command.ABOUT, control);
+        addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         this.removeAll();
@@ -77,8 +77,8 @@ public class MenuBar extends JMenuBar {
     public void setLoginMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu helpMenu = new JMenu("Help");
-        addMenuItem("About", helpMenu, "about", control);
-        addMenuItem("Help", helpMenu, "help", control);
+        addMenuItem("About", helpMenu, Command.ABOUT, control);
+        addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(helpMenu);
         this.removeAll();
         this.add(menuBar);

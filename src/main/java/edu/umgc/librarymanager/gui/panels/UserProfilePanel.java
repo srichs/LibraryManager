@@ -39,7 +39,6 @@ public class UserProfilePanel extends JPanel {
     private LabelFieldPanel phonePanel;
     private LabelFieldPanel typePanel;
     private JButton button;
-
     private BaseUser user;
 
     /**
