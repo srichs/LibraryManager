@@ -38,6 +38,10 @@ public class PanelComposite {
      * A String for the Add User panel.
      */
     public static final String ADD_USER = "AddUserPanel";
+    /**
+     * A String for the All Users panel.
+     */
+    public static final String ALL_USERS = "AllUsersPanel";
 
     private LoginPanel loginPanel;
     private LibrarianMenuPanel librarianMenuPanel;
@@ -45,6 +49,7 @@ public class PanelComposite {
     private SearchPanel searchPanel;
     private UserProfilePanel userProfilePanel;
     private AddUserPanel addUserPanel;
+    private AllUsersPanel allUsersPanel;
 
     /**
      * The constructor of the class.
@@ -65,6 +70,7 @@ public class PanelComposite {
         this.searchPanel = new SearchPanel(control);
         this.userProfilePanel = new UserProfilePanel(control);
         this.addUserPanel = new AddUserPanel(control);
+        this.allUsersPanel = new AllUsersPanel();
     }
 
     public LoginPanel getLoginPanel() {
@@ -111,8 +117,16 @@ public class PanelComposite {
         return this.addUserPanel;
     }
 
-    public void setAddUserPanel(AddUserPanel userPanel) {
-        this.addUserPanel = userPanel;
+    public void setAddUserPanel(AddUserPanel addUserPanel) {
+        this.addUserPanel = addUserPanel;
+    }
+
+    public AllUsersPanel getAllUsersPanel() {
+        return this.allUsersPanel;
+    }
+
+    public void setAllUsersPanel(AllUsersPanel allUsersPanel) {
+        this.allUsersPanel = allUsersPanel;
     }
 
 }
