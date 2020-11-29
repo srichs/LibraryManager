@@ -6,9 +6,8 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
-import javax.swing.JPanel;
-
 import edu.umgc.librarymanager.gui.GUIController;
+import javax.swing.JPanel;
 
 /**
  * This class is used to create a Search panel.
@@ -19,7 +18,7 @@ public class SearchPanel extends JPanel {
     private static final long serialVersionUID = -5577134853276029920L;
 
     public SearchPanel(GUIController control) {
-        
+
     }
-    
+
 }

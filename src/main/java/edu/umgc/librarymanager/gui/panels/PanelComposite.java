@@ -10,7 +10,6 @@ import edu.umgc.librarymanager.gui.GUIController;
 
 /**
  * This class is a composite class containing the panels of the application.
- * 
  * @author Scott
  */
 public class PanelComposite {

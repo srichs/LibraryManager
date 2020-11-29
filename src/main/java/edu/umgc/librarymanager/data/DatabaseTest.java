@@ -81,6 +81,9 @@ public final class DatabaseTest {
         System.out.println(createHeader("Database Test Complete"));
     }
 
+    /**
+     * Performs a search using hibernate search.
+     */
     @SuppressWarnings("unchecked")
     public static void search() {
         Session session = HibernateUtility.getSessionFactory().openSession();

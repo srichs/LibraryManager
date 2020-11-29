@@ -132,7 +132,7 @@ public class UserLogin {
         String password = "";
         for (int i = 0; i < numChars; i++) {
             Random r = new Random();
-            int result = r.nextInt(90-33) + 33;
+            int result = r.nextInt(90 - 33) + 33;
             password += Character.toString(result);
         }
         return password;
@@ -147,7 +147,7 @@ public class UserLogin {
         char[] password = new char[numChars];
         for (int i = 0; i < numChars; i++) {
             Random r = new Random();
-            int result = r.nextInt(90-33) + 33;
+            int result = r.nextInt(90 - 33) + 33;
             password[i] = (char) result;
         }
         return password;

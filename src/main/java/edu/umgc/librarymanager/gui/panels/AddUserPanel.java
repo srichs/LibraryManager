@@ -24,8 +24,6 @@ import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -54,7 +52,11 @@ public class AddUserPanel extends JPanel {
     private JPasswordField password1;
     private JPasswordField password2;
     private JButton button;
-    
+
+    /**
+     * The constructor of the class.
+     * @param control The GUIController to act as the listener.
+     */
     public AddUserPanel(GUIController control) {
         super();
         this.idPanel = new LabelFieldPanel();
@@ -141,31 +143,38 @@ public class AddUserPanel extends JPanel {
         container.add(button);
     }
 
+    /**
+     * Tries to create a new user with the information in the form and returns the user if created.
+     * @param users The HashMap of users that is used at login to check for names.
+     * @return The BaseUser if added or null if not added.
+     */
     public BaseUser tryCreate(HashMap<String, BaseUser> users) {
         if (checkFields()) {
             int count = 1;
-            String username = this.firstNamePanel.getText().toLowerCase().charAt(0) + this.lastNamePanel.getText().toLowerCase() + count;
+            String unameBase = this.firstNamePanel.getText().toLowerCase().charAt(0)
+                    + this.lastNamePanel.getText().toLowerCase();
+            unameBase = unameBase.replace(" ", "");
+            unameBase = unameBase.replace("'", "");
+            unameBase = unameBase.replace("-", "");
+            String username = unameBase + count;
             while (users.containsKey(username)) {
                 count++;
-                username = this.firstNamePanel.getText().charAt(0) + this.lastNamePanel.getText() + count;
+                username = unameBase + count;
             }
-            List<BaseUser> userList = null;
             UserLogin login = new UserLogin(username, this.password1.getPassword());
-            BaseUser addedUser = new PatronUser(ZonedDateTime.now(), this.firstNamePanel.getText(), this.lastNamePanel.getText(),
-                    login, this.emailPanel.getText(), this.addressPanel.getText(), this.phonePanel.getText());
+            BaseUser addedUser = new PatronUser(ZonedDateTime.now(), this.firstNamePanel.getText(),
+                    this.lastNamePanel.getText(), login, this.emailPanel.getText(), this.addressPanel.getText(),
+                    this.phonePanel.getText());
             UserDAO userDAO = new UserDAO();
             try {
                 userDAO.openSessionwithTransaction();
                 userDAO.persist(addedUser);
-                userList = userDAO.findAll();
                 userDAO.closeSessionwithTransaction();
             } finally {
                 userDAO.closeSession();
             }
-            for (int i = 0; i < userList.size(); i++) {
-                System.out.println(userList.get(i).getUserName());
-            }
-            DialogUtil.informationMessage("The user was added successfully.\n Username: " + addedUser.getUserName(), "Update Information");
+            DialogUtil.informationMessage("The user was added successfully.\n\nusername: " + addedUser.getUserName(),
+                    "Update Information");
             return addedUser;
         }
         return null;
@@ -180,17 +189,20 @@ public class AddUserPanel extends JPanel {
             DialogUtil.warningMessage("The passwords do not match.", "Update Failure");
             return false;
         }
-        if (this.firstNamePanel.getTextField().getText().equals("") ||
-                this.lastNamePanel.getTextField().getText().equals("") ||
-                this.emailPanel.getTextField().getText().equals("") ||
-                this.addressPanel.getTextField().getText().equals("") ||
-                this.phonePanel.getTextField().getText().equals("")) {
+        if (this.firstNamePanel.getTextField().getText().equals("")
+                || this.lastNamePanel.getTextField().getText().equals("")
+                || this.emailPanel.getTextField().getText().equals("")
+                || this.addressPanel.getTextField().getText().equals("")
+                || this.phonePanel.getTextField().getText().equals("")) {
             DialogUtil.warningMessage("All fields must be filled.", "Update Failure");
             return false;
         }
         return true;
     }
 
+    /**
+     * Sets all of the editable fields blank.
+     */
     public void setNew() {
         this.password1.setText("");
         this.password2.setText("");

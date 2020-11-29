@@ -21,7 +21,6 @@ import javax.swing.border.EmptyBorder;
 
 /**
  * This class is used to display the menu for Librarian.
- * 
  * @author Scott
  */
 public class LibrarianMenuPanel extends JPanel {

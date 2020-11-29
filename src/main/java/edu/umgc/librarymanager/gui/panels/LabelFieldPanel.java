@@ -21,11 +21,14 @@ import javax.swing.JTextField;
  */
 public class LabelFieldPanel extends JPanel {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     private JLabel label;
     private JTextField textField;
 
+    /**
+     * The default constructor of the class.
+     */
     public LabelFieldPanel() {
         this.label = new JLabel();
         this.label.setPreferredSize(new Dimension(100, 20));
@@ -33,6 +36,10 @@ public class LabelFieldPanel extends JPanel {
         createPanel();
     }
 
+    /**
+     * The constructor of the class.
+     * @param label The text to set the label to.
+     */
     public LabelFieldPanel(String label) {
         this.label = new JLabel(label);
         this.label.setPreferredSize(new Dimension(100, 20));
@@ -40,6 +47,11 @@ public class LabelFieldPanel extends JPanel {
         createPanel();
     }
 
+    /**
+     * The constructor of the class it takes a parameter for each field.
+     * @param label The text to set the label to.
+     * @param text The text to set the text field to.
+     */
     public LabelFieldPanel(String label, String text) {
         this.label = new JLabel(label);
         this.label.setPreferredSize(new Dimension(100, 20));

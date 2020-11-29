@@ -40,7 +40,11 @@ public class UserProfilePanel extends JPanel {
     private LabelFieldPanel phonePanel;
     private LabelFieldPanel typePanel;
     private JButton button;
-    
+
+    /**
+     * The constructor of the class.
+     * @param control The GUIController to act as the listener.
+     */
     public UserProfilePanel(GUIController control) {
         super();
         this.idPanel = new LabelFieldPanel();
@@ -56,6 +60,10 @@ public class UserProfilePanel extends JPanel {
         createPanel(control);
     }
 
+    /**
+     * Sets the users information to the form fields.
+     * @param user The user to set the information from.
+     */
     public void setUserInfo(BaseUser user) {
         if (user == null) {
             return;
@@ -113,6 +121,11 @@ public class UserProfilePanel extends JPanel {
         container.add(button);
     }
 
+    /**
+     * Tries to update the user by comparing it to the stored value of the user.
+     * @param user The user to compare the information that is on the form to.
+     * @return The user if updated or null if not updated.
+     */
     public BaseUser tryUpdate(BaseUser user) {
         if (checkFields()) {
             if (checkInfoDiff(user)) {
@@ -132,9 +145,9 @@ public class UserProfilePanel extends JPanel {
     }
 
     private boolean checkInfoDiff(BaseUser user) {
-        if (this.emailPanel.getTextField().getText().equals(user.getEmail()) &&
-                this.addressPanel.getTextField().getText().equals(user.getAddress()) &&
-                this.phonePanel.getTextField().getText().equals(user.getPhoneNumber())) {
+        if (this.emailPanel.getTextField().getText().equals(user.getEmail())
+                && this.addressPanel.getTextField().getText().equals(user.getAddress())
+                && this.phonePanel.getTextField().getText().equals(user.getPhoneNumber())) {
             DialogUtil.informationMessage("No update was necessary.", "Update Information");
             return false;
         }
@@ -142,9 +155,9 @@ public class UserProfilePanel extends JPanel {
     }
 
     private boolean checkFields() {
-        if (this.emailPanel.getTextField().getText().equals("") ||
-                this.addressPanel.getTextField().getText().equals("") ||
-                this.phonePanel.getTextField().getText().equals("")) {
+        if (this.emailPanel.getTextField().getText().equals("")
+                || this.addressPanel.getTextField().getText().equals("")
+                || this.phonePanel.getTextField().getText().equals("")) {
             DialogUtil.warningMessage("All fields must be filled.", "Update Failure");
             return false;
         }

@@ -19,11 +19,19 @@ public class MenuBar extends JMenuBar {
 
     private static final long serialVersionUID = -7787279708608831854L;
 
+    /**
+     * The constructor for the class.
+     * @param control The GUIController to act as the listener.
+     */
     public MenuBar(GUIController control) {
         super();
         setLoginMenuBar(control);
     }
 
+    /**
+     * Sets the Menu Bar for a Patron user.
+     * @param control The GUIController to act as the listener.
+     */
     public void setPatronMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -42,6 +50,10 @@ public class MenuBar extends JMenuBar {
         this.add(menuBar);
     }
 
+    /**
+     * Sets the Menu Bar for a Librarian user.
+     * @param control The GUIController to act as the listener.
+     */
     public void setLibrarianMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
@@ -58,6 +70,10 @@ public class MenuBar extends JMenuBar {
         this.add(menuBar);
     }
 
+    /**
+     * Sets the Menu Bar for the Login screen.
+     * @param control The GUIController to act as the listener.
+     */
     public void setLoginMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu helpMenu = new JMenu("Help");
