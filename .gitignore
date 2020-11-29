@@ -50,3 +50,9 @@ buildNumber.properties
 .factorypath
 .project
 .vscode/
+
+#
+# Lucene - Hibernate Search
+#
+
+lucene/
