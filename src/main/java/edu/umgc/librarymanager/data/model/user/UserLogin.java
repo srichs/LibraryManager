@@ -86,6 +86,10 @@ public class UserLogin {
         this.password = hashPassword(password);
     }
 
+    public void setPassword(char[] password) {
+        this.password = hashPassword(String.valueOf(password));
+    }
+
     public void setHashedPassword(String hashedPw) {
         this.password = hashedPw;
     }
