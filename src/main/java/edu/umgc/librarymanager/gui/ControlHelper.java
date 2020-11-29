@@ -15,7 +15,9 @@ import edu.umgc.librarymanager.gui.panels.PanelComposite;
  * This class is used to provide helper methods for the GUIController class.
  * @author Scott
  */
-public class ControlHelper {
+public final class ControlHelper {
+
+    private ControlHelper() {}
 
     public static void viewProfile(MainFrame frame, BaseUser currentUser) {
         frame.getPanelComp().getUserProfilePanel().setUser(currentUser);
@@ -27,6 +29,10 @@ public class ControlHelper {
         frame.getLayout().show(frame.getPanels(), PanelComposite.ADD_USER);
     }
 
+    /**
+     * This method is used to create a user from the information in the Add User panel.
+     * @param frame The MainFrame of the application.
+     */
     public static void createUser(MainFrame frame) {
         BaseUser user = frame.getPanelComp().getAddUserPanel().tryCreate(frame.getPanelComp()
                 .getLoginPanel().getUsers());
@@ -46,11 +52,15 @@ public class ControlHelper {
         }
     }
 
-    public static void updateUser(MainFrame frame, BaseUser currentUser) {
+    /**
+     * This method is used to update a user's own information in the database with information from the GUI.
+     * @param frame The MainFrame of the application.
+     */
+    public static BaseUser updateUser(MainFrame frame) {
         BaseUser user = frame.getPanelComp().getUserProfilePanel().tryUpdate();
         if (user != null) {
             UserDAO userDAO = new UserDAO();
-            try{
+            try {
                 userDAO.openSessionwithTransaction();
                 userDAO.update(user);
                 userDAO.closeSessionwithTransaction();
@@ -58,13 +68,14 @@ public class ControlHelper {
             } finally {
                 userDAO.closeSession();
             }
-            currentUser = user;
-            if (currentUser.getUserType() == UserType.Librarian) {
+            if (user.getUserType() == UserType.Librarian) {
                 frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
             } else {
                 frame.getLayout().show(frame.getPanels(), PanelComposite.PATRON_MENU);
             }
+            return user;
         }
+        return null;
     }
 
 }
