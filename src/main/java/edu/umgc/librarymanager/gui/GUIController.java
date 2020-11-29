@@ -7,10 +7,11 @@
 package edu.umgc.librarymanager.gui;
 
 import edu.umgc.librarymanager.data.model.user.BaseUser;
-import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
+import edu.umgc.librarymanager.service.ControlHelper;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +32,7 @@ public class GUIController implements ActionListener {
     private BaseUser currentUser;
     private InactivityListener inactiveListener;
     private Action logoutAction;
+    private HashMap<String, BaseUser> logins;
 
     /**
      * The default constructor for the class.
@@ -42,109 +44,84 @@ public class GUIController implements ActionListener {
         this.logoutAction = null;
     }
 
+    // Handles the control of the action commands of the application.
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (Command.LOGIN.equals(e.getActionCommand())) {
+            LOG.info("Login button pressed.");
+            ControlHelper.login(this);
+        } else if (Command.LOGOUT.equals(e.getActionCommand())) {
+            LOG.info("Logout button pressed.");
+            ControlHelper.logout(false, this);
+        } else if (Command.ABOUT.equals(e.getActionCommand())) {
+            LOG.info("About button pressed.");
+            AboutPane.showAboutPane();
+        } else if (Command.HELP.equals(e.getActionCommand())) {
+            LOG.info("Help button pressed.");
+            DialogUtil.informationMessage("Help not yet configured.", "Help"); // TODO
+        } else if (Command.ADD_USER.equals(e.getActionCommand())) {
+            LOG.info("Add User Panel button pressed.");
+            ControlHelper.addUser(this.frame);
+        } else if (Command.CREATE_USER.equals(e.getActionCommand())) {
+            LOG.info("Add User button pressed.");
+            ControlHelper.createUser(this);
+        } else if (Command.REMOVE_USER.equals(e.getActionCommand())) {
+            LOG.info("Remove User button pressed.");
+            DialogUtil.informationMessage("Remove user not yet configured.", "Remove User"); // TODO
+        } else if (Command.UPDATE_USER.equals(e.getActionCommand())) {
+            LOG.info("Update User button pressed.");
+            ControlHelper.updateUser(this);
+        } else if (Command.ADD_ITEM.equals(e.getActionCommand())) {
+            LOG.info("Add Item button pressed.");
+            DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO
+        } else if (Command.REMOVE_ITEM.equals(e.getActionCommand())) {
+            LOG.info("Remove Item button pressed.");
+            DialogUtil.informationMessage("Remove item not yet configured.", "Remove Item"); // TODO
+        } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
+            LOG.info("Checkout Item button pressed.");
+            DialogUtil.informationMessage("Checkout item not yet configured.", "Checkout Item"); // TODO
+        } else if (Command.RETURN_ITEM.equals(e.getActionCommand())) {
+            LOG.info("Return Item button pressed.");
+            DialogUtil.informationMessage("Return item not yet configured.", "Return Item"); // TODO
+        } else if (Command.SEARCH.equals(e.getActionCommand())) {
+            LOG.info("Search button pressed.");
+            DialogUtil.informationMessage("Search not yet configured.", "Search"); // TODO
+        } else if (Command.CHECKED_ITEMS.equals(e.getActionCommand())) {
+            LOG.info("View Checked Items button pressed.");
+            DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO
+        } else if (Command.PROFILE.equals(e.getActionCommand())) {
+            LOG.info("View Profile button pressed.");
+            ControlHelper.viewProfile(this);
+        } else if (Command.LIBRARIAN_MENU.equals(e.getActionCommand())) {
+            LOG.info("Librarian Menu displayed.");
+            this.frame.getLayout().show(this.frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
+        } else if (Command.PATRON_MENU.equals(e.getActionCommand())) {
+            LOG.info("Patron Menu displayed.");
+            this.frame.getLayout().show(this.frame.getPanels(), PanelComposite.PATRON_MENU);
+        } else if (Command.MANAGE_USERS.equals(e.getActionCommand())) {
+            LOG.info("Manage Users panel displayed.");
+            ControlHelper.viewManageUsers(this.frame);
+        } else if (Command.MANAGE_UPDATE_USER.equals(e.getActionCommand())) {
+            LOG.info("Update User button pressed.");
+            ControlHelper.manageUpdateUser(this);
+        }
+    }
+
     /**
-     * Starts the GUI.
+     * Starts the GUI and initializes other control items.
      */
     public void start() {
         LOG.info("GUIController started.");
         this.frame = new MainFrame(this);
         this.frame.setTitle("Library Management System");
         this.inactiveListener = null;
-        logoutAction = new AbstractAction() {
+        this.logins = ControlHelper.getLoginCredentials();
+        logoutAction = new AbstractAction() { // Action to be performed due to user inactivity
             private static final long serialVersionUID = 1L;
             public void actionPerformed(ActionEvent e) {
-                logout(true);
+                ControlHelper.logout(true, getController());
             }
         };
-    }
-
-    private void login() {
-        BaseUser user = frame.getPanelComp().getLoginPanel().tryLogin();
-        if (user != null) {
-            currentUser = user;
-            if (currentUser.getUserType() == UserType.Librarian) {
-                frame.getTheMenuBar().setLibrarianMenuBar(this);
-                frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
-            } else {
-                frame.getTheMenuBar().setPatronMenuBar(this);
-                frame.getLayout().show(frame.getPanels(), PanelComposite.PATRON_MENU);
-            }
-            inactiveListener = new InactivityListener(frame, logoutAction, 5); // user is logged out after 5 min
-            inactiveListener.start();
-        }
-    }
-
-    private void logout(boolean inactivity) {
-        if (currentUser != null) {
-            currentUser = null;
-            frame.getTheMenuBar().setLoginMenuBar(this);
-            frame.getLayout().show(frame.getPanels(), PanelComposite.LOGIN);
-            if (inactivity) {
-                DialogUtil.informationMessage("user was logged out due to inactivity.",
-                        "Logged Out");
-            }
-            inactiveListener.stop();
-            inactiveListener = null;
-        }
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if ("login".equals(e.getActionCommand())) {
-            LOG.info("Login button pressed.");
-            login();
-        } else if ("logout".equals(e.getActionCommand())) {
-            LOG.info("Logout button pressed.");
-            logout(false);
-        } else if ("about".equals(e.getActionCommand())) {
-            LOG.info("About button pressed.");
-            AboutPane.showAboutPane();
-        } else if ("help".equals(e.getActionCommand())) {
-            LOG.info("Help button pressed.");
-            DialogUtil.informationMessage("Help not yet configured.", "Help"); // TODO
-        } else if ("add_user".equals(e.getActionCommand())) {
-            LOG.info("Add User Panel button pressed.");
-            ControlHelper.addUser(this.frame);
-        } else if ("create_user".equals(e.getActionCommand())) {
-            LOG.info("Add User button pressed.");
-            ControlHelper.createUser(this.frame);
-        } else if ("remove_user".equals(e.getActionCommand())) {
-            LOG.info("Remove User button pressed.");
-            DialogUtil.informationMessage("Remove user not yet configured.", "Remove User"); // TODO
-        } else if ("update_user".equals(e.getActionCommand())) {
-            LOG.info("Update User button pressed.");
-            BaseUser user = ControlHelper.updateUser(this.frame);
-            if (user != null) {
-                currentUser = user;
-            }
-        } else if ("add_item".equals(e.getActionCommand())) {
-            LOG.info("Add Item button pressed.");
-            DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO
-        } else if ("remove_item".equals(e.getActionCommand())) {
-            LOG.info("Remove Item button pressed.");
-            DialogUtil.informationMessage("Remove item not yet configured.", "Remove Item"); // TODO
-        } else if ("checkout_item".equals(e.getActionCommand())) {
-            LOG.info("Checkout Item button pressed.");
-            DialogUtil.informationMessage("Checkout item not yet configured.", "Checkout Item"); // TODO
-        } else if ("return_item".equals(e.getActionCommand())) {
-            LOG.info("Return Item button pressed.");
-            DialogUtil.informationMessage("Return item not yet configured.", "Return Item"); // TODO
-        } else if ("search".equals(e.getActionCommand())) {
-            LOG.info("Search button pressed.");
-            DialogUtil.informationMessage("Search not yet configured.", "Search"); // TODO
-        } else if ("checked_items".equals(e.getActionCommand())) {
-            LOG.info("View Checked Items button pressed.");
-            DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO
-        } else if ("profile".equals(e.getActionCommand())) {
-            LOG.info("View Profile button pressed.");
-            ControlHelper.viewProfile(this.frame, this.currentUser);
-        } else if ("librarian_menu".equals(e.getActionCommand())) {
-            LOG.info("Librarian Menu displayed.");
-            frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
-        } else if ("patron_menu".equals(e.getActionCommand())) {
-            LOG.info("Patron Menu displayed.");
-            frame.getLayout().show(frame.getPanels(), PanelComposite.PATRON_MENU);
-        }
     }
 
     public MainFrame getFrame() {
@@ -161,6 +138,30 @@ public class GUIController implements ActionListener {
 
     public void setCurrentUser(BaseUser currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public InactivityListener getInactiveListener() {
+        return this.inactiveListener;
+    }
+
+    public void setInactiveListener(InactivityListener inactiveListener) {
+        this.inactiveListener = inactiveListener;
+    }
+
+    public Action getLogoutAction() {
+        return this.logoutAction;
+    }
+
+    public HashMap<String, BaseUser> getLogins() {
+        return this.logins;
+    }
+
+    public void setLogins(HashMap<String, BaseUser> logins) {
+        this.logins = logins;
+    }
+
+    public GUIController getController() {
+        return this;
     }
 
     /**
