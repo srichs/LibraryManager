@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.model.user;
 
+import java.util.HashMap;
 import java.util.Random;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -151,6 +152,29 @@ public class UserLogin {
             password[i] = (char) result;
         }
         return password;
+    }
+
+    /**
+     * Generates a username based on the existing usernames and the users first and last name. It creates a
+     * username that is the initial of the first name, then the last name, then a number for however many
+     * people had the same username.
+     * @param users A HashMap of the users in the database.
+     * @param firstName The first name of the user to add.
+     * @param lastName The last name of the user to add.
+     * @return A username of the the proper format that is unique.
+     */
+    public static String genUsername(HashMap<String, BaseUser> users, String firstName, String lastName) {
+        int count = 1;
+        String unameBase = firstName.toLowerCase().charAt(0) + lastName.toLowerCase();
+        unameBase = unameBase.replace(" ", "");
+        unameBase = unameBase.replace("'", "");
+        unameBase = unameBase.replace("-", "");
+        String username = unameBase + count;
+        while (users.containsKey(username)) {
+            count++;
+            username = unameBase + count;
+        }
+        return username;
     }
 
 }
