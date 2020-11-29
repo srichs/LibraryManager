@@ -8,23 +8,26 @@ package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
 import edu.umgc.librarymanager.gui.AppGUI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * The main class of the application.
- * 
  * @author Scott
  */
 public final class App {
+
+    private static final Logger LOG = LogManager.getLogger(App.class);
 
     private App() {}
 
     /**
      * This is the main method for the Application.
-     * 
      * @param args command line arguments
      */
     public static void main(String[] args) {
-        System.out.println(DatabaseTest.getHeader());
+        LOG.info("\n" + DatabaseTest.getHeader());
+        LOG.info("Application Started.");
         AppGUI app = new AppGUI();
         app.run();
     }

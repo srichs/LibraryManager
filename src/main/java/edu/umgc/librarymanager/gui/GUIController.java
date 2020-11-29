@@ -9,11 +9,12 @@ package edu.umgc.librarymanager.gui;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class is used to control the GUI of the application. It implements the ActionListener
@@ -24,6 +25,8 @@ import javax.swing.Action;
  */
 public class GUIController implements ActionListener {
 
+    private static final Logger LOG = LogManager.getLogger(GUIController.class);
+
     private MainFrame frame;
     private BaseUser currentUser;
     private InactivityListener inactiveListener;
@@ -33,6 +36,7 @@ public class GUIController implements ActionListener {
      * The default constructor for the class.
      */
     public GUIController() {
+        LOG.info("GUIController started.");
         this.frame = new MainFrame(this);
         this.frame.setTitle("Library Management System");
         this.inactiveListener = null;
@@ -55,7 +59,7 @@ public class GUIController implements ActionListener {
                 frame.getTheMenuBar().setPatronMenuBar(this);
                 frame.getLayout().show(frame.getPanels(), PanelComposite.PATRON_MENU);
             }
-            inactiveListener = new InactivityListener(frame, logoutAction, 5); // user is logged out after 5 min inactivity
+            inactiveListener = new InactivityListener(frame, logoutAction, 5); // user is logged out after 5 min
             inactiveListener.start();
         }
     }
@@ -108,38 +112,55 @@ public class GUIController implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("login".equals(e.getActionCommand())) {
+            LOG.info("Login button pressed.");
             login();
         } else if ("logout".equals(e.getActionCommand())) {
+            LOG.info("Logout button pressed.");
             logout(false);
         } else if ("about".equals(e.getActionCommand())) {
+            LOG.info("About button pressed.");
             AboutPane.showAboutPane();
         } else if ("help".equals(e.getActionCommand())) {
+            LOG.info("Help button pressed.");
             DialogUtil.informationMessage("Help not yet configured.", "Help"); // TODO
         } else if ("add_user".equals(e.getActionCommand())) {
+            LOG.info("Add User Panel button pressed.");
             addUser();
         } else if ("create_user".equals(e.getActionCommand())) {
+            LOG.info("Add User button pressed.");
             createUser();
         } else if ("remove_user".equals(e.getActionCommand())) {
+            LOG.info("Remove User button pressed.");
             DialogUtil.informationMessage("Remove user not yet configured.", "Remove User"); // TODO
         } else if ("update_user".equals(e.getActionCommand())) {
+            LOG.info("Update User button pressed.");
             updateUser();
         } else if ("add_item".equals(e.getActionCommand())) {
+            LOG.info("Add Item button pressed.");
             DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO
         } else if ("remove_item".equals(e.getActionCommand())) {
+            LOG.info("Remove Item button pressed.");
             DialogUtil.informationMessage("Remove item not yet configured.", "Remove Item"); // TODO
         } else if ("checkout_item".equals(e.getActionCommand())) {
+            LOG.info("Checkout Item button pressed.");
             DialogUtil.informationMessage("Checkout item not yet configured.", "Checkout Item"); // TODO
         } else if ("return_item".equals(e.getActionCommand())) {
+            LOG.info("Return Item button pressed.");
             DialogUtil.informationMessage("Return item not yet configured.", "Return Item"); // TODO
         } else if ("search".equals(e.getActionCommand())) {
+            LOG.info("Search button pressed.");
             DialogUtil.informationMessage("Search not yet configured.", "Search"); // TODO
         } else if ("checked_items".equals(e.getActionCommand())) {
+            LOG.info("View Checked Items button pressed.");
             DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO
         } else if ("profile".equals(e.getActionCommand())) {
+            LOG.info("View Profile button pressed.");
             viewProfile();
         } else if ("librarian_menu".equals(e.getActionCommand())) {
+            LOG.info("Librarian Menu displayed.");
             frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
         } else if ("patron_menu".equals(e.getActionCommand())) {
+            LOG.info("Patron Menu displayed.");
             frame.getLayout().show(frame.getPanels(), PanelComposite.PATRON_MENU);
         }
     }

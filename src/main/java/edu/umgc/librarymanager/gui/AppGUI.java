@@ -7,6 +7,8 @@
 package edu.umgc.librarymanager.gui;
 
 import javax.swing.SwingUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Entry to the GUI of the application.
@@ -14,6 +16,7 @@ import javax.swing.SwingUtilities;
  */
 public class AppGUI {
 
+    private static final Logger LOG = LogManager.getLogger(AppGUI.class);
     private GUIController controller;
 
     public AppGUI() {}
@@ -28,6 +31,7 @@ public class AppGUI {
     public void run() {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
+                LOG.info("GUI started.");
                 controller = new GUIController();
             }
         });
