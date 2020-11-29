@@ -16,7 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
- * This class is used to create a panel with a label and textfield.
+ * This class is used to create a panel with a label and textfield. The Label is
+ * on the left side with the textfield to the right.
  * @author Scott
  */
 public class LabelFieldPanel extends JPanel {

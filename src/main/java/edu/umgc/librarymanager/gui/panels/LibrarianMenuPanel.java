@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
+import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -40,12 +41,12 @@ public class LibrarianMenuPanel extends JPanel {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        addButton("Add User", buttonPanel, "add_user", control);
-        addButton("Remove User", buttonPanel, "remove_user", control);
-        addButton("Add Item", buttonPanel, "add_item", control);
-        addButton("Remove Item", buttonPanel, "remove_item", control);
-        addButton("Checkout Item", buttonPanel, "checkout_item", control);
-        addButton("Return Item", buttonPanel, "return_item", control);
+        addButton("Add User", buttonPanel, Command.ADD_USER, control);
+        addButton("Remove User", buttonPanel, Command.REMOVE_USER, control);
+        addButton("Add Item", buttonPanel, Command.ADD_ITEM, control);
+        addButton("Remove Item", buttonPanel, Command.REMOVE_ITEM, control);
+        addButton("Checkout Item", buttonPanel, Command.CHECKOUT_ITEM, control);
+        addButton("Return Item", buttonPanel, Command.RETURN_ITEM, control);
 
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
         this.setLayout(new FlowLayout());

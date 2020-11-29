@@ -23,7 +23,9 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
 /**
- * This class is used to display a single user in a list of users.
+ * This class is used to display a single user in a list of users in a
+ * scroll pane. It provides two buttons so that the user can be viewed
+ * or deleted depending on which is pressed.
  * @author Scott
  */
 public class UserView extends JPanel {

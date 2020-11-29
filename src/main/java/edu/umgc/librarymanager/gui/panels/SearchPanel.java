@@ -13,7 +13,7 @@ import javax.swing.JPanel;
  * This class is used to create a Search panel.
  * @author Scott
  */
-public class SearchPanel extends JPanel {
+public class SearchPanel extends JPanel { // TODO
 
     private static final long serialVersionUID = -5577134853276029920L;
 

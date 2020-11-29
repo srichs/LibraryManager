@@ -28,7 +28,10 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 /**
- * This class is used to view all users of the Library system.
+ * This class is used to view all users of the Library system. It uses the UserView class
+ * to display each user in a list of users in a scroll pane. Each individual user can
+ * be viewed or deleted. There is also an option to search the users last name and to
+ * add a new user.
  * @author Scott
  */
 public class AllUsersPanel extends JPanel implements ActionListener {
@@ -95,6 +98,7 @@ public class AllUsersPanel extends JPanel implements ActionListener {
         this.setVisible(true);
     }
 
+    // Used to fill the scroll pane with the provided List of users.
     private void fillPane(List<BaseUser> list) {
         if (list == null) {
             return;
@@ -108,6 +112,7 @@ public class AllUsersPanel extends JPanel implements ActionListener {
         this.scrollPane.repaint();
     }
 
+    // Used to search the list then provide the names that match the search characters.
     private void searchList(String lastName) {
         List<BaseUser> newList = new ArrayList<BaseUser>();
         for (int i = 0; i < this.users.size(); i++) {

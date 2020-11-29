@@ -23,7 +23,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * Creates the main window of the application.
+ * Creates the main JFrame of the application. The class uses the panels provided by
+ * the PanelComposite class and places each panel into an instance of the CardLayout
+ * class so that they can be shown as needed. There is also an instance of the MenuBar
+ * class that can be used to create different types of menu bars depending on the
+ * context.
  * @author Scott
  */
 public class MainFrame extends JFrame {
@@ -56,6 +60,7 @@ public class MainFrame extends JFrame {
         initComponents(control);
     }
 
+    // Initializes the components of the MainFrame.
     private void initComponents(GUIController control) {
         this.menuBar = new MenuBar(control);
         this.setJMenuBar(menuBar);
@@ -72,6 +77,7 @@ public class MainFrame extends JFrame {
         this.setLocationRelativeTo(null);
     }
 
+    // This is used to add panels for use with the card layout.
     private void initPanels() {
         this.panels.add(this.panelComp.getLoginPanel(), PanelComposite.LOGIN);
         this.panels.add(this.panelComp.getLibrarianMenuPanel(), PanelComposite.LIBRARIAN_MENU);
@@ -83,6 +89,7 @@ public class MainFrame extends JFrame {
         this.panels.add(this.panelComp.getEditUserPanel(), PanelComposite.EDIT_USER);
     }
 
+    // This is used to get a List of the image icons from the resources folder.
     private List<Image> getIconList() {
         List<Image> icons = new ArrayList<Image>();
         icons.add(new ImageIcon(Toolkit.getDefaultToolkit().getImage(getClass()

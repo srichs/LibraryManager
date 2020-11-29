@@ -9,41 +9,43 @@ package edu.umgc.librarymanager.gui.panels;
 import edu.umgc.librarymanager.gui.GUIController;
 
 /**
- * This class is a composite class containing the panels of the application.
+ * This class is a composite class containing the panels of the application. An instance
+ * of this class is created in the MainFrame class and is used to add and access the panels
+ * in the Card Layout.
  * @author Scott
  */
 public class PanelComposite {
 
     /**
-     * A String for the Login panel.
+     * A String for the Login panel for use in CardLayout.
      */
     public static final String LOGIN = "LoginPanel";
     /**
-     * A String for the Librarian Menu panel.
+     * A String for the Librarian Menu panel for use in CardLayout.
      */
     public static final String LIBRARIAN_MENU = "LibrarianMenuPanel";
     /**
-     * A String for the Patron Menu panel.
+     * A String for the Patron Menu panel for use in CardLayout.
      */
     public static final String PATRON_MENU = "PatronMenuPanel";
     /**
-     * A String for the Search panel.
+     * A String for the Search panel for use in CardLayout.
      */
     public static final String SEARCH = "SearchPanel";
     /**
-     * A String for the User Profile panel.
+     * A String for the User Profile panel for use in CardLayout.
      */
     public static final String PROFILE = "UserProfilePanel";
     /**
-     * A String for the Add User panel.
+     * A String for the Add User panel for use in CardLayout.
      */
     public static final String ADD_USER = "AddUserPanel";
     /**
-     * A String for the All Users panel.
+     * A String for the All Users panel for use in CardLayout.
      */
     public static final String ALL_USERS = "AllUsersPanel";
     /**
-     * A String for the Edit User panel.
+     * A String for the Edit User panel for use in CardLayout.
      */
     public static final String EDIT_USER = "EditUserPanel";
 

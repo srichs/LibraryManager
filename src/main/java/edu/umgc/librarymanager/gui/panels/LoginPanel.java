@@ -24,7 +24,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 /**
- * The login panel of the application.
+ * The login panel of the application. It provides a panel where the user can
+ * enter their username and password and attempt to gain access to the application.
  * @author Scott
  */
 public class LoginPanel extends JPanel {

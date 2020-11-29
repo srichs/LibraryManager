@@ -22,7 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 /**
- * This class is used to create a User Profile panel.
+ * This class is used to create a User Profile panel so that a user can
+ * view their own profile and update a few pieces of information.
  * @author Scott
  */
 public class UserProfilePanel extends JPanel {
@@ -108,6 +109,7 @@ public class UserProfilePanel extends JPanel {
         this.setVisible(true);
     }
 
+    // Used to add a panel with a label and textfield.
     private static void addPanel(LabelFieldPanel panel, Container container, String label, String textField,
             boolean readOnly) {
         panel.setLabel(label);
@@ -119,6 +121,7 @@ public class UserProfilePanel extends JPanel {
         }
     }
 
+    // Used to add a button to a panel.
     private static void addButton(JButton button, Container container, String command, GUIController control) {
         button.setAlignmentX(Component.CENTER_ALIGNMENT);
         button.setActionCommand(command);
@@ -144,6 +147,7 @@ public class UserProfilePanel extends JPanel {
         return null;
     }
 
+    // Checks the differences between the user's information from the database and what is entered in the form.
     private boolean checkInfoDiff(BaseUser user) {
         if (this.emailPanel.getTextField().getText().equals(user.getEmail())
                 && this.addressPanel.getTextField().getText().equals(user.getAddress())
@@ -154,6 +158,7 @@ public class UserProfilePanel extends JPanel {
         return true;
     }
 
+    // Checks that the fields are not empty.
     private boolean checkFields() {
         if (this.emailPanel.getTextField().getText().equals("")
                 || this.addressPanel.getTextField().getText().equals("")
@@ -162,10 +167,6 @@ public class UserProfilePanel extends JPanel {
             return false;
         }
         return true;
-    }
-
-    public String getIdText() {
-        return this.idPanel.getTextField().getText();
     }
 
 }

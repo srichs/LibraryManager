@@ -12,7 +12,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 /**
- * Creates the menu bar for the application.
+ * Creates the menu bar for the application. There are three types that can be
+ * set: one for the Login Screen, one for the Librarian Screens, and one for
+ * the Patron screens. An instance of the class is created in the MainFrame class.
  * @author Scott
  */
 public class MenuBar extends JMenuBar {
@@ -35,10 +37,10 @@ public class MenuBar extends JMenuBar {
     public void setPatronMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        addMenuItem("Main Menu", fileMenu, "patron_menu", control);
-        addMenuItem("Search", fileMenu, "search", control);
-        addMenuItem("View Profile", fileMenu, "profile", control);
-        addMenuItem("View Checked Items", fileMenu, "checked_items", control);
+        addMenuItem("Main Menu", fileMenu, Command.PATRON_MENU, control);
+        addMenuItem("Search", fileMenu, Command.SEARCH, control);
+        addMenuItem("View Profile", fileMenu, Command.PROFILE, control);
+        addMenuItem("View Checked Items", fileMenu, Command.CHECKED_ITEMS, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");
@@ -57,8 +59,8 @@ public class MenuBar extends JMenuBar {
     public void setLibrarianMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        addMenuItem("Main Menu", fileMenu, "librarian_menu", control);
-        addMenuItem("Manage Users", fileMenu, "manage_users", control);
+        addMenuItem("Main Menu", fileMenu, Command.LIBRARIAN_MENU, control);
+        addMenuItem("Manage Users", fileMenu, Command.MANAGE_USERS, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");
@@ -84,6 +86,7 @@ public class MenuBar extends JMenuBar {
         this.add(menuBar);
     }
 
+    // Used to add a menu item to a menu.
     private static void addMenuItem(String title, JMenu menu, String command, GUIController control) {
         JMenuItem item = new JMenuItem(title);
         item.setActionCommand(command);

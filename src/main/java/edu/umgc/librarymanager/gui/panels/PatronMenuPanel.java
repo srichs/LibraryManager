@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
+import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -40,9 +41,9 @@ public class PatronMenuPanel extends JPanel {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        addButton("Search for an Item", buttonPanel, "search", control);
-        addButton("View Checked Out Items", buttonPanel, "checked_items", control);
-        addButton("View User Profile", buttonPanel, "profile", control);
+        addButton("Search for an Item", buttonPanel, Command.SEARCH, control);
+        addButton("View Checked Out Items", buttonPanel, Command.CHECKED_ITEMS, control);
+        addButton("View User Profile", buttonPanel, Command.PROFILE, control);
 
         mainPanel.add(buttonPanel, BorderLayout.CENTER);
         this.setLayout(new FlowLayout());
