@@ -78,37 +78,6 @@ public class GUIController implements ActionListener {
         }
     }
 
-    private void viewProfile() {
-        frame.getPanelComp().getUserProfilePanel().setUserInfo(currentUser);
-        frame.getLayout().show(frame.getPanels(), PanelComposite.PROFILE);
-    }
-
-    private void addUser() {
-        frame.getPanelComp().getAddUserPanel().setNew();
-        frame.getLayout().show(frame.getPanels(), PanelComposite.ADD_USER);
-    }
-
-    private void createUser() {
-        BaseUser user = frame.getPanelComp().getAddUserPanel().tryCreate(frame.getPanelComp()
-                .getLoginPanel().getUsers());
-        if (user != null) {
-            frame.getPanelComp().getLoginPanel().addUserToMap(user);
-            frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
-        }
-    }
-
-    private void updateUser() {
-        BaseUser user = frame.getPanelComp().getUserProfilePanel().tryUpdate(currentUser);
-        if (user != null) {
-            currentUser = user;
-            if (currentUser.getUserType() == UserType.Librarian) {
-                frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
-            } else {
-                frame.getLayout().show(frame.getPanels(), PanelComposite.PATRON_MENU);
-            }
-        }
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         if ("login".equals(e.getActionCommand())) {
@@ -125,16 +94,16 @@ public class GUIController implements ActionListener {
             DialogUtil.informationMessage("Help not yet configured.", "Help"); // TODO
         } else if ("add_user".equals(e.getActionCommand())) {
             LOG.info("Add User Panel button pressed.");
-            addUser();
+            ControlHelper.addUser(this.frame);
         } else if ("create_user".equals(e.getActionCommand())) {
             LOG.info("Add User button pressed.");
-            createUser();
+            ControlHelper.createUser(this.frame);
         } else if ("remove_user".equals(e.getActionCommand())) {
             LOG.info("Remove User button pressed.");
             DialogUtil.informationMessage("Remove user not yet configured.", "Remove User"); // TODO
         } else if ("update_user".equals(e.getActionCommand())) {
             LOG.info("Update User button pressed.");
-            updateUser();
+            ControlHelper.updateUser(this.frame, this.currentUser);
         } else if ("add_item".equals(e.getActionCommand())) {
             LOG.info("Add Item button pressed.");
             DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO
@@ -155,7 +124,7 @@ public class GUIController implements ActionListener {
             DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO
         } else if ("profile".equals(e.getActionCommand())) {
             LOG.info("View Profile button pressed.");
-            viewProfile();
+            ControlHelper.viewProfile(this.frame, this.currentUser);
         } else if ("librarian_menu".equals(e.getActionCommand())) {
             LOG.info("Librarian Menu displayed.");
             frame.getLayout().show(frame.getPanels(), PanelComposite.LIBRARIAN_MENU);
