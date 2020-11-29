@@ -56,3 +56,7 @@ buildNumber.properties
 #
 
 lucene/
+
+#
+
+out/
