@@ -39,10 +39,22 @@ public final class HibernateInit {
      * This method is used to call other methods that initialize the database from .csv data files.
      */
     public static void initHibernate() {
+        buildSearchIndex();
+        DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
+        deweyDAO.openSessionwithTransaction();
+        deweyDAO.deleteAll();
+        deweyDAO.closeSessionwithTransaction();
+        UserDAO userDAO = new UserDAO();
+        userDAO.openSessionwithTransaction();
+        userDAO.deleteAll();
+        userDAO.closeSessionwithTransaction();
+        ItemDAO itemDAO = new ItemDAO();
+        itemDAO.openSessionwithTransaction();
+        itemDAO.deleteAll();
+        itemDAO.closeSessionwithTransaction();
         initDeweyCategoryList();
         initUserList();
         initHibernateBookList();
-        //buildSearchIndex();
     }
 
     /**
