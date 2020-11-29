@@ -138,7 +138,7 @@ public class UserLogin {
         for (int i = 0; i < numChars; i++) {
             Random r = new Random();
             int result = r.nextInt(90 - 33) + 33;
-            password += Character.toString(result);
+            password += Character.toString((char) result);
         }
         return password;
     }
