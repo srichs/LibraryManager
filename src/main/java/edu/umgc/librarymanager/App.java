@@ -28,6 +28,7 @@ public final class App {
      */
     public static void main(String[] args) {
         LOG.info("\n" + DatabaseTest.getHeader());
+        //HibernateInit.initHibernate(); // Used to preload database
         LOG.info("Application Started.");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
