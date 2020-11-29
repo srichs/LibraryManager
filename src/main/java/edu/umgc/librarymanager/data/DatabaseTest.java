@@ -12,10 +12,10 @@ import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
-import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
+import edu.umgc.librarymanager.data.model.user.PatronUser;
 import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -91,20 +91,20 @@ public final class DatabaseTest {
         session.getTransaction().begin();
 
         QueryBuilder qb = fullTextSession.getSearchFactory()
-                .buildQueryBuilder().forEntity(Book.class).get();
+                .buildQueryBuilder().forEntity(PatronUser.class).get();
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
                 .onFields()
-                .matching("H*")
+                .matching("*")
                 .createQuery();
 
-        Query query = fullTextSession.createFullTextQuery(luceneQuery, Book.class);
-        List<Book> result = query.getResultList();
+        Query query = fullTextSession.createFullTextQuery(luceneQuery, PatronUser.class);
+        List<PatronUser> result = query.getResultList();
 
         if (result.size() == 0) {
-            System.out.println("No Hunger found.");
+            System.out.println("Not found.");
         } else {
-            System.out.println(result.get(0).getTitle());
+            System.out.println(result.get(0).getUserName());
         }
 
         session.getTransaction().commit();
