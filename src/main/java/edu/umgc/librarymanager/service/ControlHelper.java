@@ -110,7 +110,7 @@ public final class ControlHelper {
             } finally {
                 userDAO.closeSession();
             }
-            DialogUtil.informationMessage("The user was added successfully.\n\nusername: " + user.getUserName() + "\n",
+            DialogUtil.informationMessage("The user was added successfully.\nusername: " + user.getUserName() + "\n",
                     "Update Information");
             control.getLogins().put(user.getUserName(), user);
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
@@ -195,7 +195,7 @@ public final class ControlHelper {
             } finally {
                 userDAO.closeSession();
             }
-            control.getLogins().replace(user.getUserName(), user);
+            control.getLogins().put(user.getUserName(), user);
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_USERS);
             DialogUtil.informationMessage("The update was successful.", "Update Information");
         }

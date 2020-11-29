@@ -104,9 +104,9 @@ public class EditUserPanel extends JPanel {
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
         fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-        addPanel(this.idPanel, fieldPanel, "ID", "auto", true);
-        addPanel(this.createDatePanel, fieldPanel, "Date Created", "auto", true);
-        addPanel(this.usernamePanel, fieldPanel, "Username", "auto", false);
+        addPanel(this.idPanel, fieldPanel, "ID", "", true);
+        addPanel(this.createDatePanel, fieldPanel, "Date Created", "", true);
+        addPanel(this.usernamePanel, fieldPanel, "Username", "", true);
         passwordPanel(this.password1, fieldPanel);
         passwordPanel(this.password2, fieldPanel);
         addPanel(this.firstNamePanel, fieldPanel, "First Name", "", false);
@@ -114,7 +114,7 @@ public class EditUserPanel extends JPanel {
         addPanel(this.emailPanel, fieldPanel, "Email", "", false);
         addPanel(this.addressPanel, fieldPanel, "Address", "", false);
         addPanel(this.phonePanel, fieldPanel, "Phone", "", false);
-        addPanel(this.typePanel, fieldPanel, "User Type", "auto", true); // TODO change to combo box?
+        addPanel(this.typePanel, fieldPanel, "User Type", "", true); // TODO change to combo box?
         addButton(this.button, fieldPanel, Command.MANAGE_UPDATE_USER, control);
         mainPanel.add(fieldPanel, BorderLayout.CENTER);
         this.setLayout(new FlowLayout());
@@ -172,6 +172,11 @@ public class EditUserPanel extends JPanel {
         if (checkFields()) {
             if (checkInfoDiff(user)) {
                 BaseUser updatedUser = user;
+                if (this.password1.getPassword().length > 0 && this.password2.getPassword().length > 0) {
+                    updatedUser.getLogin().setPassword(this.password1.getPassword());
+                }
+                updatedUser.setFirstName(this.firstNamePanel.getText());
+                updatedUser.setLastName(this.lastNamePanel.getText());
                 updatedUser.setEmail(this.emailPanel.getText());
                 updatedUser.setAddress(this.addressPanel.getText());
                 updatedUser.setPhoneNumber(this.phonePanel.getText());
@@ -189,8 +194,7 @@ public class EditUserPanel extends JPanel {
                 passwordChanged = true;
             }
         }
-        if (this.usernamePanel.getTextField().getText().equals(user.getUserName())
-                && this.firstNamePanel.getTextField().getText().equals(user.getFirstName())
+        if (this.firstNamePanel.getTextField().getText().equals(user.getFirstName())
                 && this.lastNamePanel.getTextField().getText().equals(user.getLastName())
                 && this.emailPanel.getTextField().getText().equals(user.getEmail())
                 && this.addressPanel.getTextField().getText().equals(user.getAddress())
@@ -213,8 +217,7 @@ public class EditUserPanel extends JPanel {
                 return false;
             }
         }
-        if (this.usernamePanel.getTextField().getText().equals("")
-                || this.firstNamePanel.getTextField().getText().equals("")
+        if (this.firstNamePanel.getTextField().getText().equals("")
                 || this.lastNamePanel.getTextField().getText().equals("")
                 || this.emailPanel.getTextField().getText().equals("")
                 || this.addressPanel.getTextField().getText().equals("")
