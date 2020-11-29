@@ -30,7 +30,6 @@ public class MainFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private GUIController control;
     private MenuBar menuBar;
     private JPanel panels;
     private CardLayout layout;
@@ -42,7 +41,6 @@ public class MainFrame extends JFrame {
      */
     public MainFrame(GUIController control) {
         super();
-        this.control = control;
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(720, 480);
         this.setResizable(true);
@@ -55,10 +53,10 @@ public class MainFrame extends JFrame {
             }
         });
         this.setIconImages(getIconList());
-        initComponents();
+        initComponents(control);
     }
 
-    private void initComponents() {
+    private void initComponents(GUIController control) {
         this.menuBar = new MenuBar(control);
         this.setJMenuBar(menuBar);
         this.panels = new JPanel();
@@ -67,7 +65,8 @@ public class MainFrame extends JFrame {
         this.panels.setLayout(this.layout);
         initPanels();
         this.getContentPane().add(this.panels, BorderLayout.CENTER);
-        this.layout.show(this.panels, PanelComposite.LOGIN);
+        this.layout.show(this.panels, PanelComposite.LOGIN); // TODO
+        //this.layout.show(this.panels, PanelComposite.ALL_USERS);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -80,6 +79,7 @@ public class MainFrame extends JFrame {
         this.panels.add(this.panelComp.getSearchPanel(), PanelComposite.SEARCH);
         this.panels.add(this.panelComp.getUserProfilePanel(), PanelComposite.PROFILE);
         this.panels.add(this.panelComp.getAddUserPanel(), PanelComposite.ADD_USER);
+        this.panels.add(this.panelComp.getAllUsersPanel(), PanelComposite.ALL_USERS);
     }
 
     private List<Image> getIconList() {
