@@ -6,7 +6,6 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
-import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.PatronUser;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
@@ -150,31 +149,11 @@ public class AddUserPanel extends JPanel {
      */
     public BaseUser tryCreate(HashMap<String, BaseUser> users) {
         if (checkFields()) {
-            int count = 1;
-            String unameBase = this.firstNamePanel.getText().toLowerCase().charAt(0)
-                    + this.lastNamePanel.getText().toLowerCase();
-            unameBase = unameBase.replace(" ", "");
-            unameBase = unameBase.replace("'", "");
-            unameBase = unameBase.replace("-", "");
-            String username = unameBase + count;
-            while (users.containsKey(username)) {
-                count++;
-                username = unameBase + count;
-            }
+            String username = UserLogin.genUsername(users, this.firstNamePanel.getText(), this.lastNamePanel.getText());
             UserLogin login = new UserLogin(username, this.password1.getPassword());
             BaseUser addedUser = new PatronUser(ZonedDateTime.now(), this.firstNamePanel.getText(),
                     this.lastNamePanel.getText(), login, this.emailPanel.getText(), this.addressPanel.getText(),
                     this.phonePanel.getText());
-            UserDAO userDAO = new UserDAO();
-            try {
-                userDAO.openSessionwithTransaction();
-                userDAO.persist(addedUser);
-                userDAO.closeSessionwithTransaction();
-            } finally {
-                userDAO.closeSession();
-            }
-            DialogUtil.informationMessage("The user was added successfully.\n\nusername: " + addedUser.getUserName(),
-                    "Update Information");
             return addedUser;
         }
         return null;

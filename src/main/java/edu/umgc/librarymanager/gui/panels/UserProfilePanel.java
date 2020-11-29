@@ -6,7 +6,6 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
-import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
@@ -41,6 +40,8 @@ public class UserProfilePanel extends JPanel {
     private LabelFieldPanel typePanel;
     private JButton button;
 
+    private BaseUser user;
+
     /**
      * The constructor of the class.
      * @param control The GUIController to act as the listener.
@@ -57,14 +58,20 @@ public class UserProfilePanel extends JPanel {
         this.phonePanel = new LabelFieldPanel();
         this.typePanel = new LabelFieldPanel();
         this.button = new JButton("Update");
+        this.user = null;
         createPanel(control);
+    }
+
+    public void setUser(BaseUser user) {
+        this.user = user;
+        setUserInfo();
     }
 
     /**
      * Sets the users information to the form fields.
      * @param user The user to set the information from.
      */
-    public void setUserInfo(BaseUser user) {
+    private void setUserInfo() {
         if (user == null) {
             return;
         }
@@ -123,21 +130,15 @@ public class UserProfilePanel extends JPanel {
 
     /**
      * Tries to update the user by comparing it to the stored value of the user.
-     * @param user The user to compare the information that is on the form to.
      * @return The user if updated or null if not updated.
      */
-    public BaseUser tryUpdate(BaseUser user) {
+    public BaseUser tryUpdate() {
         if (checkFields()) {
             if (checkInfoDiff(user)) {
                 BaseUser updatedUser = user;
                 updatedUser.setEmail(this.emailPanel.getText());
                 updatedUser.setAddress(this.addressPanel.getText());
                 updatedUser.setPhoneNumber(this.phonePanel.getText());
-                UserDAO userDAO = new UserDAO();
-                userDAO.openSessionwithTransaction();
-                userDAO.update(updatedUser);
-                userDAO.closeSessionwithTransaction();
-                DialogUtil.informationMessage("The update was successful.", "Update Information");
                 return updatedUser;
             }
         }
