@@ -36,6 +36,16 @@ public class GUIController implements ActionListener {
      * The default constructor for the class.
      */
     public GUIController() {
+        this.frame = null;
+        this.currentUser = null;
+        this.inactiveListener = null;
+        this.logoutAction = null;
+    }
+
+    /**
+     * Starts the GUI.
+     */
+    public void start() {
         LOG.info("GUIController started.");
         this.frame = new MainFrame(this);
         this.frame.setTitle("Library Management System");
@@ -103,7 +113,10 @@ public class GUIController implements ActionListener {
             DialogUtil.informationMessage("Remove user not yet configured.", "Remove User"); // TODO
         } else if ("update_user".equals(e.getActionCommand())) {
             LOG.info("Update User button pressed.");
-            ControlHelper.updateUser(this.frame, this.currentUser);
+            BaseUser user = ControlHelper.updateUser(this.frame);
+            if (user != null) {
+                currentUser = user;
+            }
         } else if ("add_item".equals(e.getActionCommand())) {
             LOG.info("Add Item button pressed.");
             DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO

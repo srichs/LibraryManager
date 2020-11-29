@@ -7,7 +7,8 @@
 package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
-import edu.umgc.librarymanager.gui.AppGUI;
+import edu.umgc.librarymanager.gui.GUIController;
+import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,8 +29,13 @@ public final class App {
     public static void main(String[] args) {
         LOG.info("\n" + DatabaseTest.getHeader());
         LOG.info("Application Started.");
-        AppGUI app = new AppGUI();
-        app.run();
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                LOG.info("GUI started.");
+                GUIController controller = new GUIController();
+                controller.start();
+            }
+        });
     }
 
 }
