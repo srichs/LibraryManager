@@ -42,9 +42,9 @@ public class MainFrame extends JFrame {
     public MainFrame(GUIController control) {
         super();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(720, 480);
-        this.setResizable(true);
+        this.setPreferredSize(new Dimension(900, 500));
         this.setMinimumSize(new Dimension(900, 500));
+        this.setResizable(false);
         this.setLayout(new BorderLayout());
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent windowEvent) {
@@ -80,6 +80,7 @@ public class MainFrame extends JFrame {
         this.panels.add(this.panelComp.getUserProfilePanel(), PanelComposite.PROFILE);
         this.panels.add(this.panelComp.getAddUserPanel(), PanelComposite.ADD_USER);
         this.panels.add(this.panelComp.getAllUsersPanel(), PanelComposite.ALL_USERS);
+        this.panels.add(this.panelComp.getEditUserPanel(), PanelComposite.EDIT_USER);
     }
 
     private List<Image> getIconList() {
