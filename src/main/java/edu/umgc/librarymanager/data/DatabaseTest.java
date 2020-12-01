@@ -15,9 +15,7 @@ import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
-import edu.umgc.librarymanager.data.model.user.PatronUser;
 import java.util.List;
-import javax.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
@@ -91,20 +89,22 @@ public final class DatabaseTest {
         session.getTransaction().begin();
 
         QueryBuilder qb = fullTextSession.getSearchFactory()
-                .buildQueryBuilder().forEntity(PatronUser.class).get();
+                .buildQueryBuilder().forEntity(BaseUser.class).get();
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
-                .onFields()
-                .matching("*")
+                .onFields("login.username")
+                .matching("s*")
                 .createQuery();
 
-        Query query = fullTextSession.createFullTextQuery(luceneQuery, PatronUser.class);
-        List<PatronUser> result = query.getResultList();
+        org.hibernate.search.jpa.FullTextQuery query = fullTextSession.createFullTextQuery(luceneQuery, BaseUser.class);
+        List<BaseUser> result = query.getResultList();
 
         if (result.size() == 0) {
             System.out.println("Not found.");
         } else {
-            System.out.println(result.get(0).getUserName());
+            for (int i = 0; i < result.size(); i++) {
+                System.out.println(result.get(i).getUserName() + " - " + result.get(i).getFirstName() + " " + result.get(i).getLastName());
+            }
         }
 
         session.getTransaction().commit();
