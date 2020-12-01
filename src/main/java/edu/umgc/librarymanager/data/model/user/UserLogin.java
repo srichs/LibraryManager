@@ -9,11 +9,13 @@ package edu.umgc.librarymanager.data.model.user;
 import java.util.HashMap;
 import java.util.Random;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.mindrot.jbcrypt.BCrypt;
@@ -26,6 +28,7 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 @Entity
 @Indexed
+@Embeddable
 @Table(name = "user_login")
 public class UserLogin {
 
@@ -33,6 +36,7 @@ public class UserLogin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DocumentId
     @Column(name = "user_login_id")
     private long id;
 

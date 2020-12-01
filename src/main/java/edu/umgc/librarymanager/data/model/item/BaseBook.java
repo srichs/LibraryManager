@@ -16,6 +16,7 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * The abstract base class for a Book in a library, it extends the BaseItem
@@ -23,6 +24,7 @@ import org.hibernate.search.annotations.Field;
  * @author Scott
  */
 @Entity
+@Indexed
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseBook extends BaseItem {
 

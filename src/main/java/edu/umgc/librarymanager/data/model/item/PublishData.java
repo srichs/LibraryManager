@@ -8,11 +8,13 @@ package edu.umgc.librarymanager.data.model.item;
 
 import java.time.ZonedDateTime;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -22,11 +24,13 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
+@Embeddable
 @Table(name = "publish_data")
 public class PublishData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DocumentId
     @Column(name = "publish_data_id")
     private long id;
 
@@ -34,7 +38,6 @@ public class PublishData {
     @Column(name = "publisher")
     private String publisher;
 
-    @Field
     @Column(name = "publish_date")
     private ZonedDateTime publishDate;
 

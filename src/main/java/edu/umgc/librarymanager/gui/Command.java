@@ -70,6 +70,14 @@ public final class Command {
      */
     public static final String REMOVE_ITEM = "remove_item";
     /**
+     * A string for an ActionCommand of 'view_item'.
+     */
+    public static final String VIEW_ITEM = "view_item";
+    /**
+     * A string for an ActionCommand of 'delete_item'.
+     */
+    public static final String DELETE_ITEM = "delete_item";
+    /**
      * A string for an ActionCommand of 'checkout_item'.
      */
     public static final String CHECKOUT_ITEM = "checkout_item";
@@ -101,6 +109,7 @@ public final class Command {
      * A string for an ActionCommand of 'patron_menu'.
      */
     public static final String PATRON_MENU = "patron_menu";
+
 
     private Command() {}
 

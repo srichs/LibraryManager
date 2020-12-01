@@ -27,8 +27,10 @@ public class DeweyCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "dewey_category_id")
     private long id;
+
     @Column(name = "code")
     private String code;
+
     @Column(name = "category")
     private String category;
 
