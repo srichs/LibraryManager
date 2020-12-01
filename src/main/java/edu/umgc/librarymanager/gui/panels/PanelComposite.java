@@ -48,6 +48,10 @@ public class PanelComposite {
      * A String for the Edit User panel for use in CardLayout.
      */
     public static final String EDIT_USER = "EditUserPanel";
+    /**
+     * A String for the All Users panel for use in CardLayout.
+     */
+    public static final String ALL_ITEMS = "AllItemsPanel";
 
     private LoginPanel loginPanel;
     private LibrarianMenuPanel librarianMenuPanel;
