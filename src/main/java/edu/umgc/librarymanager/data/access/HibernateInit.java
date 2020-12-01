@@ -7,6 +7,8 @@
 package edu.umgc.librarymanager.data.access;
 
 import com.opencsv.CSVReader;
+
+import edu.umgc.librarymanager.data.model.Library;
 import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
@@ -21,6 +23,9 @@ import edu.umgc.librarymanager.data.model.user.UserException;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
 import java.io.FileReader;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -39,6 +44,7 @@ public final class HibernateInit {
      * This method is used to call other methods that initialize the database from .csv data files.
      */
     public static void initHibernate() {
+
         buildSearchIndex();
         DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
         deweyDAO.openSessionwithTransaction();
@@ -83,6 +89,9 @@ public final class HibernateInit {
      */
     public static void initHibernateBookList() {
         String file = "./src/main/resources/data/books.csv";
+        LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 26);
+        LocalDate dueDate = LocalDate.of(2020, Month.DECEMBER, 10);
+        Period period = Period.between(checkDate, dueDate);
         CSVReader reader = null;
         try (Session session = HibernateUtility.getSessionFactory().openSession()) {
             reader = new CSVReader(new FileReader(file));
@@ -95,7 +104,7 @@ public final class HibernateInit {
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
                 Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, "A Genre",
-                        line[8], ItemStatus.Available, null, line[10], line[11]);
+                        line[8], ItemStatus.Available, period, line[10], line[11]);
                 session.save(book);
             }
             session.close();
@@ -119,6 +128,20 @@ public final class HibernateInit {
                 DeweyCategory cat = new DeweyCategory(line[0], line[1]);
                 session.save(cat);
             }
+            transaction.commit();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void initLibrary() {
+        Library library = new Library("1234 Fake Avenue, Nashville, TN 37011",
+                "Nashville Public Library", "615-867-5309");
+        Transaction transaction = null;
+        try (Session session = HibernateUtility.getSessionFactory().openSession()) {
+            transaction = session.beginTransaction();
+            session.save(library);
             transaction.commit();
             session.close();
         } catch (Exception e) {
