@@ -7,6 +7,7 @@
 package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.data.access.HibernateInit;
 import edu.umgc.librarymanager.gui.GUIController;
 import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
@@ -28,7 +29,8 @@ public final class App {
      */
     public static void main(String[] args) {
         LOG.info("\n" + DatabaseTest.getHeader());
-        //HibernateInit.initHibernate(); // Used to preload database
+        HibernateInit.initHibernate(); // Used to preload database
+        DatabaseTest.search();
         LOG.info("Application Started.");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
