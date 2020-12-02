@@ -36,7 +36,7 @@ public class LibrarianMenuPanel extends JPanel {
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setSize(new Dimension(400, 400));
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        mainPanel.setBorder(new EmptyBorder(60, 20, 20, 20));
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));

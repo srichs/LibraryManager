@@ -79,7 +79,7 @@ public class GUIController implements ActionListener {
             DialogUtil.informationMessage("Return item not yet configured.", "Return Item"); // TODO
         } else if (Command.SEARCH.equals(e.getActionCommand())) {
             LOG.info("Search button pressed.");
-            DialogUtil.informationMessage("Search not yet configured.", "Search"); // TODO
+            ControlHelper.viewSearch(this);
         } else if (Command.CHECKED_ITEMS.equals(e.getActionCommand())) {
             LOG.info("View Checked Items button pressed.");
             DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO

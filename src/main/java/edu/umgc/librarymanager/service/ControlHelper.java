@@ -58,7 +58,8 @@ public final class ControlHelper {
                 control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
             } else {
                 control.getFrame().getTheMenuBar().setPatronMenuBar(control);
-                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.PATRON_MENU);
+                control.getFrame().getPanelComp().getSearchPanel().setFirstName(control.getCurrentUser().getFirstName());
+                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.SEARCH);
             }
             control.getFrame().repaint();
             // user is logged out after 5 min of inactivity
@@ -251,6 +252,11 @@ public final class ControlHelper {
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_ITEMS);
             DialogUtil.informationMessage("The update was successful.", "Update Information");
         }*/
+    }
+
+    public static void viewSearch(GUIController control) {
+        control.getFrame().getPanelComp().getSearchPanel().reset();
+        control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.SEARCH);
     }
 
 }

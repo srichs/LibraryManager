@@ -71,7 +71,7 @@ public class MainFrame extends JFrame {
         initPanels();
         this.getContentPane().add(this.panels, BorderLayout.CENTER);
         this.layout.show(this.panels, PanelComposite.LOGIN); // TODO
-        //this.layout.show(this.panels, PanelComposite.ALL_ITEMS);
+        //this.layout.show(this.panels, PanelComposite.SEARCH);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
