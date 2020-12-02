@@ -65,18 +65,12 @@ public class GUIController implements ActionListener {
         } else if (Command.CREATE_USER.equals(e.getActionCommand())) {
             LOG.info("Add User button pressed.");
             ControlHelper.createUser(this);
-        } else if (Command.REMOVE_USER.equals(e.getActionCommand())) {
-            LOG.info("Remove User button pressed.");
-            DialogUtil.informationMessage("Remove user not yet configured.", "Remove User"); // TODO
         } else if (Command.UPDATE_USER.equals(e.getActionCommand())) {
             LOG.info("Update User button pressed.");
             ControlHelper.updateUser(this);
         } else if (Command.ADD_ITEM.equals(e.getActionCommand())) {
             LOG.info("Add Item button pressed.");
             DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO
-        } else if (Command.REMOVE_ITEM.equals(e.getActionCommand())) {
-            LOG.info("Remove Item button pressed.");
-            DialogUtil.informationMessage("Remove item not yet configured.", "Remove Item"); // TODO
         } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
             LOG.info("Checkout Item button pressed.");
             DialogUtil.informationMessage("Checkout item not yet configured.", "Checkout Item"); // TODO
@@ -104,6 +98,12 @@ public class GUIController implements ActionListener {
         } else if (Command.MANAGE_UPDATE_USER.equals(e.getActionCommand())) {
             LOG.info("Update User button pressed.");
             ControlHelper.manageUpdateUser(this);
+        } else if (Command.MANAGE_ITEMS.equals(e.getActionCommand())) {
+            LOG.info("Manage Users panel displayed.");
+            ControlHelper.viewManageItems(this.frame);
+        } else if (Command.MANAGE_UPDATE_ITEM.equals(e.getActionCommand())) {
+            LOG.info("Update User button pressed.");
+            //ControlHelper.manageUpdateItem(this); // TODO
         }
     }
 
