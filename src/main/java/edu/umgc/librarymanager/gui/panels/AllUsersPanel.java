@@ -9,7 +9,7 @@ package edu.umgc.librarymanager.gui.panels;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
-import edu.umgc.librarymanager.service.ControlHelper;
+import edu.umgc.librarymanager.service.LibrarianServices;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -172,9 +172,9 @@ public class AllUsersPanel extends JPanel implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             setSelectedUser(this.user);
             if (Command.VIEW_USER.equals(e.getActionCommand())) {
-                ControlHelper.viewUser(getController().getFrame(), this.user);
+                LibrarianServices.viewUser(getController().getFrame(), this.user);
             } else if (Command.DELETE_USER.equals(e.getActionCommand())) {
-                ControlHelper.deleteUser(getController(), this.user);
+                LibrarianServices.deleteUser(getController(), this.user);
             }
         }
     }

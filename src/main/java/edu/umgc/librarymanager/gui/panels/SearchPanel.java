@@ -13,7 +13,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -34,6 +33,10 @@ public class SearchPanel extends JPanel {
     private JLabel welcomeLabel;
     private String firstName;
 
+    /**
+     * The constructor for the class.
+     * @param control The GUIController of the application.
+     */
     public SearchPanel(GUIController control) {
         super();
         this.searchField = new JTextField(40);
@@ -52,7 +55,7 @@ public class SearchPanel extends JPanel {
         this.welcomeLabel.setSize(new Dimension(300, 80));
         this.welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.welcomeLabel.setFont(new Font(this.welcomeLabel.getName(), Font.BOLD, 24));
-        
+
         searchPanel.add(this.welcomeLabel);
         searchPanel.add(Box.createRigidArea(new Dimension(10, 10)));
         JLabel subLabel = new JLabel("Search for an item below");
@@ -80,8 +83,11 @@ public class SearchPanel extends JPanel {
         this.setVisible(true);
     }
 
+    /**
+     * Resets the label, should be called if this class's first name variable changes.
+     */
     public void resetLabel() {
-        if (this.firstName.equals("")) {
+        if ("".equals(this.firstName)) {
             this.welcomeLabel.setText("Welcome");
         } else {
             this.welcomeLabel.setText("Welcome, " + this.firstName);
