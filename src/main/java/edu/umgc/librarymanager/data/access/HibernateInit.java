@@ -7,7 +7,6 @@
 package edu.umgc.librarymanager.data.access;
 
 import com.opencsv.CSVReader;
-
 import edu.umgc.librarymanager.data.model.Library;
 import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.ClassType;
@@ -135,6 +134,9 @@ public final class HibernateInit {
         }
     }
 
+    /**
+     * Used to initialize data in the Library table.
+     */
     public static void initLibrary() {
         Library library = new Library("1234 Fake Avenue, Nashville, TN 37011",
                 "Nashville Public Library", "615-867-5309");
