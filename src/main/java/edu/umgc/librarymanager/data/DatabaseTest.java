@@ -96,14 +96,16 @@ public final class DatabaseTest {
                 .matching("s*")
                 .createQuery();
 
-        org.hibernate.search.jpa.FullTextQuery query = fullTextSession.createFullTextQuery(luceneQuery, BaseUser.class);
+        org.hibernate.search.jpa.FullTextQuery query = fullTextSession
+                .createFullTextQuery(luceneQuery, BaseUser.class);
         List<BaseUser> result = query.getResultList();
 
         if (result.size() == 0) {
             System.out.println("Not found.");
         } else {
             for (int i = 0; i < result.size(); i++) {
-                System.out.println(result.get(i).getUserName() + " - " + result.get(i).getFirstName() + " " + result.get(i).getLastName());
+                System.out.println(result.get(i).getUserName() + " - " + result.get(i).getFirstName()
+                        + " " + result.get(i).getLastName());
             }
         }
 
