@@ -7,8 +7,10 @@
 package edu.umgc.librarymanager.gui.panels;
 
 import edu.umgc.librarymanager.data.model.user.BaseUser;
+import edu.umgc.librarymanager.data.model.user.LibrarianUser;
 import edu.umgc.librarymanager.data.model.user.PatronUser;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
+import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
@@ -26,6 +28,7 @@ import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -47,7 +50,7 @@ public class AddUserPanel extends JPanel {
     private LabelFieldPanel emailPanel;
     private LabelFieldPanel addressPanel;
     private LabelFieldPanel phonePanel;
-    private LabelFieldPanel typePanel;
+    private JComboBox<UserType> typeBox;
     private JPasswordField password1;
     private JPasswordField password2;
     private JButton button;
@@ -66,7 +69,7 @@ public class AddUserPanel extends JPanel {
         this.emailPanel = new LabelFieldPanel();
         this.addressPanel = new LabelFieldPanel();
         this.phonePanel = new LabelFieldPanel();
-        this.typePanel = new LabelFieldPanel();
+        this.typeBox = new JComboBox<UserType>(UserType.values());
         this.password1 = new JPasswordField();
         this.password2 = new JPasswordField();
         this.password1.setColumns(30);
@@ -92,12 +95,36 @@ public class AddUserPanel extends JPanel {
         addPanel(this.emailPanel, fieldPanel, "Email", "", false);
         addPanel(this.addressPanel, fieldPanel, "Address", "", false);
         addPanel(this.phonePanel, fieldPanel, "Phone", "", false);
-        addPanel(this.typePanel, fieldPanel, "User Type", "auto", true);
+        this.typeBox.setSelectedItem(UserType.Patron);
+        typePanel(this.typeBox, fieldPanel);
         addButton(this.button, fieldPanel, "create_user", control);
         mainPanel.add(fieldPanel, BorderLayout.CENTER);
         this.setLayout(new FlowLayout());
         this.add(mainPanel);
         this.setVisible(true);
+    }
+
+    private void typePanel(JComboBox<UserType> typeBox, Container container) {
+        JLabel label = new JLabel("User Type");
+        label.setPreferredSize(new Dimension(76, 20));
+        JPanel mainPanel = new JPanel(new GridBagLayout());
+        mainPanel.setSize(new Dimension(400, 60));
+        GridBagConstraints c = new GridBagConstraints();
+        c.insets = new Insets(5, 10, 5, 10);
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.EAST;
+        c.gridx = 0;
+        c.weightx = 0.2;
+        c.gridwidth = 1;
+        c.gridy = 0;
+        mainPanel.add(label, c);
+        c.anchor = GridBagConstraints.CENTER;
+        c.gridx = 1;
+        c.weightx = 0.8;
+        c.gridwidth = 2;
+        c.gridy = 0;
+        mainPanel.add(typeBox, c);
+        container.add(mainPanel);
     }
 
     private void passwordPanel(JPasswordField passField, Container container) {
@@ -151,9 +178,16 @@ public class AddUserPanel extends JPanel {
         if (checkFields()) {
             String username = UserLogin.genUsername(users, this.firstNamePanel.getText(), this.lastNamePanel.getText());
             UserLogin login = new UserLogin(username, this.password1.getPassword());
-            BaseUser addedUser = new PatronUser(ZonedDateTime.now(), this.firstNamePanel.getText(),
-                    this.lastNamePanel.getText(), login, this.emailPanel.getText(), this.addressPanel.getText(),
-                    this.phonePanel.getText());
+            BaseUser addedUser = null;
+            if (this.typeBox.getSelectedItem() == UserType.Patron) {
+                addedUser = new PatronUser(ZonedDateTime.now(), this.firstNamePanel.getText(),
+                        this.lastNamePanel.getText(), login, this.emailPanel.getText(), this.addressPanel.getText(),
+                        this.phonePanel.getText());
+            } else if (this.typeBox.getSelectedItem() == UserType.Librarian) {
+                addedUser = new LibrarianUser(ZonedDateTime.now(), this.firstNamePanel.getText(),
+                        this.lastNamePanel.getText(), login, this.emailPanel.getText(), this.addressPanel.getText(),
+                        this.phonePanel.getText());
+            }
             return addedUser;
         }
         return null;

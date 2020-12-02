@@ -25,6 +25,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This class is used to view all items of the Library system. It uses the ItemView class
@@ -36,6 +38,7 @@ import javax.swing.border.EmptyBorder;
 public class AllItemsPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = 2814076991339926348L;
+    private static final Logger LOG = LogManager.getLogger(AllItemsPanel.class);
 
     private JScrollPane scrollPane;
     private JPanel itemPanel;
@@ -70,9 +73,9 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(this);
         clearButton.setActionCommand(Command.CLEAR);
-        JButton addUserButton = new JButton("Add User");
+        JButton addUserButton = new JButton("Add Item");
         addUserButton.addActionListener(control);
-        addUserButton.setActionCommand(Command.ADD_USER);
+        addUserButton.setActionCommand(Command.ADD_ITEM);
         searchPanel.add(new JLabel("Search by Title "));
         searchPanel.add(this.searchField);
         searchPanel.add(searchButton);
@@ -171,8 +174,10 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             setSelectedItem(this.item);
             if (Command.VIEW_ITEM.equals(e.getActionCommand())) {
+                LOG.info("View Item button pressed.");
                 //ControlHelper.viewUser(getController().getFrame(), this.item); // TODO
             } else if (Command.DELETE_ITEM.equals(e.getActionCommand())) {
+                LOG.info("Delete Item button pressed.");
                 //ControlHelper.deleteUser(getController(), this.item);
             }
         }

@@ -6,7 +6,9 @@
 
 package edu.umgc.librarymanager.service;
 
+import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
+import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.DialogUtil;
@@ -58,6 +60,7 @@ public final class ControlHelper {
                 control.getFrame().getTheMenuBar().setPatronMenuBar(control);
                 control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.PATRON_MENU);
             }
+            control.getFrame().repaint();
             // user is logged out after 5 min of inactivity
             control.setInactiveListener(new InactivityListener(control.getFrame(), control.getLogoutAction(), 5));
             control.getInactiveListener().start();
@@ -73,6 +76,7 @@ public final class ControlHelper {
         if (control.getCurrentUser() != null) {
             control.getFrame().getTheMenuBar().setLoginMenuBar(control);
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LOGIN);
+            control.getFrame().repaint();
             LOG.info(control.getCurrentUser().getUserName() + " logged out.");
             if (inactivity) {
                 LOG.info(control.getCurrentUser().getUserName() + " was logged out due to inactivity.");
@@ -147,6 +151,7 @@ public final class ControlHelper {
      * @param frame The MainFrame of the application.
      */
     public static void viewManageUsers(MainFrame frame) {
+        // TODO try to add pagination for scalability
         frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_USERS);
         UserDAO userDAO = new UserDAO();
         userDAO.openSessionwithTransaction();
@@ -212,6 +217,40 @@ public final class ControlHelper {
         map = userDAO.getUserHashMap();
         userDAO.closeSessionwithTransaction();
         return map;
+    }
+
+    /**
+     * Used to manage the items of the library.
+     * @param frame The MainFrame of the application.
+     */
+    public static void viewManageItems(MainFrame frame) {
+        // TODO try to add pagination for scalability
+        frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_ITEMS);
+        ItemDAO itemDAO = new ItemDAO();
+        itemDAO.openSessionwithTransaction();
+        List<BaseItem> list = itemDAO.findAll();
+        itemDAO.closeSessionwithTransaction();
+        frame.getPanelComp().getAllItemsPanel().setItems(list);
+    }
+
+    /**
+     * Used for the updated button press in the EditItemPanel.
+     * @param control The GUIController object.
+     */
+    public static void manageUpdateItem(GUIController control) {
+        /*BaseItem item = control.getFrame().getPanelComp().getEditItemPanel().tryUpdate();
+        if (item != null) {
+            ItemDAO itemDAO = new ItemDAO();
+            try {
+                itemDAO.openSessionwithTransaction();
+                itemDAO.update(user);
+                itemDAO.closeSessionwithTransaction();
+            } finally {
+                itemDAO.closeSession();
+            }
+            control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_ITEMS);
+            DialogUtil.informationMessage("The update was successful.", "Update Information");
+        }*/
     }
 
 }

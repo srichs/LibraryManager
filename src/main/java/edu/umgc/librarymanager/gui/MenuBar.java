@@ -61,6 +61,7 @@ public class MenuBar extends JMenuBar {
         JMenu fileMenu = new JMenu("File");
         addMenuItem("Main Menu", fileMenu, Command.LIBRARIAN_MENU, control);
         addMenuItem("Manage Users", fileMenu, Command.MANAGE_USERS, control);
+        addMenuItem("Manage Items", fileMenu, Command.MANAGE_ITEMS, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");

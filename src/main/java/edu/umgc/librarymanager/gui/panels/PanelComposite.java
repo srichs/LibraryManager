@@ -61,6 +61,7 @@ public class PanelComposite {
     private AddUserPanel addUserPanel;
     private AllUsersPanel allUsersPanel;
     private EditUserPanel editUserPanel;
+    private AllItemsPanel allItemsPanel;
 
     /**
      * The constructor of the class.
@@ -83,6 +84,7 @@ public class PanelComposite {
         this.addUserPanel = new AddUserPanel(control);
         this.allUsersPanel = new AllUsersPanel(control);
         this.editUserPanel = new EditUserPanel(control);
+        this.allItemsPanel = new AllItemsPanel(control);
     }
 
     public LoginPanel getLoginPanel() {
@@ -147,6 +149,14 @@ public class PanelComposite {
 
     public void setEditUserPanel(EditUserPanel editUserPanel) {
         this.editUserPanel = editUserPanel;
+    }
+
+    public AllItemsPanel getAllItemsPanel() {
+        return this.allItemsPanel;
+    }
+
+    public void setAllItemsPanel(AllItemsPanel allItemsPanel) {
+        this.allItemsPanel = allItemsPanel;
     }
 
 }
