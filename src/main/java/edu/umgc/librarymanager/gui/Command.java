@@ -38,10 +38,6 @@ public final class Command {
      */
     public static final String CREATE_USER = "create_user";
     /**
-     * A string for an ActionCommand of 'remove_user'.
-     */
-    public static final String REMOVE_USER = "remove_user";
-    /**
      * A string for an ActionCommand of 'update_user'.
      */
     public static final String UPDATE_USER = "update_user";
@@ -85,6 +81,14 @@ public final class Command {
      * A string for an ActionCommand of 'return_item'.
      */
     public static final String RETURN_ITEM = "return_item";
+    /**
+     * A string for an ActionCommand of 'manage_items'.
+     */
+    public static final String MANAGE_ITEMS = "manage_items";
+    /**
+     * A string for an ActionCommand of 'manage_update_item'.
+     */
+    public static final String MANAGE_UPDATE_ITEM = "manage_update_item";
     /**
      * A string for an ActionCommand of 'search'.
      */
