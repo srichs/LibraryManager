@@ -201,8 +201,13 @@ public final class LibrarianServices {
         }
     }
 
-	public static void deleteItem(GUIController controller, BaseItem item) {
-
+	public static void deleteItem(GUIController control, BaseItem item) {
+        ItemDAO itemDAO = new ItemDAO();
+        itemDAO.openSessionwithTransaction();
+        itemDAO.delete(item);
+        List<BaseItem> list = itemDAO.findAll();
+        itemDAO.closeSessionwithTransaction();
+        control.getFrame().getPanelComp().getAllItemsPanel().setItems(list);
 	}
 
 	public static void viewItem(MainFrame frame, BaseItem item) {

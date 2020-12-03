@@ -11,6 +11,7 @@ import edu.umgc.librarymanager.data.model.user.LibrarianUser;
 import edu.umgc.librarymanager.data.model.user.PatronUser;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
 import edu.umgc.librarymanager.data.model.user.UserType;
+import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
@@ -97,7 +98,7 @@ public class AddUserPanel extends JPanel {
         addPanel(this.phonePanel, fieldPanel, "Phone", "", false);
         this.typeBox.setSelectedItem(UserType.Patron);
         typePanel(this.typeBox, fieldPanel);
-        addButton(this.button, fieldPanel, "create_user", control);
+        addButton(this.button, fieldPanel, Command.CREATE_USER, control);
         mainPanel.add(fieldPanel, BorderLayout.CENTER);
         this.setLayout(new FlowLayout());
         this.add(mainPanel);

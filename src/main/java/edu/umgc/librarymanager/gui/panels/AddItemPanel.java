@@ -8,6 +8,8 @@ package edu.umgc.librarymanager.gui.panels;
 
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.Book;
+import edu.umgc.librarymanager.data.model.item.ClassType;
+import edu.umgc.librarymanager.data.model.item.Classification;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
 import edu.umgc.librarymanager.data.model.item.Ebook;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
@@ -107,7 +109,7 @@ public class AddItemPanel extends JPanel {
         addPanel(this.publishLocationPanel, fieldPanel, "Publish Location", "", false);
         this.typeBox.setSelectedItem(ItemType.Book);
         typePanel(this.typeBox, fieldPanel);
-        addButton(this.button, fieldPanel, Command.MANAGE_UPDATE_ITEM, control);
+        addButton(this.button, fieldPanel, Command.CREATE_ITEM, control);
 
         this.itemPanel = new JPanel();
         this.itemPanel.setLayout(new FlowLayout()); // TODO correct scroll pane
@@ -173,8 +175,10 @@ public class AddItemPanel extends JPanel {
     public BaseItem tryCreate() {
         if (checkFields()) {
             ClassificationGroup cg = new ClassificationGroup();
-            cg.getDewey().setCode(this.deweyPanel.getText());
-            cg.getLOC().setCode(this.locPanel.getText());
+            Classification ddc = new Classification(this.deweyPanel.getText(), ClassType.DeweyDecimal);
+            Classification loc = new Classification(this.locPanel.getText(), ClassType.LibraryOfCongress);
+            cg.setDewey(ddc);
+            cg.setLOC(loc);
             PublishData pd = new PublishData(this.publisherPanel.getText(), ZonedDateTime.now(),
                     this.publishLocationPanel.getText());
             Period per = null;

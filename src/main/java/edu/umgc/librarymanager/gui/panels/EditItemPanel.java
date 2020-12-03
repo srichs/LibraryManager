@@ -103,7 +103,9 @@ public class EditItemPanel extends JPanel {
         this.publishLocationPanel.setText(item.getPublisher().getPublishLocation());
         this.itemTypePanel.setText(item.getItemType().toString());
         this.statusPanel.setText(item.getStatus().toString());
-        this.checkoutPeriodPanel.setText(item.getCheckoutPeriod().toString());
+        if (item.getCheckoutPeriod() != null) {
+            this.checkoutPeriodPanel.setText(item.getCheckoutPeriod().toString());
+        }
     }
 
     private void createPanel(GUIController control) {
