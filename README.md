@@ -15,5 +15,6 @@ The project is built using the Maven Build Tool with JUnit tests integrated. Con
         * edu.umgc.librarymanager.data.model
             * edu.umgc.librarymanager.data.model.item
             * edu.umgc.librarymanager.data.model.user
-    * edu.umgc.librarymanager.service
     * edu.umgc.librarymanager.gui
+        * edu.umgc.librarymanager.gui.panels
+    * edu.umgc.librarymanager.service
