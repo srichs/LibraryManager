@@ -13,6 +13,8 @@ package edu.umgc.librarymanager.gui;
  */
 public final class Command {
 
+    // COMMON
+
     /**
      * A string for an ActionCommand of 'login'.
      */
@@ -30,6 +32,13 @@ public final class Command {
      */
     public static final String HELP = "help";
     /**
+     * A string for an ActionCommand of 'clear'.
+     */
+    public static final String CLEAR = "clear";
+
+    // LIBRARIAN
+
+    /**
      * A string for an ActionCommand of 'add_user'.
      */
     public static final String ADD_USER = "add_user";
@@ -37,10 +46,6 @@ public final class Command {
      * A string for an ActionCommand of 'create_user'.
      */
     public static final String CREATE_USER = "create_user";
-    /**
-     * A string for an ActionCommand of 'remove_user'.
-     */
-    public static final String REMOVE_USER = "remove_user";
     /**
      * A string for an ActionCommand of 'update_user'.
      */
@@ -66,9 +71,21 @@ public final class Command {
      */
     public static final String ADD_ITEM = "add_item";
     /**
+     * A string for an ActionCommand of 'create_item'.
+     */
+    public static final String CREATE_ITEM = "create_item";
+    /**
      * A string for an ActionCommand of 'remove_item'.
      */
     public static final String REMOVE_ITEM = "remove_item";
+    /**
+     * A string for an ActionCommand of 'view_item'.
+     */
+    public static final String VIEW_ITEM = "view_item";
+    /**
+     * A string for an ActionCommand of 'delete_item'.
+     */
+    public static final String DELETE_ITEM = "delete_item";
     /**
      * A string for an ActionCommand of 'checkout_item'.
      */
@@ -78,13 +95,32 @@ public final class Command {
      */
     public static final String RETURN_ITEM = "return_item";
     /**
+     * A string for an ActionCommand of 'manage_items'.
+     */
+    public static final String MANAGE_ITEMS = "manage_items";
+    /**
+     * A string for an ActionCommand of 'manage_update_item'.
+     */
+    public static final String MANAGE_UPDATE_ITEM = "manage_update_item";
+    /**
+     * A string for an ActionCommand of 'librarian_menu'.
+     */
+    public static final String LIBRARIAN_MENU = "librarian_menu";
+
+    // PATRON
+
+    /**
      * A string for an ActionCommand of 'search'.
      */
     public static final String SEARCH = "search";
     /**
-     * A string for an ActionCommand of 'clear'.
+     * A string for an ActionCommand of 'search_press'.
      */
-    public static final String CLEAR = "clear";
+    public static final String SEARCH_PRESS = "search_press";
+    /**
+     * A string for an ActionCommand of 'advanced_search_press'.
+     */
+    public static final String ADV_SEARCH_PRESS = "advanced_search_press";
     /**
      * A string for an ActionCommand of 'checked_items'.
      */
@@ -94,13 +130,10 @@ public final class Command {
      */
     public static final String PROFILE = "profile";
     /**
-     * A string for an ActionCommand of 'librarian_menu'.
-     */
-    public static final String LIBRARIAN_MENU = "librarian_menu";
-    /**
      * A string for an ActionCommand of 'patron_menu'.
      */
-    public static final String PATRON_MENU = "patron_menu";
+    public static final String PATRON_MENU = "patron_menu"; // TODO remove?
+
 
     private Command() {}
 

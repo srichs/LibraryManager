@@ -29,7 +29,7 @@ import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 /**
- * This class is used to edit a user to the database.
+ * This class is used to edit an user in the database.
  * @author Scott
  */
 public class EditUserPanel extends JPanel {
@@ -114,7 +114,7 @@ public class EditUserPanel extends JPanel {
         addPanel(this.emailPanel, fieldPanel, "Email", "", false);
         addPanel(this.addressPanel, fieldPanel, "Address", "", false);
         addPanel(this.phonePanel, fieldPanel, "Phone", "", false);
-        addPanel(this.typePanel, fieldPanel, "User Type", "", true); // TODO change to combo box?
+        addPanel(this.typePanel, fieldPanel, "User Type", "", true);
         addButton(this.button, fieldPanel, Command.MANAGE_UPDATE_USER, control);
         mainPanel.add(fieldPanel, BorderLayout.CENTER);
         this.setLayout(new FlowLayout());

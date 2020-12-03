@@ -11,6 +11,7 @@ import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -68,7 +69,7 @@ public class LoginPanel extends JPanel {
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setSize(new Dimension(400, 300));
-        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        mainPanel.setBorder(new EmptyBorder(60, 10, 10, 10));
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new FlowLayout());
         titlePanel.setBorder(new EmptyBorder(20, 20, 20, 20));
@@ -80,6 +81,7 @@ public class LoginPanel extends JPanel {
         c.insets = new Insets(5, 5, 5, 5);
         c.fill = GridBagConstraints.HORIZONTAL;
         JLabel titleLabel = new JLabel("Library Management System");
+        titleLabel.setFont(new Font(titleLabel.getName(), Font.PLAIN, 22));
         JLabel unameLabel = new JLabel("Username");
         JLabel pwordLabel = new JLabel("Password");
         this.usernameField = new JTextField();

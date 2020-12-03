@@ -43,6 +43,7 @@ public enum UserType {
 
     /**
      * ToString Method of the Enum Type.
+     * @return A String value for the type.
      */
     public String toString() {
         switch (this) {

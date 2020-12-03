@@ -22,6 +22,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
@@ -39,18 +40,19 @@ public class BaseTransaction implements ILibraryTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DocumentId
     @Column(name = "transaction_id")
     private long id;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(includeEmbeddedObjectId = true)
     @OneToOne(cascade = CascadeType.ALL)
     private Library library;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(includeEmbeddedObjectId = true)
     @OneToOne(cascade = CascadeType.ALL)
     private BaseItem item;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(includeEmbeddedObjectId = true)
     @OneToOne(cascade = CascadeType.ALL)
     private BaseUser user;
 

@@ -37,7 +37,7 @@ public class MenuBar extends JMenuBar {
     public void setPatronMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
         JMenu fileMenu = new JMenu("File");
-        addMenuItem("Main Menu", fileMenu, Command.PATRON_MENU, control);
+        //addMenuItem("Main Menu", fileMenu, Command.PATRON_MENU, control);
         addMenuItem("Search", fileMenu, Command.SEARCH, control);
         addMenuItem("View Profile", fileMenu, Command.PROFILE, control);
         addMenuItem("View Checked Items", fileMenu, Command.CHECKED_ITEMS, control);
@@ -61,6 +61,9 @@ public class MenuBar extends JMenuBar {
         JMenu fileMenu = new JMenu("File");
         addMenuItem("Main Menu", fileMenu, Command.LIBRARIAN_MENU, control);
         addMenuItem("Manage Users", fileMenu, Command.MANAGE_USERS, control);
+        addMenuItem("Manage Items", fileMenu, Command.MANAGE_ITEMS, control);
+        addMenuItem("Checkout Items", fileMenu, Command.CHECKOUT_ITEM, control);
+        addMenuItem("Return Items", fileMenu, Command.RETURN_ITEM, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");

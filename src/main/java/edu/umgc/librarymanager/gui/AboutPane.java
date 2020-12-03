@@ -26,7 +26,9 @@ public final class AboutPane {
         sb.append("Library Management System\n");
         sb.append("Version: 0.1.0\n");
         sb.append("November 2020\n\n");
-        sb.append("Description: Used to manage the items and services of a library.\n\n");
+        sb.append("Description: An application that is used to manage the items, users,\n");
+        sb.append(space);
+        sb.append("and services of a library.\n\n");
         sb.append("Created By: Cindy Reynolds\n");
         sb.append(space);
         sb.append("David Koo\n");

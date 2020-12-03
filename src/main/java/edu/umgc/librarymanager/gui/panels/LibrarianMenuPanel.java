@@ -36,15 +36,13 @@ public class LibrarianMenuPanel extends JPanel {
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setSize(new Dimension(400, 400));
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        mainPanel.setBorder(new EmptyBorder(60, 20, 20, 20));
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        addButton("Add User", buttonPanel, Command.ADD_USER, control);
-        addButton("Remove User", buttonPanel, Command.REMOVE_USER, control);
-        addButton("Add Item", buttonPanel, Command.ADD_ITEM, control);
-        addButton("Remove Item", buttonPanel, Command.REMOVE_ITEM, control);
+        addButton("Manage Users", buttonPanel, Command.MANAGE_USERS, control);
+        addButton("Manage Items", buttonPanel, Command.MANAGE_ITEMS, control);
         addButton("Checkout Item", buttonPanel, Command.CHECKOUT_ITEM, control);
         addButton("Return Item", buttonPanel, Command.RETURN_ITEM, control);
 

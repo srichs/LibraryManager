@@ -48,6 +48,18 @@ public class PanelComposite {
      * A String for the Edit User panel for use in CardLayout.
      */
     public static final String EDIT_USER = "EditUserPanel";
+    /**
+     * A String for the All Users panel for use in CardLayout.
+     */
+    public static final String ALL_ITEMS = "AllItemsPanel";
+    /**
+     * A String for the All Users panel for use in CardLayout.
+     */
+    public static final String ADD_ITEM = "AddItemPanel";
+    /**
+     * A String for the All Users panel for use in CardLayout.
+     */
+    public static final String EDIT_ITEM = "EditItemPanel";
 
     private LoginPanel loginPanel;
     private LibrarianMenuPanel librarianMenuPanel;
@@ -57,6 +69,9 @@ public class PanelComposite {
     private AddUserPanel addUserPanel;
     private AllUsersPanel allUsersPanel;
     private EditUserPanel editUserPanel;
+    private AllItemsPanel allItemsPanel;
+    private AddItemPanel addItemPanel;
+    private EditItemPanel editItemPanel;
 
     /**
      * The constructor of the class.
@@ -79,6 +94,9 @@ public class PanelComposite {
         this.addUserPanel = new AddUserPanel(control);
         this.allUsersPanel = new AllUsersPanel(control);
         this.editUserPanel = new EditUserPanel(control);
+        this.allItemsPanel = new AllItemsPanel(control);
+        this.addItemPanel = new AddItemPanel(control);
+        this.editItemPanel = new EditItemPanel(control);
     }
 
     public LoginPanel getLoginPanel() {
@@ -143,6 +161,30 @@ public class PanelComposite {
 
     public void setEditUserPanel(EditUserPanel editUserPanel) {
         this.editUserPanel = editUserPanel;
+    }
+
+    public AllItemsPanel getAllItemsPanel() {
+        return this.allItemsPanel;
+    }
+
+    public void setAllItemsPanel(AllItemsPanel allItemsPanel) {
+        this.allItemsPanel = allItemsPanel;
+    }
+
+    public AddItemPanel getAddItemPanel() {
+        return this.addItemPanel;
+    }
+
+    public void setAddItemPanel(AddItemPanel addItemPanel) {
+        this.addItemPanel = addItemPanel;
+    }
+
+    public EditItemPanel getEditItemPanel() {
+        return this.editItemPanel;
+    }
+
+    public void setEditItemPanel(EditItemPanel editItemPanel) {
+        this.editItemPanel = editItemPanel;
     }
 
 }

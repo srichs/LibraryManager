@@ -7,11 +7,13 @@
 package edu.umgc.librarymanager.data.model.item;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 
@@ -21,11 +23,13 @@ import org.hibernate.search.annotations.Indexed;
  */
 @Entity
 @Indexed
+@Embeddable
 @Table(name = "classification")
 public class Classification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DocumentId
     @Column(name = "classification_id")
     private long id;
 

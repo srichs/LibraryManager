@@ -1,94 +1,31 @@
 /*
- * Filename: ControlHelper.java
+ * Filename: LibrarianServices.java
  * Author: Scott
- * Date Created: 11/28/2020
+ * Date Created: 12/2/2020
  */
 
 package edu.umgc.librarymanager.service;
 
+import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
+import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
-import edu.umgc.librarymanager.gui.InactivityListener;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
-import java.util.HashMap;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
- * This class is used to provide helper methods for the GUIController class.
+ * This class is used to provide methods related to the Librarian services.
  * @author Scott
  */
-public final class ControlHelper {
+public final class LibrarianServices {
 
-    private static final Logger LOG = LogManager.getLogger(GUIController.class);
+    private LibrarianServices() {}
 
-    private ControlHelper() {}
-
-    /**
-     * This method is called when the login button is pressed.
-     * @param control The GUIController of the application.
-     */
-    public static void login(GUIController control) {
-        String username = control.getFrame().getPanelComp().getLoginPanel().getUsernameField().getText();
-        HashMap<String, BaseUser> map = control.getLogins();
-        BaseUser user = null;
-        if (map.containsKey(username)) {
-            if (map.get(username).getLogin().checkPassword(control.getFrame().getPanelComp().getLoginPanel()
-                    .getPasswordField().getPassword())) {
-                control.getFrame().getPanelComp().getLoginPanel().clearFields();
-                user = map.get(username);
-            } else {
-                DialogUtil.warningMessage("Incorrect password. Access denied.", "Login Failure");
-            }
-        } else {
-            DialogUtil.warningMessage("The username was not recognized.", "Login Failure");
-        }
-        if (user != null) {
-            control.setCurrentUser(user);
-            LOG.info(user.getUserName() + " has logged on.");
-            if (control.getCurrentUser().getUserType() == UserType.Librarian) {
-                control.getFrame().getTheMenuBar().setLibrarianMenuBar(control);
-                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
-            } else {
-                control.getFrame().getTheMenuBar().setPatronMenuBar(control);
-                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.PATRON_MENU);
-            }
-            // user is logged out after 5 min of inactivity
-            control.setInactiveListener(new InactivityListener(control.getFrame(), control.getLogoutAction(), 5));
-            control.getInactiveListener().start();
-        }
-    }
-
-    /**
-     * Performs the logout action of the user when the logout button is clicked or from inactivity.
-     * @param inactivity A boolean value for whether the logout is being done because of inactivity.
-     * @param control The GUIController for the application.
-     */
-    public static void logout(boolean inactivity, GUIController control) {
-        if (control.getCurrentUser() != null) {
-            control.getFrame().getTheMenuBar().setLoginMenuBar(control);
-            control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LOGIN);
-            LOG.info(control.getCurrentUser().getUserName() + " logged out.");
-            if (inactivity) {
-                LOG.info(control.getCurrentUser().getUserName() + " was logged out due to inactivity.");
-                DialogUtil.informationMessage("user was logged out due to inactivity.",
-                        "Logged Out");
-            }
-            control.setCurrentUser(null);
-            control.getInactiveListener().stop();
-            control.setInactiveListener(null);
-        }
-    }
-
-    public static void viewProfile(GUIController control) {
-        control.getFrame().getPanelComp().getUserProfilePanel().setUser(control.getCurrentUser());
-        control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.PROFILE);
-    }
+    // Manage Users
 
     public static void addUser(MainFrame frame) {
         frame.getPanelComp().getAddUserPanel().setNew();
@@ -147,6 +84,7 @@ public final class ControlHelper {
      * @param frame The MainFrame of the application.
      */
     public static void viewManageUsers(MainFrame frame) {
+        // TODO try to add pagination for scalability
         frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_USERS);
         UserDAO userDAO = new UserDAO();
         userDAO.openSessionwithTransaction();
@@ -201,17 +139,66 @@ public final class ControlHelper {
         }
     }
 
+    // Manage Items
+
     /**
-     * Gets a hashmap of login credentials from the database.
-     * @return A HashMap with the username as the key.
+     * Used to manage the items of the library.
+     * @param frame The MainFrame of the application.
      */
-    public static HashMap<String, BaseUser> getLoginCredentials() {
-        HashMap<String, BaseUser> map = new HashMap<String, BaseUser>();
-        UserDAO userDAO = new UserDAO();
-        userDAO.openSessionwithTransaction();
-        map = userDAO.getUserHashMap();
-        userDAO.closeSessionwithTransaction();
-        return map;
+    public static void viewManageItems(MainFrame frame) {
+        // TODO try to add pagination for scalability
+        frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_ITEMS);
+        ItemDAO itemDAO = new ItemDAO();
+        itemDAO.openSessionwithTransaction();
+        List<BaseItem> list = itemDAO.findAll();
+        itemDAO.closeSessionwithTransaction();
+        frame.getPanelComp().getAllItemsPanel().setItems(list);
+    }
+
+    /**
+     * Used for the updated button press in the EditItemPanel.
+     * @param control The GUIController object.
+     */
+    public static void manageUpdateItem(GUIController control) {
+        BaseItem item = control.getFrame().getPanelComp().getEditItemPanel().tryUpdate();
+        if (item != null) {
+            ItemDAO itemDAO = new ItemDAO();
+            try {
+                itemDAO.openSessionwithTransaction();
+                itemDAO.update(item);
+                itemDAO.closeSessionwithTransaction();
+            } finally {
+                itemDAO.closeSession();
+            }
+            control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_ITEMS);
+            DialogUtil.informationMessage("The update was successful.", "Update Information");
+        }
+    }
+
+    public static void addItem(MainFrame frame) {
+        frame.getPanelComp().getAddItemPanel().setNew();
+        frame.getLayout().show(frame.getPanels(), PanelComposite.ADD_ITEM);
+    }
+
+    /**
+     * This method is used to create an item, it is called when the Add User button is pressed on the AddUserPanel.
+     * @param control The GUIController of the application.
+     */
+    public static void createItem(GUIController control) {
+        BaseItem item = control.getFrame().getPanelComp().getAddItemPanel().tryCreate();
+        if (item != null) {
+            ItemDAO itemDAO = new ItemDAO();
+            try {
+                itemDAO.openSessionwithTransaction();
+                itemDAO.persist(item);
+                itemDAO.closeSessionwithTransaction();
+            } finally {
+                itemDAO.closeSession();
+            }
+            DialogUtil.informationMessage("The item was added successfully.\ntitle: " + item.getTitle() + "\n",
+                    "Update Information");
+            control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
+        }
     }
 
 }

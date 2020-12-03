@@ -8,12 +8,14 @@ package edu.umgc.librarymanager.data.model.item;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
@@ -24,19 +26,21 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  */
 @Entity
 @Indexed
+@Embeddable
 @Table(name = "classification_group")
 public class ClassificationGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DocumentId
     @Column(name = "classification_group_id")
     private long id;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(includeEmbeddedObjectId = true)
     @OneToOne(cascade = CascadeType.ALL)
     private Classification dewey;
 
-    @IndexedEmbedded
+    @IndexedEmbedded(includeEmbeddedObjectId = true)
     @OneToOne(cascade = CascadeType.ALL)
     private Classification loc;
 
