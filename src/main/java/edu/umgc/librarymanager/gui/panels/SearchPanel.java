@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
+import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -68,10 +69,10 @@ public class SearchPanel extends JPanel {
         buttonPanel.setLayout(new FlowLayout());
         buttonPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         JButton searchButton = new JButton("Search");
-        searchButton.setActionCommand("sea");
+        searchButton.setActionCommand(Command.SEARCH_PRESS);
         searchButton.addActionListener((ActionListener) control);
         JButton advSearchButton = new JButton("Advanced Search");
-        advSearchButton.setActionCommand("adv");
+        advSearchButton.setActionCommand(Command.ADV_SEARCH_PRESS);
         advSearchButton.addActionListener((ActionListener) control);
 
         buttonPanel.add(searchButton);

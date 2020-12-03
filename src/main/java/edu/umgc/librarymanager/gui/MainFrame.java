@@ -70,8 +70,8 @@ public class MainFrame extends JFrame {
         this.panels.setLayout(this.layout);
         initPanels();
         this.getContentPane().add(this.panels, BorderLayout.CENTER);
-        this.layout.show(this.panels, PanelComposite.LOGIN); // TODO
-        //this.layout.show(this.panels, PanelComposite.SEARCH);
+        this.layout.show(this.panels, PanelComposite.LOGIN);
+        //this.layout.show(this.panels, PanelComposite.SEARCH); // TODO for testing gui panels
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
@@ -88,6 +88,8 @@ public class MainFrame extends JFrame {
         this.panels.add(this.panelComp.getAllUsersPanel(), PanelComposite.ALL_USERS);
         this.panels.add(this.panelComp.getEditUserPanel(), PanelComposite.EDIT_USER);
         this.panels.add(this.panelComp.getAllItemsPanel(), PanelComposite.ALL_ITEMS);
+        this.panels.add(this.panelComp.getAddItemPanel(), PanelComposite.ADD_ITEM);
+        this.panels.add(this.panelComp.getEditItemPanel(), PanelComposite.EDIT_ITEM);
     }
 
     // This is used to get a List of the image icons from the resources folder.

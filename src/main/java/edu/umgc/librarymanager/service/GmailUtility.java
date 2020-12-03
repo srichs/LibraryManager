@@ -34,7 +34,8 @@ import javax.mail.internet.MimeMessage;
 
 /**
  * Utility class that is used to send email notifications from the application. It requires a google token
- * to work. A token is already generated and can be included.
+ * to work. A token is already generated and can be included with the application to allow it to send
+ * emails from the umgc.library.manager@gmail.com email account.
  */
 public final class GmailUtility {
 

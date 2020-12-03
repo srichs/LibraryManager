@@ -42,7 +42,7 @@ public abstract class BaseItem implements ILibraryItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @DocumentId
-    @Column(name = "user_login_id")
+    @Column(name = "base_item_id")
     private long id;
 
     @IndexedEmbedded(includeEmbeddedObjectId = true)

@@ -53,11 +53,11 @@ public class ItemView extends JPanel {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         JButton viewButton = new JButton("View");
         viewButton.addActionListener(listener);
-        viewButton.setActionCommand(Command.VIEW_USER);
+        viewButton.setActionCommand(Command.VIEW_ITEM);
         viewButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         JButton delButton = new JButton("Delete");
         delButton.addActionListener(listener);
-        delButton.setActionCommand(Command.DELETE_USER);
+        delButton.setActionCommand(Command.DELETE_ITEM);
         delButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         rightPanel.add(viewButton);
         rightPanel.add(Box.createRigidArea(new Dimension(5, 5)));

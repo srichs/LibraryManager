@@ -160,19 +160,45 @@ public final class LibrarianServices {
      * @param control The GUIController object.
      */
     public static void manageUpdateItem(GUIController control) {
-        /*BaseItem item = control.getFrame().getPanelComp().getEditItemPanel().tryUpdate();
+        BaseItem item = control.getFrame().getPanelComp().getEditItemPanel().tryUpdate();
         if (item != null) {
             ItemDAO itemDAO = new ItemDAO();
             try {
                 itemDAO.openSessionwithTransaction();
-                itemDAO.update(user);
+                itemDAO.update(item);
                 itemDAO.closeSessionwithTransaction();
             } finally {
                 itemDAO.closeSession();
             }
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_ITEMS);
             DialogUtil.informationMessage("The update was successful.", "Update Information");
-        }*/
+        }
+    }
+
+    public static void addItem(MainFrame frame) {
+        frame.getPanelComp().getAddItemPanel().setNew();
+        frame.getLayout().show(frame.getPanels(), PanelComposite.ADD_ITEM);
+    }
+
+    /**
+     * This method is used to create an item, it is called when the Add User button is pressed on the AddUserPanel.
+     * @param control The GUIController of the application.
+     */
+    public static void createItem(GUIController control) {
+        BaseItem item = control.getFrame().getPanelComp().getAddItemPanel().tryCreate();
+        if (item != null) {
+            ItemDAO itemDAO = new ItemDAO();
+            try {
+                itemDAO.openSessionwithTransaction();
+                itemDAO.persist(item);
+                itemDAO.closeSessionwithTransaction();
+            } finally {
+                itemDAO.closeSession();
+            }
+            DialogUtil.informationMessage("The item was added successfully.\ntitle: " + item.getTitle() + "\n",
+                    "Update Information");
+            control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
+        }
     }
 
 }

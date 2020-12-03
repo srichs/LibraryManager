@@ -74,9 +74,12 @@ public class GUIController implements ActionListener {
         } else if (Command.UPDATE_USER.equals(e.getActionCommand())) {
             LOG.info("Update User button pressed.");
             LibrarianServices.updateUser(this);
+        } else if (Command.CREATE_ITEM.equals(e.getActionCommand())) {
+            LOG.info("Add User button pressed.");
+            LibrarianServices.createItem(this);
         } else if (Command.ADD_ITEM.equals(e.getActionCommand())) {
             LOG.info("Add Item button pressed.");
-            DialogUtil.informationMessage("Add item not yet configured.", "Add Item"); // TODO
+            LibrarianServices.addItem(this.frame);
         } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
             LOG.info("Checkout Item button pressed.");
             DialogUtil.informationMessage("Checkout item not yet configured.", "Checkout Item"); // TODO
@@ -90,16 +93,16 @@ public class GUIController implements ActionListener {
             LOG.info("Update User button pressed.");
             LibrarianServices.manageUpdateUser(this);
         } else if (Command.MANAGE_ITEMS.equals(e.getActionCommand())) {
-            LOG.info("Manage Users panel displayed.");
+            LOG.info("Manage Items panel displayed.");
             LibrarianServices.viewManageItems(this.frame);
         } else if (Command.MANAGE_UPDATE_ITEM.equals(e.getActionCommand())) {
-            LOG.info("Update User button pressed.");
-            //ControlHelper.manageUpdateItem(this); // TODO
+            LOG.info("Update Item button pressed.");
+            LibrarianServices.manageUpdateItem(this); // TODO
         } else if (Command.PATRON_MENU.equals(e.getActionCommand())) { // PATRON // TODO remove? use search as main.
             LOG.info("Patron Menu displayed.");
             this.frame.getLayout().show(this.frame.getPanels(), PanelComposite.PATRON_MENU);
         } else if (Command.SEARCH.equals(e.getActionCommand())) {
-            LOG.info("Search button pressed.");
+            LOG.info("Search panel button pressed.");
             PatronServices.viewSearch(this);
         } else if (Command.CHECKED_ITEMS.equals(e.getActionCommand())) {
             LOG.info("View Checked Items button pressed.");
@@ -107,6 +110,14 @@ public class GUIController implements ActionListener {
         } else if (Command.PROFILE.equals(e.getActionCommand())) {
             LOG.info("View Profile button pressed.");
             PatronServices.viewProfile(this);
+        } else if (Command.SEARCH_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Search button pressed.");
+            DialogUtil.informationMessage("Search not yet configured.", "Search Item");
+            //PatronServices.viewProfile(this); // TODO
+        } else if (Command.ADV_SEARCH_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Advanced search button pressed.");
+            DialogUtil.informationMessage("Advanced Search not yet configured.", "Search Item");
+            //PatronServices.viewProfile(this); // TODO
         }
     }
 
