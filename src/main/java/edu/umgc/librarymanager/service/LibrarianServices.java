@@ -201,4 +201,13 @@ public final class LibrarianServices {
         }
     }
 
+	public static void deleteItem(GUIController controller, BaseItem item) {
+
+	}
+
+	public static void viewItem(MainFrame frame, BaseItem item) {
+        frame.getPanelComp().getEditItemPanel().setItem(item);
+        frame.getLayout().show(frame.getPanels(), PanelComposite.EDIT_ITEM);
+	}
+
 }

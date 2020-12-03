@@ -89,47 +89,45 @@ public class AddItemPanel extends JPanel {
 
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        mainPanel.setSize(new Dimension(500, 400));
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+        mainPanel.setSize(new Dimension(400, 400));
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
-        fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        fieldPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         addPanel(this.idPanel, fieldPanel, "ID", "auto", true);
         addPanel(this.purchaseDatePanel, fieldPanel, "Purchase Date", "auto", true);
         addPanel(this.purchasePricePanel, fieldPanel, "Purchase Price", "", false);
-        addPanel(this.deweyPanel, fieldPanel, "Dewey Decimal Code", "", false);
-        addPanel(this.locPanel, fieldPanel, "Library of Congress Code", "", false);
+        addPanel(this.deweyPanel, fieldPanel, "DDC Code", "", false);
+        addPanel(this.locPanel, fieldPanel, "LOC Code", "", false);
         addPanel(this.titlePanel, fieldPanel, "Title", "", false);
         addPanel(this.descriptionPanel, fieldPanel, "Description", "", false);
-        addPanel(this.summaryPanel, fieldPanel, "Summary", "", false);
+        addPanel(this.summaryPanel, fieldPanel, "Summary", "", false); // TODO make textarea?
         addPanel(this.genrePanel, fieldPanel, "Genre", "auto", true);
         addPanel(this.publisherPanel, fieldPanel, "Publisher", "", false);
-        addPanel(this.publishDatePanel, fieldPanel, "Publish Date", "", true);
+        addPanel(this.publishDatePanel, fieldPanel, "Publish Date", "", true); // TODO find good way to get date input
         addPanel(this.publishLocationPanel, fieldPanel, "Publish Location", "", false);
         this.typeBox.setSelectedItem(ItemType.Book);
         typePanel(this.typeBox, fieldPanel);
         addButton(this.button, fieldPanel, Command.MANAGE_UPDATE_ITEM, control);
 
         this.itemPanel = new JPanel();
-        this.itemPanel.setLayout(new BoxLayout(this.itemPanel, BoxLayout.Y_AXIS)); // TODO correct scroll pane
+        this.itemPanel.setLayout(new FlowLayout()); // TODO correct scroll pane
         this.scrollPane = new JScrollPane(this.itemPanel);
         this.scrollPane.getVerticalScrollBar().setUnitIncrement(16);
         this.itemPanel.add(fieldPanel);
-
         this.scrollPane.revalidate();
         this.scrollPane.repaint();
         mainPanel.add(this.scrollPane);
 
-        this.setLayout(new FlowLayout());
-        this.add(mainPanel);
+        this.setLayout(new BorderLayout());
+        this.add(mainPanel, BorderLayout.CENTER);
         this.setVisible(true);
     }
 
     private void typePanel(JComboBox<ItemType> typeBox, Container container) {
         JLabel label = new JLabel("Item Type");
-        label.setPreferredSize(new Dimension(120, 20));
+        label.setPreferredSize(new Dimension(76, 20));
         JPanel mainPanel = new JPanel(new GridBagLayout());
-        mainPanel.setSize(new Dimension(500, 60));
+        mainPanel.setSize(new Dimension(400, 60));
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(5, 10, 5, 10);
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -208,7 +206,12 @@ public class AddItemPanel extends JPanel {
     private boolean checkFields() {
         if (this.titlePanel.getTextField().getText().equals("")
                 || this.descriptionPanel.getTextField().getText().equals("")
-                || this.summaryPanel.getTextField().getText().equals("")) {
+                || this.summaryPanel.getTextField().getText().equals("")
+                || this.deweyPanel.getTextField().getText().equals("")
+                || this.locPanel.getTextField().getText().equals("")
+                || this.purchasePricePanel.getTextField().getText().equals("")
+                || this.publisherPanel.getTextField().getText().equals("")
+                || this.publishLocationPanel.getTextField().getText().equals("")) {
             DialogUtil.warningMessage("All fields must be filled.", "Update Failure");
             return false;
         }
@@ -219,9 +222,14 @@ public class AddItemPanel extends JPanel {
      * Sets all of the editable fields blank.
      */
     public void setNew() {
+        this.purchasePricePanel.setText("");
+        this.deweyPanel.setText("");
+        this.locPanel.setText("");
         this.titlePanel.setText("");
         this.descriptionPanel.setText("");
         this.summaryPanel.setText("");
+        this.publisherPanel.setText("");
+        this.publishLocationPanel.setText("");
     }
 
 }

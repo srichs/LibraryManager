@@ -13,6 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DocumentId;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
 
 /**
  * Models a Dewey Decimal System category. Uses hibernate annotations to map
@@ -20,17 +23,21 @@ import javax.persistence.Table;
  * @author Scott
  */
 @Entity
+@Indexed
 @Table(name = "dewey_category")
 public class DeweyCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @DocumentId
     @Column(name = "dewey_category_id")
     private long id;
 
+    @Field
     @Column(name = "code")
     private String code;
 
+    @Field
     @Column(name = "category")
     private String category;
 

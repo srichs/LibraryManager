@@ -9,6 +9,8 @@ package edu.umgc.librarymanager.gui.panels;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
+import edu.umgc.librarymanager.service.LibrarianServices;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -175,10 +177,10 @@ public class AllItemsPanel extends JPanel implements ActionListener {
             setSelectedItem(this.item);
             if (Command.VIEW_ITEM.equals(e.getActionCommand())) {
                 LOG.info("View Item button pressed.");
-                //ControlHelper.viewUser(getController().getFrame(), this.item); // TODO
+                LibrarianServices.viewItem(getController().getFrame(), this.item); // TODO
             } else if (Command.DELETE_ITEM.equals(e.getActionCommand())) {
                 LOG.info("Delete Item button pressed.");
-                //ControlHelper.deleteUser(getController(), this.item);
+                LibrarianServices.deleteItem(getController(), this.item);
             }
         }
     }
