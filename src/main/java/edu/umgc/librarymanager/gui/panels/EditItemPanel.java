@@ -20,6 +20,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -30,6 +31,8 @@ public class EditItemPanel extends JPanel {
 
     private static final long serialVersionUID = -5928750991154945845L;
 
+    private JScrollPane scrollPane;
+    private JPanel itemPanel;
     private LabelFieldPanel idPanel;
     private LabelFieldPanel deweyPanel;
     private LabelFieldPanel locPanel;
@@ -73,14 +76,14 @@ public class EditItemPanel extends JPanel {
         createPanel(control);
     }
 
-    public void setUser(BaseItem item) {
+    public void setItem(BaseItem item) {
         this.item = item;
         setItemInfo();
     }
 
     /**
      * Sets the item's information to the form fields.
-     * @param user The item to set the information from.
+     * @param item The item to set the information from.
      */
     private void setItemInfo() {
         if (item == null) {
@@ -100,24 +103,25 @@ public class EditItemPanel extends JPanel {
         this.publishLocationPanel.setText(item.getPublisher().getPublishLocation());
         this.itemTypePanel.setText(item.getItemType().toString());
         this.statusPanel.setText(item.getStatus().toString());
-        this.checkoutPeriodPanel.setText(item.getCheckoutPeriod().toString());
+        if (item.getCheckoutPeriod() != null) {
+            this.checkoutPeriodPanel.setText(item.getCheckoutPeriod().toString());
+        }
     }
 
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
         mainPanel.setSize(new Dimension(400, 400));
-        mainPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         JPanel fieldPanel = new JPanel();
         fieldPanel.setLayout(new BoxLayout(fieldPanel, BoxLayout.Y_AXIS));
-        fieldPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        fieldPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
         addPanel(this.idPanel, fieldPanel, "ID", "", true);
-        addPanel(this.deweyPanel, fieldPanel, "Dewey Decimal Code", "", true);
-        addPanel(this.locPanel, fieldPanel, "Library of Congress Code", "", true);
+        addPanel(this.deweyPanel, fieldPanel, "DDC Code", "", true);
+        addPanel(this.locPanel, fieldPanel, "LOC Code", "", true);
         addPanel(this.purchaseDatePanel, fieldPanel, "Purchase Date", "", true);
         addPanel(this.purchasePricePanel, fieldPanel, "Purchase Price", "", true);
         addPanel(this.titlePanel, fieldPanel, "Title", "", false);
         addPanel(this.descriptionPanel, fieldPanel, "Description", "", false);
-        addPanel(this.summaryPanel, fieldPanel, "Summary", "", false);
+        addPanel(this.summaryPanel, fieldPanel, "Summary", "", false); // TODO make textarea?
         addPanel(this.genrePanel, fieldPanel, "Genre", "", true);
         addPanel(this.publisherPanel, fieldPanel, "Publisher", "", true);
         addPanel(this.publishDatePanel, fieldPanel, "Publish Date", "", true);
@@ -127,8 +131,18 @@ public class EditItemPanel extends JPanel {
         addPanel(this.checkoutPeriodPanel, fieldPanel, "Checkout Period", "", true);
         addButton(this.button, fieldPanel, Command.MANAGE_UPDATE_ITEM, control);
         mainPanel.add(fieldPanel, BorderLayout.CENTER);
-        this.setLayout(new FlowLayout());
-        this.add(mainPanel);
+
+        this.itemPanel = new JPanel();
+        this.itemPanel.setLayout(new FlowLayout()); // TODO correct scroll pane
+        this.scrollPane = new JScrollPane(this.itemPanel);
+        this.scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        this.itemPanel.add(fieldPanel);
+        this.scrollPane.revalidate();
+        this.scrollPane.repaint();
+        mainPanel.add(this.scrollPane);
+
+        this.setLayout(new BorderLayout());
+        this.add(mainPanel, BorderLayout.CENTER);
         this.setVisible(true);
     }
 

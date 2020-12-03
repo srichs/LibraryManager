@@ -29,7 +29,7 @@ public final class App {
     public static void main(String[] args) {
         LOG.info("\n" + DatabaseTest.getHeader());
         // The line below is used to preload database with data in the csv files.
-        //HibernateInit.initHibernate();
+        //HibernateInit.initHibernate(); // TODO can be removed for final product
         DatabaseTest.search();
         LOG.info("Application Started.");
         SwingUtilities.invokeLater(new Runnable() {

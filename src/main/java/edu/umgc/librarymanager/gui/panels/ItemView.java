@@ -64,7 +64,7 @@ public class ItemView extends JPanel {
         rightPanel.add(delButton);
         leftPanel.setLayout(new GridLayout(3, 2));
         leftPanel.setBorder(new EmptyBorder(new Insets(5, 20, 5, 5)));
-        leftPanel.add(new JLabel("Title: " + item.getTitle())); // TODO
+        leftPanel.add(new JLabel("Title: " + item.getTitle())); // TODO make view more detailed
         /*leftPanel.add(new JLabel("Email: " + user.getEmail()));
         leftPanel.add(new JLabel("User Type: " + user.getUserType().toString()));
         leftPanel.add(new JLabel("Username: " + user.getUserName()));
