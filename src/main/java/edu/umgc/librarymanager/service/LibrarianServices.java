@@ -201,18 +201,28 @@ public final class LibrarianServices {
         }
     }
 
-	public static void deleteItem(GUIController control, BaseItem item) {
+    /**
+     * Used to delete an item from the item management screen.
+     * @param control The GUIController of the application.
+     * @param item The item to be deleted.
+     */
+    public static void deleteItem(GUIController control, BaseItem item) {
         ItemDAO itemDAO = new ItemDAO();
         itemDAO.openSessionwithTransaction();
         itemDAO.delete(item);
         List<BaseItem> list = itemDAO.findAll();
         itemDAO.closeSessionwithTransaction();
         control.getFrame().getPanelComp().getAllItemsPanel().setItems(list);
-	}
+    }
 
-	public static void viewItem(MainFrame frame, BaseItem item) {
+    /**
+     * Used to view the details of an item.
+     * @param frame The MainFrame of the application.
+     * @param item The item to be viewed.
+     */
+    public static void viewItem(MainFrame frame, BaseItem item) {
         frame.getPanelComp().getEditItemPanel().setItem(item);
         frame.getLayout().show(frame.getPanels(), PanelComposite.EDIT_ITEM);
-	}
+    }
 
 }

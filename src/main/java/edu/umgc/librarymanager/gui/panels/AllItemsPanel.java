@@ -10,7 +10,6 @@ import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.service.LibrarianServices;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;

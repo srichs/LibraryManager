@@ -106,7 +106,7 @@ public class GUIController implements ActionListener {
             PatronServices.viewSearch(this);
         } else if (Command.CHECKED_ITEMS.equals(e.getActionCommand())) {
             LOG.info("View Checked Items button pressed.");
-            DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO view checked items
+            DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO view checked
         } else if (Command.PROFILE.equals(e.getActionCommand())) {
             LOG.info("View Profile button pressed.");
             PatronServices.viewProfile(this);
