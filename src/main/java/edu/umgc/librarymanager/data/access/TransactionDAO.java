@@ -31,7 +31,7 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
     public List<BaseTransaction> findByUser(BaseUser user) {
         List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
                 .createQuery("From BaseTransaction t Where t.user = :user")
-                .setParameter("user", user).list();
+                .setParameter("user", user).getResultList();
         if (transactions.size() > 0) {
             return transactions;
         }
@@ -47,7 +47,7 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
     public BaseTransaction findByItem(BaseItem item) {
         List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
                 .createQuery("From BaseTransaction t Where t.item = :item")
-                .setParameter("item", item).list();
+                .setParameter("item", item).getResultList();
         if (transactions.size() > 0) {
             return transactions.get(0);
         }
@@ -57,7 +57,8 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
     @Override
     @SuppressWarnings("unchecked")
     public List<BaseTransaction> findAll() {
-        List<BaseTransaction> list = (List<BaseTransaction>) getSession().createQuery("From BaseUser").list();
+        List<BaseTransaction> list = (List<BaseTransaction>) getSession().createQuery("From BaseUser")
+                .getResultList();
         return list;
     }
 
