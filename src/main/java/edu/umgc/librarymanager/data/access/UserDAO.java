@@ -70,6 +70,17 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public BaseUser findById(long id) {
+        List<BaseUser> users = (List<BaseUser>) getSession()
+                .createQuery("From BaseUser u Where u.id = :id")
+                .setParameter("id", Integer.valueOf((int) id)).getResultList();
+        if (users.size() > 0) {
+            return users.get(0);
+        }
+        return null;
+    }
+
     /**
      * Checks if a username exists in the database.
      * @param username The username to check for.
