@@ -12,18 +12,30 @@ package edu.umgc.librarymanager.data.access;
  */
 public class Pagination {
 
+    /**
+     * The default page size of a Pagination Object.
+     */
     public static final int DEFAULT_PAGE_SIZE = 20;
 
     private int pageSize;
     private long totalCount;
     private int desiredPage;
-    
+
+    /**
+     * The default constructor of the class.
+     */
     public Pagination() {
         this.pageSize = DEFAULT_PAGE_SIZE;
         this.totalCount = 0;
         this.desiredPage = 1;
     }
 
+    /**
+     * The constructor of the class with parameters for each field.
+     * @param pageSize The number of elements to be displayed on a page.
+     * @param totalCount The total number of elements.
+     * @param desiredPage The desired page to display.
+     */
     public Pagination(int pageSize, int totalCount, int desiredPage) {
         this.pageSize = pageSize;
         this.totalCount = totalCount;
@@ -70,5 +82,5 @@ public class Pagination {
         Pagination p = new Pagination(20, 0, 1);
         return p;
     }
-    
+
 }
