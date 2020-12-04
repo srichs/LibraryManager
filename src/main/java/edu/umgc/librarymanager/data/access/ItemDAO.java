@@ -36,6 +36,17 @@ public class ItemDAO extends BaseDAO<BaseItem> {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
+    public BaseItem findById(long id) {
+        List<BaseItem> items = (List<BaseItem>) getSession()
+                .createQuery("From BaseItem i Where i.id = :id")
+                .setParameter("id", id).getResultList();
+        if (items.size() > 0) {
+            return items.get(0);
+        }
+        return null;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public List<BaseItem> findAll() {
