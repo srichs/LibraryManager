@@ -7,7 +7,9 @@
 package edu.umgc.librarymanager.data.access;
 
 import com.opencsv.CSVReader;
+import edu.umgc.librarymanager.data.model.BaseTransaction;
 import edu.umgc.librarymanager.data.model.Library;
+import edu.umgc.librarymanager.data.model.TransactionType;
 import edu.umgc.librarymanager.data.model.item.Book;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
@@ -60,6 +62,7 @@ public final class HibernateInit {
         initDeweyCategoryList();
         initUserList();
         initHibernateBookList();
+        initTransactionList();
     }
 
     /**
@@ -92,10 +95,12 @@ public final class HibernateInit {
         LocalDate dueDate = LocalDate.of(2020, Month.DECEMBER, 10);
         Period period = Period.between(checkDate, dueDate);
         CSVReader reader = null;
+        Transaction transaction = null;
         try (Session session = HibernateUtility.getSessionFactory().openSession()) {
             reader = new CSVReader(new FileReader(file));
             String[] line;
             reader.readNext();
+            transaction = session.beginTransaction();
             while ((line = reader.readNext()) != null) {
                 ClassificationGroup classGroup = new ClassificationGroup();
                 classGroup.setDewey(new Classification(line[1], ClassType.DeweyDecimal));
@@ -106,6 +111,7 @@ public final class HibernateInit {
                         line[8], ItemStatus.Available, period, line[10], line[11]);
                 session.save(book);
             }
+            transaction.commit();
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,6 +191,42 @@ public final class HibernateInit {
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void initTransactionList() {
+        Transaction transaction = null;
+        Library library = new Library("1234 Fake Avenue, Nashville, TN 37011",
+                "Nashville Public Library", "615-867-5309");
+        ZonedDateTime zdt = ZonedDateTime.parse("2019-12-05T10:48:00-05:00[America/New_York]");
+        BaseTransaction bt = null;
+        UserDAO userDAO = new UserDAO();
+        ItemDAO itemDAO = new ItemDAO();
+        Session session = null;
+        try {
+            for (int i = 0; i < 6; i++) {
+                bt = new BaseTransaction();
+                userDAO.openSessionwithTransaction();
+                bt.setUser(userDAO.findById(i));
+                userDAO.closeSessionwithTransaction();
+                itemDAO.openSessionwithTransaction();
+                bt.setItem(itemDAO.findById(i));
+                itemDAO.closeSessionwithTransaction();
+                bt.setLibrary(library);
+                bt.setFee(new BigDecimal("0.00"));
+                bt.setDueDate(zdt);
+                bt.setTransactionDateTime(zdt);
+                bt.setRenewCount(0);
+                bt.setRenewDate(null);
+                bt.setTransactionType(TransactionType.CheckOut);
+                session = HibernateUtility.getSessionFactory().openSession();
+                transaction = session.beginTransaction();
+                session.save(bt);
+                transaction.commit();
+                session.close();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
