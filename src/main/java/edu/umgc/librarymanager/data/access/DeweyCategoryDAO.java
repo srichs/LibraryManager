@@ -9,6 +9,7 @@ package edu.umgc.librarymanager.data.access;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
 import java.util.List;
+import org.hibernate.query.Query;
 
 /**
  * This class is the Data Access Object class for the DeweyCategory class.
@@ -30,7 +31,7 @@ public class DeweyCategoryDAO extends BaseDAO<DeweyCategory> {
         if (DeweyDecimalUtility.matchesPattern(code)) {
             List<DeweyCategory> categories = (List<DeweyCategory>) getSession()
                 .createQuery("From DeweyCategory dc Where dc.code = :code")
-                .setParameter("code", code).list();
+                .setParameter("code", code).getResultList();
             if (categories.size() > 0) {
                 if (categories.get(0).getCode().equals(code)) {
                     return categories.get(0);
@@ -43,8 +44,27 @@ public class DeweyCategoryDAO extends BaseDAO<DeweyCategory> {
     @Override
     @SuppressWarnings("unchecked")
     public List<DeweyCategory> findAll() {
-        List<DeweyCategory> list = (List<DeweyCategory>) getSession().createQuery("From DeweyCategory").list();
+        List<DeweyCategory> list = (List<DeweyCategory>) getSession().createQuery("From DeweyCategory")
+                .getResultList();
         return list;
+    }
+
+    /**
+     * This method is used to receive a page of data given the pagination specifications. Ensure that the
+     * currentPage field and pageSize field are set to requirements before passing. The other fields will be
+     * used by this method.
+     * @param pagination The pagination specifications.
+     * @return A list of dewey categories for the current page.
+     */
+    @SuppressWarnings("unchecked")
+    public List<DeweyCategory> findAllPaginated(Pagination pagination) {
+        Query<Integer> countQuery = getSession().createQuery("Select count (dc.id) From DeweyCategory dc");
+        pagination.setTotalCount((Integer) countQuery.uniqueResult());
+        Query<DeweyCategory> selectQuery = getSession().createQuery("From DeweyCategory");
+        selectQuery.setFirstResult((pagination.getDesiredPage() - 1) * pagination.getPageSize());
+        selectQuery.setMaxResults(pagination.getPageSize());
+        List<DeweyCategory> page = selectQuery.getResultList();
+        return page;
     }
 
 }
