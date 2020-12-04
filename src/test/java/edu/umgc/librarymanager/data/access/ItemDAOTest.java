@@ -68,7 +68,7 @@ public class ItemDAOTest {
 
     @Test
     public void findByTitle_Test() {
-        assertEquals(item, itemDAO.findByTitle("Some Title"));
+        assertEquals(item, itemDAO.searchByTitle("Some Title"));
     }
 
     @Test
