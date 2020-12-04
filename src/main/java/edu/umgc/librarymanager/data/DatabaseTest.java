@@ -15,6 +15,7 @@ import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
+import edu.umgc.librarymanager.data.model.user.UserLogin;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
@@ -89,23 +90,22 @@ public final class DatabaseTest {
         session.getTransaction().begin();
 
         QueryBuilder qb = fullTextSession.getSearchFactory()
-                .buildQueryBuilder().forEntity(BaseUser.class).get();
+                .buildQueryBuilder().forEntity(UserLogin.class).get();
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
-                .onFields("login.username")
+                .onFields("username")
                 .matching("s*")
                 .createQuery();
 
         org.hibernate.search.jpa.FullTextQuery query = fullTextSession
-                .createFullTextQuery(luceneQuery, BaseUser.class);
-        List<BaseUser> result = query.getResultList();
+                .createFullTextQuery(luceneQuery, UserLogin.class);
+        List<UserLogin> result = query.getResultList();
 
         if (result.size() == 0) {
             System.out.println("Not found.");
         } else {
             for (int i = 0; i < result.size(); i++) {
-                System.out.println(result.get(i).getUserName() + " - " + result.get(i).getFirstName()
-                        + " " + result.get(i).getLastName());
+                System.out.println(result.get(i).getUsername() + " - " + result.get(i).getId());
             }
         }
 
