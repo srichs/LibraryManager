@@ -61,8 +61,8 @@ public class ItemDAO extends BaseDAO<BaseItem> {
      */
     @SuppressWarnings("unchecked")
     public List<BaseItem> findAllPaginated(Pagination pagination) {
-        Query<Integer> countQuery = getSession().createQuery("Select Count (i.id) From BaseItem i");
-        pagination.setTotalCount((Integer) countQuery.uniqueResult());
+        Query<Long> countQuery = getSession().createQuery("Select Count (i.id) From BaseItem i");
+        pagination.setTotalCount((Long) countQuery.uniqueResult());
         Query<BaseItem> selectQuery = getSession().createQuery("From BaseItem");
         selectQuery.setFirstResult((pagination.getDesiredPage() - 1) * pagination.getPageSize());
         selectQuery.setMaxResults(pagination.getPageSize());
