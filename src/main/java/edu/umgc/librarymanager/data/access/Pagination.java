@@ -36,7 +36,7 @@ public class Pagination {
      * @param totalCount The total number of elements.
      * @param desiredPage The desired page to display.
      */
-    public Pagination(int pageSize, int totalCount, int desiredPage) {
+    public Pagination(int pageSize, long totalCount, int desiredPage) {
         this.pageSize = pageSize;
         this.totalCount = totalCount;
         this.desiredPage = desiredPage;
@@ -75,7 +75,9 @@ public class Pagination {
     }
 
     public void previousPage() {
-        this.desiredPage--;
+        if (this.desiredPage > 1) {
+            this.desiredPage--;
+        }
     }
 
     public static Pagination getDefault() {
