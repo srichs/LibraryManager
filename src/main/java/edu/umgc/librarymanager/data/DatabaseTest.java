@@ -10,12 +10,12 @@ import edu.umgc.librarymanager.data.access.DeweyCategoryDAO;
 import edu.umgc.librarymanager.data.access.HibernateUtility;
 import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
+import edu.umgc.librarymanager.data.access.UserField;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
-import edu.umgc.librarymanager.data.model.user.UserLogin;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
@@ -90,22 +90,24 @@ public final class DatabaseTest {
         session.getTransaction().begin();
 
         QueryBuilder qb = fullTextSession.getSearchFactory()
-                .buildQueryBuilder().forEntity(UserLogin.class).get();
+                .buildQueryBuilder().forEntity(BaseUser.class).get();
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
-                .onFields("username")
-                .matching("s*")
+                .onFields(UserField.Username.toString(), UserField.FirstName.toString(),
+                        UserField.LastName.toString(), UserField.Email.toString())
+                .matching("reyn")
                 .createQuery();
 
         org.hibernate.search.jpa.FullTextQuery query = fullTextSession
-                .createFullTextQuery(luceneQuery, UserLogin.class);
-        List<UserLogin> result = query.getResultList();
+                .createFullTextQuery(luceneQuery, BaseUser.class);
+        List<BaseUser> result = query.getResultList();
 
         if (result.size() == 0) {
             System.out.println("Not found.");
         } else {
             for (int i = 0; i < result.size(); i++) {
-                System.out.println(result.get(i).getUsername() + " - " + result.get(i).getId());
+                System.out.println(result.get(i).getFirstName() + " " + result.get(i).getLastName()
+                        + " - " + result.get(i).getId());
             }
         }
 
