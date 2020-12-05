@@ -22,10 +22,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Resolution;
 
 /**
  * This class is used to create a transaction that can be stored in the
@@ -56,23 +58,26 @@ public class BaseTransaction implements ILibraryTransaction {
     @OneToOne(cascade = CascadeType.ALL)
     private BaseUser user;
 
+    @Field(name = "transaction_date")
+    @DateBridge(resolution = Resolution.SECOND)
     @Column(name = "transaction_date")
     private ZonedDateTime transactionDateTime;
 
-    @Field
+    @Field(name = "due_date")
+    @DateBridge(resolution = Resolution.SECOND)
     @Column(name = "due_date")
     private ZonedDateTime dueDate;
 
     @Column(name = "fee")
     private BigDecimal fee;
 
+    @Field(name = "renew_date")
     @Column(name = "renew_date")
     private ZonedDateTime renewDate;
 
     @Column(name = "renew_count")
     private int renewCount;
 
-    @Field
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "type")
     private TransactionType transactionType;
