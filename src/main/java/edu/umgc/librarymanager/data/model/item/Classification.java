@@ -33,7 +33,7 @@ public class Classification {
     @Column(name = "classification_id")
     private long id;
 
-    @Field
+    @Field(name = "code")
     @Column(name = "code")
     private String code;
 

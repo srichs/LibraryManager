@@ -19,18 +19,41 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
+import org.apache.lucene.analysis.core.StopFilterFactory;
+import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.standard.StandardFilterFactory;
+import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.Resolution;
+import org.hibernate.search.annotations.TokenizerDef;
+import org.hibernate.search.annotations.TokenFilterDef;
 
 /**
  * Models a library management system user. Uses hibernate annotations to map the
  * user's data to the hibernate database.
  * @author Scott
  */
+@AnalyzerDef(name = "ngram", // Custom analyzer that uses n-grams of size 4 to analyze tokens
+    tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class ),
+    filters = {
+        @TokenFilterDef(factory = StandardFilterFactory.class),
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+        @TokenFilterDef(factory = StopFilterFactory.class),
+        @TokenFilterDef(factory = NGramFilterFactory.class,
+        params = {
+            @Parameter(name = "minGramSize", value = "4"),
+            @Parameter(name = "maxGramSize", value = "4")
+        })
+    }
+)
 @Entity
-@Indexed
 @Table(name = "base_user")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseUser implements IUser {
@@ -41,14 +64,18 @@ public abstract class BaseUser implements IUser {
     @Column(name = "base_user_id")
     private int id;
 
+    @Field(name = "date_time_created")
+    @DateBridge(resolution = Resolution.SECOND)
     @Column(name = "date_time_created")
     private ZonedDateTime dateTimeCreated;
 
-    @Field
+    @Field(name = "first_name")
+    @Analyzer(definition = "ngram")
     @Column(name = "first_name")
     private String firstName;
 
-    @Field
+    @Field(name = "last_name")
+    @Analyzer(definition = "ngram")
     @Column(name = "last_name")
     private String lastName;
 
@@ -56,6 +83,8 @@ public abstract class BaseUser implements IUser {
     @OneToOne(cascade = CascadeType.ALL)
     private UserLogin login;
 
+    @Field(name = "email")
+    @Analyzer(definition = "ngram")
     @Column(name = "email")
     private String email;
 

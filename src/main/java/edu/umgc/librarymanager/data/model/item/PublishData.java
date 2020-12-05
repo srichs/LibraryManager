@@ -14,9 +14,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Resolution;
 
 /**
  * A class that is used to model some information about the publishing of an item.
@@ -34,13 +37,18 @@ public class PublishData {
     @Column(name = "publish_data_id")
     private long id;
 
-    @Field
+    @Field(name = "publisher")
+    @Analyzer(definition = "ngram")
     @Column(name = "publisher")
     private String publisher;
 
+    @Field(name = "publish_date")
+    @DateBridge(resolution = Resolution.SECOND)
     @Column(name = "publish_date")
     private ZonedDateTime publishDate;
 
+    @Field(name = "publish_location")
+    @Analyzer(definition = "ngram")
     @Column(name = "publish_location")
     private String publishLocation;
 

@@ -17,6 +17,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import org.hibernate.HibernateException;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -42,7 +43,8 @@ public class UserLogin {
     @Column(name = "user_login_id")
     private long id;
 
-    @Field
+    @Field(name = "username")
+    @Analyzer(definition = "ngram")
     @Column(name = "username")
     private String username;
 
