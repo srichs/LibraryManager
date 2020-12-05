@@ -23,9 +23,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
-import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
 
 /**
@@ -34,7 +34,6 @@ import org.hibernate.search.annotations.IndexedEmbedded;
  * @author Scott
  */
 @Entity
-@Indexed
 @Table(name = "base_item")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class BaseItem implements ILibraryItem {
@@ -52,7 +51,8 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "purchase_date")
     private ZonedDateTime purchaseDate;
 
-    @Field
+    @Field(name = "description")
+    @Analyzer(definition = "ngram")
     @Column(name = "description")
     private String description;
 
@@ -60,6 +60,7 @@ public abstract class BaseItem implements ILibraryItem {
     private BigDecimal purchasePrice;
 
     @Field(name = "title")
+    @Analyzer(definition = "ngram")
     @Column(name = "title")
     private String title;
 
@@ -67,13 +68,17 @@ public abstract class BaseItem implements ILibraryItem {
     @OneToOne(cascade = CascadeType.ALL)
     private PublishData publisher;
 
-    @Field
+    @Field(name = "genre")
+    @Analyzer(definition = "ngram")
     @Column(name = "genre")
     private String genre;
 
+    @Field(name = "summary")
+    @Analyzer(definition = "ngram")
     @Column(name = "summary", length = 1000)
     private String summary;
 
+    @Field(name = "status")
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "status")
     private ItemStatus status;
