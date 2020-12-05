@@ -32,8 +32,8 @@ import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.IndexedEmbedded;
 import org.hibernate.search.annotations.Parameter;
 import org.hibernate.search.annotations.Resolution;
-import org.hibernate.search.annotations.TokenizerDef;
 import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 /**
  * Models a library management system user. Uses hibernate annotations to map the
@@ -41,7 +41,7 @@ import org.hibernate.search.annotations.TokenFilterDef;
  * @author Scott
  */
 @AnalyzerDef(name = "ngram", // Custom analyzer that uses n-grams of size 4 to analyze tokens
-    tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class ),
+    tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
     filters = {
         @TokenFilterDef(factory = StandardFilterFactory.class),
         @TokenFilterDef(factory = LowerCaseFilterFactory.class),

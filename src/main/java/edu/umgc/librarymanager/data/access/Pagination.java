@@ -74,6 +74,9 @@ public class Pagination {
         this.desiredPage++;
     }
 
+    /**
+     * Decrements the desired page value if it is greater than 1.
+     */
     public void previousPage() {
         if (this.desiredPage > 1) {
             this.desiredPage--;

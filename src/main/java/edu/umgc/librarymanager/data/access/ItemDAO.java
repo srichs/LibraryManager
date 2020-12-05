@@ -36,6 +36,11 @@ public class ItemDAO extends BaseDAO<BaseItem> {
         return null;
     }
 
+    /**
+     * Finds a BaseItem by the item's id.
+     * @param id The id of the item.
+     * @return The BaseItem for the given id.
+     */
     @SuppressWarnings("unchecked")
     public BaseItem findById(long id) {
         List<BaseItem> items = (List<BaseItem>) getSession()

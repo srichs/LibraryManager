@@ -194,6 +194,9 @@ public final class HibernateInit {
         }
     }
 
+    /**
+     * Initializes the database with data for transactions.
+     */
     public static void initTransactionList() {
         Transaction transaction = null;
         Library library = new Library("1234 Fake Avenue, Nashville, TN 37011",

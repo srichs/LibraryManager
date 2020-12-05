@@ -70,6 +70,11 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
         return null;
     }
 
+    /**
+     * Finds a base user given the user's id.
+     * @param id The id of the user.
+     * @return The BaseUser that was found.
+     */
     @SuppressWarnings("unchecked")
     public BaseUser findById(long id) {
         List<BaseUser> users = (List<BaseUser>) getSession()

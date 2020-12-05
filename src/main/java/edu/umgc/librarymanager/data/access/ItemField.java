@@ -7,7 +7,7 @@
 package edu.umgc.librarymanager.data.access;
 
 /**
- * This class
+ * This is an enum for the values of the BaseItem's fields.
  * @author Scott
  */
 public enum ItemField {
