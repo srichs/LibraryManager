@@ -122,8 +122,8 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
      */
     @SuppressWarnings("unchecked")
     public List<BaseUser> findAllPaginated(Pagination pagination) {
-        Query<Integer> countQuery = getSession().createQuery("Select Count (u.id) From BaseUser u");
-        pagination.setTotalCount((Integer) countQuery.uniqueResult());
+        Query<Long> countQuery = getSession().createQuery("Select Count (u.id) From BaseUser u");
+        pagination.setTotalCount((Long) countQuery.uniqueResult());
         Query<BaseUser> selectQuery = getSession().createQuery("From BaseUser");
         selectQuery.setFirstResult((pagination.getDesiredPage() - 1) * pagination.getPageSize());
         selectQuery.setMaxResults(pagination.getPageSize());
