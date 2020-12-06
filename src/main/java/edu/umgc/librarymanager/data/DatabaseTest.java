@@ -9,6 +9,9 @@ package edu.umgc.librarymanager.data;
 import edu.umgc.librarymanager.data.access.DeweyCategoryDAO;
 import edu.umgc.librarymanager.data.access.HibernateUtility;
 import edu.umgc.librarymanager.data.access.ItemDAO;
+import edu.umgc.librarymanager.data.access.ItemField;
+import edu.umgc.librarymanager.data.access.Pagination;
+import edu.umgc.librarymanager.data.access.SearchData;
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.access.UserField;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
@@ -113,6 +116,25 @@ public final class DatabaseTest {
 
         session.getTransaction().commit();
         session.close();
+    }
+
+    public void searchTest() {
+        String[] fields = {UserField.Username.toString(), UserField.FirstName.toString(),
+            UserField.LastName.toString(), UserField.Email.toString()};
+        SearchData<BaseUser> searchUsers = new SearchData<BaseUser>(fields, "Rich", null, BaseUser.class);
+        searchUsers.runSearch();
+        searchUsers.printResult();
+
+        String[] fields2 = {ItemField.Title.toString(), ItemField.Description.toString(),
+                ItemField.DeweyCode.toString(), ItemField.Summary.toString()};
+        SearchData<BaseItem> searchItems = new SearchData<BaseItem>(fields2, "Harr", null, BaseItem.class);
+        searchItems.runSearch();
+        searchItems.printResult();
+
+        Pagination paging = new Pagination(20, 0, 3);
+        SearchData<BaseItem> searchItems2 = new SearchData<BaseItem>(null, null, paging, BaseItem.class);
+        searchItems2.runSearch();
+        searchItems2.printResult();
     }
 
     /**
