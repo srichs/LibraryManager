@@ -30,7 +30,6 @@ import javax.swing.border.EmptyBorder;
  */
 public class PaginationPanel<T> extends JPanel {
 
-    private static final long serialVersionUID = 7321570363090135698L;
     /**
      * The action command String for the press of the Previous button.
      */
@@ -43,6 +42,7 @@ public class PaginationPanel<T> extends JPanel {
      * The action command String for the press of the Next button.
      */
     public static final String NEXT_PRESS = "next_page_press";
+    private static final long serialVersionUID = 7321570363090135698L;
 
     private SearchData<T> searchData;
     private JTextField pageField;
