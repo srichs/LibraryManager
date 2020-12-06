@@ -118,6 +118,9 @@ public final class DatabaseTest {
         session.close();
     }
 
+    /**
+     * Used to provide an example and to test the SearchData class.
+     */
     public void searchTest() {
         String[] fields = {UserField.Username.toString(), UserField.FirstName.toString(),
             UserField.LastName.toString(), UserField.Email.toString()};
