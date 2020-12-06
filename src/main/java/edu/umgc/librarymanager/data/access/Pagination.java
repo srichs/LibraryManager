@@ -6,6 +6,9 @@
 
 package edu.umgc.librarymanager.data.access;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * This class is used to track information about the pagination.
  * @author Scott
@@ -67,7 +70,8 @@ public class Pagination {
     }
 
     public int getLastPageNumber() {
-        return (int) (Math.ceil(this.totalCount / this.pageSize));
+        return new BigDecimal(this.totalCount).divide(new BigDecimal(this.pageSize),
+                RoundingMode.CEILING).toBigInteger().intValue();
     }
 
     public void nextPage() {
