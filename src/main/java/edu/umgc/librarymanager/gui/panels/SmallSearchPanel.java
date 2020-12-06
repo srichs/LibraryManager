@@ -23,7 +23,6 @@ import javax.swing.border.EmptyBorder;
  */
 public class SmallSearchPanel extends JPanel {
 
-    private static final long serialVersionUID = -869442281157952188L;
     /**
      * The action command String for a press of the search button.
      */
@@ -32,6 +31,7 @@ public class SmallSearchPanel extends JPanel {
      * The action command String for a press of the clear button.
      */
     public static final String CLEAR_PRESS = "small_clear_press";
+    private static final long serialVersionUID = -869442281157952188L;
 
     private JTextField searchField;
     private JLabel searchLabel;
