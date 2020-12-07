@@ -108,7 +108,8 @@ public final class HibernateInit {
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
                 Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, "A Genre",
-                        line[8], ItemStatus.Available, period, line[10], line[11]);
+                        line[8], ItemStatus.intToItemStatus(Integer.valueOf(line[9]).intValue()), period, line[10],
+                        line[11]);
                 session.save(book);
             }
             transaction.commit();
@@ -207,7 +208,7 @@ public final class HibernateInit {
         ItemDAO itemDAO = new ItemDAO();
         Session session = null;
         try {
-            for (int i = 0; i < 6; i++) {
+            for (int i = 1; i < 8; i++) {
                 bt = new BaseTransaction();
                 userDAO.openSessionwithTransaction();
                 bt.setUser(userDAO.findById(i));
