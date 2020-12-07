@@ -12,6 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
+import org.hibernate.search.exception.EmptyQueryException;
 import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
@@ -92,7 +93,7 @@ public final class SearchData<T> {
      * all results in one list.
      */
     @SuppressWarnings("unchecked")
-    public void runSearch() {
+    public void runSearch() throws EmptyQueryException {
         Session session = HibernateUtility.getSessionFactory().openSession();
         try {
             FullTextSession fullTextSession = Search.getFullTextSession(session);
