@@ -107,6 +107,7 @@ public class BaseTransaction implements ILibraryTransaction {
      * @param fee The fee associated with the item depending on the transaction type.
      * @param renewDate The renewal date.
      * @param renewCount The renewal count.
+     * @param type The transaction type.
      */
     public BaseTransaction(Library library, BaseItem item, BaseUser user, ZonedDateTime transactionDate,
             ZonedDateTime dueDate, double fee, ZonedDateTime renewDate, int renewCount, TransactionType type) {
@@ -203,6 +204,17 @@ public class BaseTransaction implements ILibraryTransaction {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    /**
+     * The toString method of the class, it outputs some basic information about the given transaction.
+     */
+    public String toString() {
+        if (this.item != null && this.user != null) {
+            return "Item: " + this.item.getTitle() + "\nUser: " + this.user.getFirstName() + " "
+                    + this.user.getLastName() + "\nDue Date: " + this.dueDate;
+        }
+        return "";
     }
 
 }
