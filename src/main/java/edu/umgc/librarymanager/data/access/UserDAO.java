@@ -8,6 +8,7 @@ package edu.umgc.librarymanager.data.access;
 
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.IUser;
+import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.service.IUserService;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,35 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
     }
 
     /**
+     * Finds the user that has an email that matches the terms of the query.
+     * @param email The email to query the database for.
+     * @return A BaseUser who has an email that matches the query or null if none did.
+     */
+    @SuppressWarnings("unchecked")
+    public BaseUser findByEmail(String email) {
+        List<BaseUser> users = (List<BaseUser>) getSession()
+                .createQuery("From BaseUser u Where u.email = :email")
+                .setParameter("email", email).getResultList();
+        if (users.size() > 0) {
+            return users.get(0);
+        }
+        return null;
+    }
+
+    /**
+     * Finds the users for the given UserType.
+     * @param type The type of user to find: Patron or Librarian.
+     * @return A List of Users matching the query.
+     */
+    @SuppressWarnings("unchecked")
+    public List<BaseUser> findByType(UserType type) {
+        List<BaseUser> users = (List<BaseUser>) getSession()
+                .createQuery("From BaseUser u Where u.type = :type")
+                .setParameter("type", type).getResultList();
+        return users;
+    }
+
+    /**
      * Checks if a username exists in the database.
      * @param username The username to check for.
      * @return A boolean value for whether the username exists.
@@ -110,7 +140,7 @@ public class UserDAO extends BaseDAO<BaseUser> implements IUserService {
     @SuppressWarnings("unchecked")
     public List<BaseUser> searchByLastName(String searchTerm) {
         List<BaseUser> users = (List<BaseUser>) getSession()
-                .createQuery("From BaseUser u Where u.last_name  like :searchTerm")
+                .createQuery("From BaseUser u Where u.last_name like :searchTerm")
                 .setParameter("searchTerm", "%" + searchTerm + "%").getResultList();
         if (users.size() > 0) {
             return users;
