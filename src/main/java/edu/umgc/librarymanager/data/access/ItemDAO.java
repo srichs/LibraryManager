@@ -7,6 +7,8 @@
 package edu.umgc.librarymanager.data.access;
 
 import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.item.ItemStatus;
+import edu.umgc.librarymanager.data.model.item.ItemType;
 import java.util.List;
 import org.hibernate.query.Query;
 
@@ -73,6 +75,44 @@ public class ItemDAO extends BaseDAO<BaseItem> {
         selectQuery.setMaxResults(pagination.getPageSize());
         List<BaseItem> page = selectQuery.getResultList();
         return page;
+    }
+
+    /**
+     * Finds the items that are checked out.
+     * @return A List of BaseItems that are checked out.
+     */
+    @SuppressWarnings("unchecked")
+    public List<BaseItem> findCheckedOut() {
+        Query<BaseItem> query = getSession().createQuery("From BaseItem i Where i.status =:status")
+                .setParameter("status", ItemStatus.CheckedOut);
+        List<BaseItem> results = query.getResultList();
+        return results;
+    }
+
+    /**
+     * Finds the BaseItems for the given status.
+     * @param status The ItemStatus to query the database for.
+     * @return A List of BaseItems that match the given status.
+     */
+    @SuppressWarnings("unchecked")
+    public List<BaseItem> findByStatus(ItemStatus status) {
+        Query<BaseItem> query = getSession().createQuery("From BaseItem i Where i.status =:status")
+                .setParameter("status", status);
+        List<BaseItem> results = query.getResultList();
+        return results;
+    }
+
+    /**
+     * Finds the Items for the given type.
+     * @param type The ItemType to query the database for.
+     * @return A List of BaseItems that match the given type.
+     */
+    @SuppressWarnings("unchecked")
+    public List<BaseItem> findByType(ItemType type) {
+        Query<BaseItem> query = getSession().createQuery("From BaseItem i Where i.type =:type")
+                .setParameter("type", type);
+        List<BaseItem> results = query.getResultList();
+        return results;
     }
 
 }
