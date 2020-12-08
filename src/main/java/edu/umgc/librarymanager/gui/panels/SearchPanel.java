@@ -96,6 +96,22 @@ public class SearchPanel extends JPanel {
         this.repaint();
     }
 
+    public JTextField getSearchField() {
+        return this.searchField;
+    }
+
+    public void setSearchField(JTextField field) {
+        this.searchField = field;
+    }
+
+    public JLabel getWelcomeLabel() {
+        return this.welcomeLabel;
+    }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
         resetLabel();

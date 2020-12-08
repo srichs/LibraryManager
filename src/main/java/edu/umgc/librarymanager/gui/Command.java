@@ -103,6 +103,10 @@ public final class Command {
      */
     public static final String MANAGE_UPDATE_ITEM = "manage_update_item";
     /**
+     * A string for an ActionCommand of 'item_returned'.
+     */
+    public static final String ITEM_RETURNED = "item_returned";
+    /**
      * A string for an ActionCommand of 'librarian_menu'.
      */
     public static final String LIBRARIAN_MENU = "librarian_menu";
@@ -129,6 +133,14 @@ public final class Command {
      * A string for an ActionCommand of 'profile'.
      */
     public static final String PROFILE = "profile";
+    /**
+     * A string for an ActionCommand of 'item_renewed'.
+     */
+    public static final String ITEM_RENEWED = "item_renewed";
+    /**
+     * A string for an ActionCommand of 'item_reserved'.
+     */
+    public static final String ITEM_RESERVED = "item_reserved";
     /**
      * A string for an ActionCommand of 'patron_menu'.
      */

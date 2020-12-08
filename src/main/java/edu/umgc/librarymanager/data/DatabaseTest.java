@@ -16,6 +16,7 @@ import edu.umgc.librarymanager.data.access.TransactionDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.access.UserField;
 import edu.umgc.librarymanager.data.model.BaseTransaction;
+import edu.umgc.librarymanager.data.model.Library;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ClassType;
@@ -24,6 +25,7 @@ import edu.umgc.librarymanager.data.model.user.BaseUser;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
@@ -195,8 +197,8 @@ public final class DatabaseTest {
      * Performs a query of the transactions of checkedout items of specific users.
      * @return The List of the transactions matching the query.
      */
-    public static List<BaseItem> queryCheckedOutByUser() {
-        List<BaseItem> results = null;
+    public static List<BaseTransaction> queryCheckedOutByUser() {
+        List<BaseTransaction> results = null;
         BaseUser user = null;
         TransactionDAO transDAO = new TransactionDAO();
         UserDAO userDAO = new UserDAO();
@@ -222,7 +224,7 @@ public final class DatabaseTest {
     }
 
     public static void testCOBU() {
-        List<BaseItem> list = queryCheckedOutByUser();
+        List<BaseTransaction> list = queryCheckedOutByUser();
         printResult(list);
     }
 
@@ -260,6 +262,31 @@ public final class DatabaseTest {
             }
             System.out.println();
         }
+    }
+
+    /**
+     * Get the Library from the database.
+     * @return The Library object contained in the database.
+     */
+    @SuppressWarnings("unchecked")
+    public static Library getLibrary() {
+        List<Library> list = null;
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        try {
+            session.getTransaction().begin();
+            Query<Library> query = session.createQuery("From Library");
+            list = query.getResultList();
+            session.getTransaction().commit();
+            session.close();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            session.close();
+        }
+        if (list != null) {
+            return list.get(0);
+        }
+        return null;
     }
 
     /**

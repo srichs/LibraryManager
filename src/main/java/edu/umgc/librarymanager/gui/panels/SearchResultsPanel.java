@@ -6,48 +6,39 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
-import edu.umgc.librarymanager.data.access.ItemField;
 import edu.umgc.librarymanager.data.access.Pagination;
 import edu.umgc.librarymanager.data.access.SearchData;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.gui.Command;
-import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
-import edu.umgc.librarymanager.service.LibrarianServices;
+import edu.umgc.librarymanager.service.PatronServices;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.search.exception.EmptyQueryException;
 
 /**
- * This class is used to view all items of the Library system. It uses the ItemView class
+ * This class is used to view the search results of the Library system. It uses the ItemView class
  * to display each item in a list of items in a scroll pane. Each individual item can
- * be viewed or deleted. There is also an option to search the items title and to
- * add a new item.
+ * have certian actions done on it.
  * @author Scott
  */
-public class AllItemsPanel extends JPanel implements ActionListener {
+public class SearchResultsPanel extends JPanel implements ActionListener {
 
-    private static final long serialVersionUID = 2814076991339926348L;
+    private static final long serialVersionUID = 1L;
     private static final Logger LOG = LogManager.getLogger(AllItemsPanel.class);
 
     private JScrollPane scrollPane;
     private JPanel itemPanel;
-    private JTextField searchField;
     private BaseItem selectedItem;
     private PaginationPanel<BaseItem> paginationPanel;
     private GUIController control;
@@ -56,9 +47,16 @@ public class AllItemsPanel extends JPanel implements ActionListener {
      * The constructor of the class.
      * @param control The GUIController of the application.
      */
-    public AllItemsPanel(GUIController control) {
+    public SearchResultsPanel(GUIController control) {
         this.paginationPanel = new PaginationPanel<BaseItem>(new SearchData<BaseItem>(
                 null, null, new Pagination(20, 0, 1), BaseItem.class), this);
+        JPanel btnPanel = new JPanel(new FlowLayout());
+        btnPanel.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
+        JButton backButton = new JButton("Back");
+        backButton.setActionCommand(Command.SEARCH);
+        backButton.addActionListener((ActionListener) control);
+        btnPanel.add(backButton);
+        this.paginationPanel.add(btnPanel, BorderLayout.WEST);
         this.control = control;
         createPanel(control);
     }
@@ -68,28 +66,6 @@ public class AllItemsPanel extends JPanel implements ActionListener {
      */
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel searchPanel = new JPanel(new FlowLayout());
-        searchPanel.setPreferredSize(new Dimension(880, 60));
-        searchPanel.setMinimumSize(new Dimension(880, 60));
-        searchPanel.setBorder(new EmptyBorder(new Insets(5, 5, 5, 5)));
-        this.searchField = new JTextField(28);
-        JButton searchButton = new JButton("Search");
-        searchButton.addActionListener(this);
-        searchButton.setActionCommand(Command.SEARCH);
-        JButton clearButton = new JButton("Clear");
-        clearButton.addActionListener(this);
-        clearButton.setActionCommand(Command.CLEAR);
-        JButton addUserButton = new JButton("Add Item");
-        addUserButton.addActionListener(control);
-        addUserButton.setActionCommand(Command.ADD_ITEM);
-        searchPanel.add(new JLabel("Search by Title "));
-        searchPanel.add(this.searchField);
-        searchPanel.add(searchButton);
-        searchPanel.add(clearButton);
-        searchPanel.add(Box.createRigidArea(new Dimension(100, 40)));
-        searchPanel.add(addUserButton);
-        mainPanel.add(searchPanel, BorderLayout.NORTH);
-
         this.itemPanel = new JPanel();
         this.itemPanel.setLayout(new BoxLayout(this.itemPanel, BoxLayout.Y_AXIS));
         this.scrollPane = new JScrollPane(this.itemPanel);
@@ -112,7 +88,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         }
         this.itemPanel.removeAll();
         for (int i = 0; i < list.size(); i++) {
-            ItemView view = new ItemView(list.get(i), ItemViewType.View, new ItemActionListener(list.get(i)));
+            ItemView view = new ItemView(list.get(i), ItemViewType.Reserve, new ItemActionListener(list.get(i)));
             this.itemPanel.add(view);
         }
         this.scrollPane.getVerticalScrollBar().setValue(0);
@@ -120,56 +96,14 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         this.scrollPane.repaint();
     }
 
-    // Used to search the list then provide the items that match the search characters.
-    private void searchList(String title) {
-        String[] fields = {ItemField.Title.toString()};
-        SearchData<BaseItem> sd = new SearchData<BaseItem>(fields, title,
-                new Pagination(20, 0, 1), BaseItem.class);
-        this.paginationPanel.setSearchData(sd);
-        update();
-    }
-
-    /**
-     * Resets the search bar and the displayed items.
-     */
-    public void reset() {
-        this.searchField.setText("");
-        this.paginationPanel.setSearchData(new SearchData<BaseItem>(
-                null, null, new Pagination(20, 0, 1), BaseItem.class));
-        update();
-    }
-
-    /**
-     * Called to update the displayed items in the panel, it also updates the pagination information.
-     */
     public void update() {
-        try {
-            this.paginationPanel.getSearchData().runSearch();
-        } catch (EmptyQueryException ex) {
-            reset();
-            DialogUtil.informationMessage("No results were found.", "No Results Found");
-        }
-        if (this.paginationPanel.getSearchData().getResults().size() == 0) {
-            reset();
-            DialogUtil.informationMessage("No results were found.", "No Results Found");
-        }
         this.paginationPanel.update();
         fillPane(this.paginationPanel.getSearchData().getResults());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (Command.SEARCH.equals(e.getActionCommand())) {
-            LOG.info("Search button pressed.");
-            if (!this.searchField.getText().equals("")) {
-                searchList(this.searchField.getText());
-            } else {
-                DialogUtil.warningMessage("Please enter the search terms into the search bar.", "No Search Terms");
-            }
-        } else if (Command.CLEAR.equals(e.getActionCommand())) {
-            LOG.info("Clear button pressed.");
-            reset();
-        } else if (PaginationPanel.NEXT_PRESS.equals(e.getActionCommand())) {
+        if (PaginationPanel.NEXT_PRESS.equals(e.getActionCommand())) {
             LOG.info("Next button pressed.");
             this.paginationPanel.nextPressed();
             fillPane(this.paginationPanel.getSearchData().getResults());
@@ -219,12 +153,9 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             setSelectedItem(this.item);
-            if (Command.VIEW_ITEM.equals(e.getActionCommand())) {
-                LOG.info("View Item button pressed.");
-                LibrarianServices.viewItem(getController().getFrame(), this.item); // TODO
-            } else if (Command.DELETE_ITEM.equals(e.getActionCommand())) {
-                LOG.info("Delete Item button pressed.");
-                LibrarianServices.deleteItem(getController(), this.item);
+            if (Command.ITEM_RESERVED.equals(e.getActionCommand())) {
+                LOG.info("Reserve button pressed.");
+                PatronServices.reserveItem(getController(), this.item);
             }
         }
     }

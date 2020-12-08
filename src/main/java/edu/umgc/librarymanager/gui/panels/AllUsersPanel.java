@@ -6,8 +6,12 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
+import edu.umgc.librarymanager.data.access.Pagination;
+import edu.umgc.librarymanager.data.access.SearchData;
+import edu.umgc.librarymanager.data.access.UserField;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.gui.Command;
+import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.service.LibrarianServices;
 import java.awt.BorderLayout;
@@ -16,7 +20,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -26,6 +29,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.search.exception.EmptyQueryException;
 
 /**
  * This class is used to view all users of the Library system. It uses the UserView class
@@ -37,12 +43,13 @@ import javax.swing.border.EmptyBorder;
 public class AllUsersPanel extends JPanel implements ActionListener {
 
     private static final long serialVersionUID = -9189700781888896926L;
+    private static final Logger LOG = LogManager.getLogger(AllUsersPanel.class);
 
     private JScrollPane scrollPane;
     private JPanel userPanel;
     private JTextField searchField;
-    private List<BaseUser> users;
     private BaseUser selectedUser;
+    private PaginationPanel<BaseUser> paginationPanel;
     private GUIController control;
 
     /**
@@ -50,7 +57,8 @@ public class AllUsersPanel extends JPanel implements ActionListener {
      * @param control The GUIController of the application.
      */
     public AllUsersPanel(GUIController control) {
-        this.users = null;
+        this.paginationPanel = new PaginationPanel<BaseUser>(new SearchData<BaseUser>(
+                null, null, new Pagination(20, 0, 1), BaseUser.class), this);
         this.control = control;
         createPanel(control);
     }
@@ -86,11 +94,12 @@ public class AllUsersPanel extends JPanel implements ActionListener {
         this.userPanel.setLayout(new BoxLayout(this.userPanel, BoxLayout.Y_AXIS));
         this.scrollPane = new JScrollPane(this.userPanel);
         this.scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        fillPane(this.users);
+        update();
 
         this.scrollPane.revalidate();
         this.scrollPane.repaint();
-        mainPanel.add(this.scrollPane);
+        mainPanel.add(this.scrollPane, BorderLayout.CENTER);
+        mainPanel.add(this.paginationPanel, BorderLayout.SOUTH);
         this.setLayout(new BorderLayout());
         this.add(mainPanel, BorderLayout.CENTER);
         this.setVisible(true);
@@ -106,42 +115,81 @@ public class AllUsersPanel extends JPanel implements ActionListener {
             UserView view = new UserView(list.get(i), new UserActionListener(list.get(i)));
             this.userPanel.add(view);
         }
+        this.scrollPane.getVerticalScrollBar().setValue(0);
         this.scrollPane.revalidate();
         this.scrollPane.repaint();
     }
 
     // Used to search the list then provide the names that match the search characters.
     private void searchList(String lastName) {
-        List<BaseUser> newList = new ArrayList<BaseUser>();
-        for (int i = 0; i < this.users.size(); i++) {
-            String lname = this.users.get(i).getLastName();
-            if (lname.toLowerCase().contains(lastName.toLowerCase())) {
-                newList.add(this.users.get(i));
-            }
+        String[] fields = {UserField.LastName.toString()};
+        SearchData<BaseUser> sd = new SearchData<BaseUser>(fields, lastName,
+                new Pagination(20, 0, 1), BaseUser.class);
+        this.paginationPanel.setSearchData(sd);
+        update();
+    }
+
+    /**
+     * Resets the search bar and the displayed items.
+     */
+    public void reset() {
+        this.searchField.setText("");
+        this.paginationPanel.setSearchData(new SearchData<BaseUser>(
+                null, null, new Pagination(20, 0, 1), BaseUser.class));
+        update();
+    }
+
+    /**
+     * Called to update the displayed items in the panel, it also updates the pagination information.
+     */
+    public void update() {
+        try {
+            this.paginationPanel.getSearchData().runSearch();
+        } catch (EmptyQueryException ex) {
+            reset();
+            DialogUtil.informationMessage("No results were found.", "No Results Found");
         }
-        fillPane(newList);
+        if (this.paginationPanel.getSearchData().getResults().size() == 0) {
+            reset();
+            DialogUtil.informationMessage("No results were found.", "No Results Found");
+        }
+        this.paginationPanel.update();
+        fillPane(this.paginationPanel.getSearchData().getResults());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (Command.SEARCH.equals(e.getActionCommand())) {
+            LOG.info("Search button pressed.");
             if (!this.searchField.getText().equals("")) {
                 searchList(this.searchField.getText());
+            } else {
+                DialogUtil.warningMessage("Please enter the search terms into the search bar.", "No Search Terms");
             }
         } else if (Command.CLEAR.equals(e.getActionCommand())) {
-            this.searchField.setText("");
-            fillPane(this.users);
+            LOG.info("Clear button pressed.");
+            reset();
+        } else if (PaginationPanel.NEXT_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Next button pressed.");
+            this.paginationPanel.nextPressed();
+            fillPane(this.paginationPanel.getSearchData().getResults());
+        } else if (PaginationPanel.PREVIOUS_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Previous button pressed.");
+            this.paginationPanel.previousPressed();
+            fillPane(this.paginationPanel.getSearchData().getResults());
+        } else if (PaginationPanel.GOTO_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Go To button pressed.");
+            this.paginationPanel.goToPressed();
+            fillPane(this.paginationPanel.getSearchData().getResults());
         }
     }
 
-    /**
-     * Sets the users list of the class and clears the search panel then fills the scroll pane.
-     * @param users The List of users of the system.
-     */
-    public void setUsers(List<BaseUser> users) {
-        this.users = users;
-        this.searchField.setText("");
-        fillPane(users);
+    public PaginationPanel<BaseUser> getPaginationPanel() {
+        return this.paginationPanel;
+    }
+
+    public void setPaginationPanel(PaginationPanel<BaseUser> pagePanel) {
+        this.paginationPanel = pagePanel;
     }
 
     public BaseUser getSelectedUser() {

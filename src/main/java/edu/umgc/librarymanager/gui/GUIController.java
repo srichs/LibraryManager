@@ -13,7 +13,6 @@ import edu.umgc.librarymanager.service.LibrarianServices;
 import edu.umgc.librarymanager.service.PatronServices;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import org.apache.logging.log4j.LogManager;
@@ -34,7 +33,6 @@ public class GUIController implements ActionListener {
     private BaseUser currentUser;
     private InactivityListener inactiveListener;
     private Action logoutAction;
-    private HashMap<String, BaseUser> logins;
 
     /**
      * The default constructor for the class.
@@ -86,6 +84,9 @@ public class GUIController implements ActionListener {
         } else if (Command.RETURN_ITEM.equals(e.getActionCommand())) {
             LOG.info("Return Item button pressed.");
             DialogUtil.informationMessage("Return item not yet configured.", "Return Item"); // TODO return item
+        } else if (Command.ITEM_RETURNED.equals(e.getActionCommand())) {
+            LOG.info("Returned button pressed.");
+            //PatronServices.renewItem(this); // TODO
         } else if (Command.MANAGE_USERS.equals(e.getActionCommand())) {
             LOG.info("Manage Users panel displayed.");
             LibrarianServices.viewManageUsers(this.frame);
@@ -106,14 +107,13 @@ public class GUIController implements ActionListener {
             PatronServices.viewSearch(this);
         } else if (Command.CHECKED_ITEMS.equals(e.getActionCommand())) {
             LOG.info("View Checked Items button pressed.");
-            DialogUtil.informationMessage("Checked items not yet configured.", "Checked Items"); // TODO view checked
+            PatronServices.viewCheckedOutItems(this);
         } else if (Command.PROFILE.equals(e.getActionCommand())) {
             LOG.info("View Profile button pressed.");
             PatronServices.viewProfile(this);
         } else if (Command.SEARCH_PRESS.equals(e.getActionCommand())) {
             LOG.info("Search button pressed.");
-            DialogUtil.informationMessage("Search not yet configured.", "Search Item");
-            //PatronServices.viewProfile(this); // TODO search function
+            PatronServices.viewSearchResults(this);
         } else if (Command.ADV_SEARCH_PRESS.equals(e.getActionCommand())) {
             LOG.info("Advanced search button pressed.");
             DialogUtil.informationMessage("Advanced Search not yet configured.", "Search Item");
@@ -129,7 +129,6 @@ public class GUIController implements ActionListener {
         this.frame = new MainFrame(this);
         this.frame.setTitle("Library Management System");
         this.inactiveListener = null;
-        this.logins = CommonServices.getLoginCredentials();
         logoutAction = new AbstractAction() { // Action to be performed due to user inactivity
             private static final long serialVersionUID = 1L;
             public void actionPerformed(ActionEvent e) {
@@ -164,14 +163,6 @@ public class GUIController implements ActionListener {
 
     public Action getLogoutAction() {
         return this.logoutAction;
-    }
-
-    public HashMap<String, BaseUser> getLogins() {
-        return this.logins;
-    }
-
-    public void setLogins(HashMap<String, BaseUser> logins) {
-        this.logins = logins;
     }
 
     public GUIController getController() {

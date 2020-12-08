@@ -90,6 +90,8 @@ public class MainFrame extends JFrame {
         this.panels.add(this.panelComp.getAllItemsPanel(), PanelComposite.ALL_ITEMS);
         this.panels.add(this.panelComp.getAddItemPanel(), PanelComposite.ADD_ITEM);
         this.panels.add(this.panelComp.getEditItemPanel(), PanelComposite.EDIT_ITEM);
+        this.panels.add(this.panelComp.getSearchResultsPanel(), PanelComposite.SEARCH_RESULTS);
+        this.panels.add(this.panelComp.getCheckedOutPanel(), PanelComposite.CHECKED_OUT);
     }
 
     // This is used to get a List of the image icons from the resources folder.

@@ -25,7 +25,6 @@ import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
-import java.util.HashMap;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -171,13 +170,12 @@ public class AddUserPanel extends JPanel {
     }
 
     /**
-     * Tries to create a new user with the information in the form and returns the user if created.
-     * @param users The HashMap of users that is used at login to check for names.
-     * @return The BaseUser if added or null if not added.
+     * Tries to create a new user with the information in the form and returns true if the form is correct.
+     * @return The BaseUser if the user can be added or null if not.
      */
-    public BaseUser tryCreate(HashMap<String, BaseUser> users) {
+    public BaseUser tryCreate() {
         if (checkFields()) {
-            String username = UserLogin.genUsername(users, this.firstNamePanel.getText(), this.lastNamePanel.getText());
+            String username = UserLogin.genUsername(this.firstNamePanel.getText(), this.lastNamePanel.getText());
             UserLogin login = new UserLogin(username, this.password1.getPassword());
             BaseUser addedUser = null;
             if (this.typeBox.getSelectedItem() == UserType.Patron) {
