@@ -60,6 +60,14 @@ public class PanelComposite {
      * A String for the All Users panel for use in CardLayout.
      */
     public static final String EDIT_ITEM = "EditItemPanel";
+    /**
+     * A String for the Search Results panel for use in CardLayout.
+     */
+    public static final String SEARCH_RESULTS = "SearchResultsPanel";
+    /**
+     * A String for the Checked Out panel for use in CardLayout.
+     */
+    public static final String CHECKED_OUT = "CheckedOutPanel";
 
     private LoginPanel loginPanel;
     private LibrarianMenuPanel librarianMenuPanel;
@@ -72,6 +80,8 @@ public class PanelComposite {
     private AllItemsPanel allItemsPanel;
     private AddItemPanel addItemPanel;
     private EditItemPanel editItemPanel;
+    private SearchResultsPanel searchResultsPanel;
+    private CheckedOutPanel checkedOutPanel;
 
     /**
      * The constructor of the class.
@@ -97,6 +107,8 @@ public class PanelComposite {
         this.allItemsPanel = new AllItemsPanel(control);
         this.addItemPanel = new AddItemPanel(control);
         this.editItemPanel = new EditItemPanel(control);
+        this.searchResultsPanel = new SearchResultsPanel(control);
+        this.checkedOutPanel = new CheckedOutPanel(control);
     }
 
     public LoginPanel getLoginPanel() {
@@ -185,6 +197,22 @@ public class PanelComposite {
 
     public void setEditItemPanel(EditItemPanel editItemPanel) {
         this.editItemPanel = editItemPanel;
+    }
+
+    public SearchResultsPanel getSearchResultsPanel() {
+        return this.searchResultsPanel;
+    }
+
+    public void setSearchResultsPanel(SearchResultsPanel searchResultsPanel) {
+        this.searchResultsPanel = searchResultsPanel;
+    }
+
+    public CheckedOutPanel getCheckedOutPanel() {
+        return this.checkedOutPanel;
+    }
+
+    public void setCheckedOutPanel(CheckedOutPanel checkedOutPanel) {
+        this.checkedOutPanel = checkedOutPanel;
     }
 
 }
