@@ -11,6 +11,7 @@ import edu.umgc.librarymanager.data.model.TransactionType;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.query.Query;
 
@@ -71,13 +72,17 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
      * @return A List of BaseItems that are checked out by the user.
      */
     @SuppressWarnings("unchecked")
-    public List<BaseItem> findCheckedOutByUser(BaseUser user) {
-        Query<BaseItem> query = getSession().createQuery(
+    public List<BaseTransaction> findCheckedOutByUser(BaseUser user) {
+        Query<BaseTransaction> query = getSession().createQuery(
                 "From BaseTransaction t Where t.item.status =:status And t.user = :user")
                 .setParameter("status", ItemStatus.CheckedOut)
                 .setParameter("user", user);
-        List<BaseItem> results = query.getResultList();
-        return results;
+        List<BaseTransaction> results = query.getResultList();
+        List<BaseTransaction> list = new ArrayList<BaseTransaction>();
+        for (int i = 0; i < results.size(); i++) {
+            list.add(results.get(i));
+        }
+        return list;
     }
 
     /**
