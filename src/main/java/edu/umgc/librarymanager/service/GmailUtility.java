@@ -123,9 +123,9 @@ public final class GmailUtility {
      * @param recipientEmail The recipient's email address.
      * @param title The subject of the email.
      * @param message The body of the email.
-     * @throws IOException
-     * @throws MessagingException
-     * @throws GeneralSecurityException
+     * @throws IOException An Exception for the file.
+     * @throws MessagingException An Exception for the problems with the message.
+     * @throws GeneralSecurityException An Exception for the problems with authentication.
      * @see <a href="https://stackoverflow.com/questions/3649014/send-email-using-java">Stackoverflow
      * - send email using java</a>
      */

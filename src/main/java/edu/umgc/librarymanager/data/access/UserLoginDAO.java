@@ -47,7 +47,7 @@ public class UserLoginDAO extends BaseDAO<UserLogin> {
     public UserLogin findByUsername(String username) {
         List<UserLogin> logins = (List<UserLogin>) getSession()
                 .createQuery("From UserLogin ul Where ul.username = :uname")
-                .setParameter("uname", username).list();
+                .setParameter("uname", username).getResultList();
         if (logins.size() > 0) {
             if (logins.get(0).getUsername() == username) {
                 return logins.get(0);
@@ -89,7 +89,7 @@ public class UserLoginDAO extends BaseDAO<UserLogin> {
     @Override
     @SuppressWarnings("unchecked")
     public List<UserLogin> findAll() {
-        List<UserLogin> list = (List<UserLogin>) getSession().createQuery("From UserLogin").list();
+        List<UserLogin> list = (List<UserLogin>) getSession().createQuery("From UserLogin").getResultList();
         return list;
     }
 

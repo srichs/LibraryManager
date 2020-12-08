@@ -22,10 +22,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.IndexedEmbedded;
+import org.hibernate.search.annotations.Resolution;
 
 /**
  * This class is used to create a transaction that can be stored in the
@@ -56,23 +58,26 @@ public class BaseTransaction implements ILibraryTransaction {
     @OneToOne(cascade = CascadeType.ALL)
     private BaseUser user;
 
+    @Field(name = "transaction_date")
+    @DateBridge(resolution = Resolution.SECOND)
     @Column(name = "transaction_date")
     private ZonedDateTime transactionDateTime;
 
-    @Field
+    @Field(name = "due_date")
+    @DateBridge(resolution = Resolution.SECOND)
     @Column(name = "due_date")
     private ZonedDateTime dueDate;
 
     @Column(name = "fee")
     private BigDecimal fee;
 
+    @Field(name = "renew_date")
     @Column(name = "renew_date")
     private ZonedDateTime renewDate;
 
     @Column(name = "renew_count")
     private int renewCount;
 
-    @Field
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "type")
     private TransactionType transactionType;
@@ -102,6 +107,7 @@ public class BaseTransaction implements ILibraryTransaction {
      * @param fee The fee associated with the item depending on the transaction type.
      * @param renewDate The renewal date.
      * @param renewCount The renewal count.
+     * @param type The transaction type.
      */
     public BaseTransaction(Library library, BaseItem item, BaseUser user, ZonedDateTime transactionDate,
             ZonedDateTime dueDate, double fee, ZonedDateTime renewDate, int renewCount, TransactionType type) {
@@ -198,6 +204,17 @@ public class BaseTransaction implements ILibraryTransaction {
 
     public void setTransactionType(TransactionType transactionType) {
         this.transactionType = transactionType;
+    }
+
+    /**
+     * The toString method of the class, it outputs some basic information about the given transaction.
+     */
+    public String toString() {
+        if (this.item != null && this.user != null) {
+            return "Item: " + this.item.getTitle() + "\nUser: " + this.user.getFirstName() + " "
+                    + this.user.getLastName() + "\nDue Date: " + this.dueDate;
+        }
+        return "";
     }
 
 }

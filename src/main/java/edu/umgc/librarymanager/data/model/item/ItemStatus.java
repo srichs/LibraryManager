@@ -54,6 +54,26 @@ public enum ItemStatus {
     }
 
     /**
+     * Gets the item status from an integer.
+     * @param type The integer that represents the status.
+     * @return The ItemStatus.
+     */
+    public static ItemStatus intToItemStatus(int type) {
+        switch (type) {
+            case 0:
+                return Available;
+            case 1:
+                return OnHold;
+            case 2:
+                return CheckedOut;
+            case 3:
+                return InTransit;
+            default:
+                return null;
+        }
+    }
+
+    /**
      * ToString Method of the Enum Type.
      */
     public String toString() {

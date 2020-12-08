@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.model.user;
 
+import edu.umgc.librarymanager.data.access.UserDAO;
 import java.util.HashMap;
 import java.util.Random;
 import javax.persistence.Column;
@@ -15,6 +16,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import org.hibernate.HibernateException;
+import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.DocumentId;
 import org.hibernate.search.annotations.Field;
 import org.hibernate.search.annotations.Indexed;
@@ -40,7 +43,8 @@ public class UserLogin {
     @Column(name = "user_login_id")
     private long id;
 
-    @Field
+    @Field(name = "username")
+    @Analyzer(definition = "ngram")
     @Column(name = "username")
     private String username;
 
@@ -181,6 +185,35 @@ public class UserLogin {
         while (users.containsKey(username)) {
             count++;
             username = unameBase + count;
+        }
+        return username;
+    }
+
+    /**
+     * Generates a username given the new user's first and last names.
+     * @param firstName The first name of the user.
+     * @param lastName The last name of the user.
+     * @return The Username String that is unique.
+     */
+    public static String genUsername(String firstName, String lastName) {
+        int count = 1;
+        String unameBase = firstName.toLowerCase().charAt(0) + lastName.toLowerCase();
+        unameBase = unameBase.replace(" ", "");
+        unameBase = unameBase.replace("'", "");
+        unameBase = unameBase.replace("-", "");
+        String username = unameBase + count;
+        UserDAO userDAO = new UserDAO();
+        try {
+            userDAO.openSessionwithTransaction();
+            while (userDAO.doesUsernameExist(username)) {
+                count++;
+                username = unameBase + count;
+            }
+            userDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            userDAO.closeSession();
         }
         return username;
     }

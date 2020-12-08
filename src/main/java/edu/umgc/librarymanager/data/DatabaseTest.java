@@ -9,13 +9,20 @@ package edu.umgc.librarymanager.data;
 import edu.umgc.librarymanager.data.access.DeweyCategoryDAO;
 import edu.umgc.librarymanager.data.access.HibernateUtility;
 import edu.umgc.librarymanager.data.access.ItemDAO;
+import edu.umgc.librarymanager.data.access.ItemField;
+import edu.umgc.librarymanager.data.access.Pagination;
+import edu.umgc.librarymanager.data.access.SearchData;
+import edu.umgc.librarymanager.data.access.TransactionDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
+import edu.umgc.librarymanager.data.access.UserField;
+import edu.umgc.librarymanager.data.model.BaseTransaction;
 import edu.umgc.librarymanager.data.model.item.BaseBook;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import java.util.List;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
@@ -92,8 +99,9 @@ public final class DatabaseTest {
                 .buildQueryBuilder().forEntity(BaseUser.class).get();
         org.apache.lucene.search.Query luceneQuery = qb
                 .keyword()
-                .onFields("login.username")
-                .matching("s*")
+                .onFields(UserField.Username.toString(), UserField.FirstName.toString(),
+                        UserField.LastName.toString(), UserField.Email.toString())
+                .matching("reyn")
                 .createQuery();
 
         org.hibernate.search.jpa.FullTextQuery query = fullTextSession
@@ -104,13 +112,154 @@ public final class DatabaseTest {
             System.out.println("Not found.");
         } else {
             for (int i = 0; i < result.size(); i++) {
-                System.out.println(result.get(i).getUserName() + " - " + result.get(i).getFirstName()
-                        + " " + result.get(i).getLastName());
+                System.out.println(result.get(i).getFirstName() + " " + result.get(i).getLastName()
+                        + " - " + result.get(i).getId());
             }
         }
 
         session.getTransaction().commit();
         session.close();
+    }
+
+    /**
+     * Used to provide an example and to test the SearchData class.
+     */
+    public void searchTest() {
+        String[] fields = {UserField.Username.toString(), UserField.FirstName.toString(),
+            UserField.LastName.toString(), UserField.Email.toString()};
+        SearchData<BaseUser> searchUsers = new SearchData<BaseUser>(fields, "Rich", null, BaseUser.class);
+        searchUsers.runSearch();
+        searchUsers.printResult();
+
+        String[] fields2 = {ItemField.Title.toString(), ItemField.Description.toString(),
+                ItemField.DeweyCode.toString(), ItemField.Summary.toString()};
+        SearchData<BaseItem> searchItems = new SearchData<BaseItem>(fields2, "Harr", null, BaseItem.class);
+        searchItems.runSearch();
+        searchItems.printResult();
+
+        Pagination paging = new Pagination(20, 0, 3);
+        SearchData<BaseItem> searchItems2 = new SearchData<BaseItem>(null, null, paging, BaseItem.class);
+        searchItems2.runSearch();
+        searchItems2.printResult();
+    }
+
+    /**
+     * The method.
+     * @return A List.
+     */
+    public static List<BaseItem> queryCheckedOut() {
+        List<BaseItem> results = null;
+        ItemDAO itemDAO = new ItemDAO();
+        try {
+            itemDAO.openSessionwithTransaction();
+            results = itemDAO.findCheckedOut();
+            itemDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            itemDAO.closeSession();
+        }
+        return results;
+    }
+
+    public static void testCO() {
+        List<BaseItem> list = queryCheckedOut();
+        printResult(list);
+    }
+
+    /**
+     * Performs a query of all of the transactions.
+     * @return A List of all transactions.
+     */
+    public static List<BaseTransaction> queryAll() {
+        List<BaseTransaction> results = null;
+        TransactionDAO transDAO = new TransactionDAO();
+        try {
+            transDAO.openSessionwithTransaction();
+            results = transDAO.findAll();
+            transDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            transDAO.closeSession();
+        }
+        return results;
+    }
+
+    public static void testBT() {
+        List<BaseTransaction> list = queryAll();
+        printResult(list);
+    }
+
+    /**
+     * Performs a query of the transactions of checkedout items of specific users.
+     * @return The List of the transactions matching the query.
+     */
+    public static List<BaseItem> queryCheckedOutByUser() {
+        List<BaseItem> results = null;
+        BaseUser user = null;
+        TransactionDAO transDAO = new TransactionDAO();
+        UserDAO userDAO = new UserDAO();
+        try {
+            userDAO.openSessionwithTransaction();
+            user = userDAO.findById(6);
+            userDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            userDAO.closeSession();
+        }
+        try {
+            transDAO.openSessionwithTransaction();
+            results = transDAO.findCheckedOutByUser(user);
+            transDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            transDAO.closeSession();
+        }
+        return results;
+    }
+
+    public static void testCOBU() {
+        List<BaseItem> list = queryCheckedOutByUser();
+        printResult(list);
+    }
+
+    /*public static List<BaseItem> queryPastDue() {
+        List<BaseItem> results = null;
+        TransactionDAO transDAO = new TransactionDAO();
+        try {
+            transDAO.openSessionwithTransaction();
+            results = transDAO.findPastDue();
+            transDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            transDAO.closeSession();
+        }
+        return results;
+    }
+
+    public static void testPD() {
+        List<BaseItem> list = queryPastDue();
+        printResult(list);
+    }*/
+
+    /**
+     * A method.
+     * @param <T> The type.
+     * @param list A list.
+     */
+    public static <T> void printResult(List<T> list) {
+        if (list == null) {
+            System.out.println("Not found.");
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                System.out.println("\n" + list.get(i).toString());
+            }
+            System.out.println();
+        }
     }
 
     /**
