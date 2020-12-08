@@ -6,8 +6,12 @@
 
 package edu.umgc.librarymanager.gui.panels;
 
+import edu.umgc.librarymanager.data.access.ItemField;
+import edu.umgc.librarymanager.data.access.Pagination;
+import edu.umgc.librarymanager.data.access.SearchData;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.gui.Command;
+import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.service.LibrarianServices;
 import java.awt.BorderLayout;
@@ -16,7 +20,6 @@ import java.awt.FlowLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -28,6 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.search.exception.EmptyQueryException;
 
 /**
  * This class is used to view all items of the Library system. It uses the ItemView class
@@ -44,8 +48,8 @@ public class AllItemsPanel extends JPanel implements ActionListener {
     private JScrollPane scrollPane;
     private JPanel itemPanel;
     private JTextField searchField;
-    private List<BaseItem> items;
     private BaseItem selectedItem;
+    private PaginationPanel<BaseItem> paginationPanel;
     private GUIController control;
 
     /**
@@ -53,7 +57,8 @@ public class AllItemsPanel extends JPanel implements ActionListener {
      * @param control The GUIController of the application.
      */
     public AllItemsPanel(GUIController control) {
-        this.items = null;
+        this.paginationPanel = new PaginationPanel<BaseItem>(new SearchData<BaseItem>(
+                null, null, new Pagination(20, 0, 1), BaseItem.class), this);
         this.control = control;
         createPanel(control);
     }
@@ -89,11 +94,12 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         this.itemPanel.setLayout(new BoxLayout(this.itemPanel, BoxLayout.Y_AXIS));
         this.scrollPane = new JScrollPane(this.itemPanel);
         this.scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-        fillPane(this.items);
+        update();
 
         this.scrollPane.revalidate();
         this.scrollPane.repaint();
-        mainPanel.add(this.scrollPane);
+        mainPanel.add(this.scrollPane, BorderLayout.CENTER);
+        mainPanel.add(this.paginationPanel, BorderLayout.SOUTH);
         this.setLayout(new BorderLayout());
         this.add(mainPanel, BorderLayout.CENTER);
         this.setVisible(true);
@@ -106,45 +112,84 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         }
         this.itemPanel.removeAll();
         for (int i = 0; i < list.size(); i++) {
-            ItemView view = new ItemView(list.get(i), new ItemActionListener(list.get(i)));
+            ItemView view = new ItemView(list.get(i), ItemViewType.View, new ItemActionListener(list.get(i)));
             this.itemPanel.add(view);
         }
+        this.scrollPane.getVerticalScrollBar().setValue(0);
         this.scrollPane.revalidate();
         this.scrollPane.repaint();
     }
 
     // Used to search the list then provide the items that match the search characters.
     private void searchList(String title) {
-        List<BaseItem> newList = new ArrayList<BaseItem>();
-        for (int i = 0; i < this.items.size(); i++) {
-            String t = this.items.get(i).getTitle();
-            if (t.toLowerCase().contains(title.toLowerCase())) {
-                newList.add(this.items.get(i));
-            }
+        String[] fields = {ItemField.Title.toString()};
+        SearchData<BaseItem> sd = new SearchData<BaseItem>(fields, title,
+                new Pagination(20, 0, 1), BaseItem.class);
+        this.paginationPanel.setSearchData(sd);
+        update();
+    }
+
+    /**
+     * Resets the search bar and the displayed items.
+     */
+    public void reset() {
+        this.searchField.setText("");
+        this.paginationPanel.setSearchData(new SearchData<BaseItem>(
+                null, null, new Pagination(20, 0, 1), BaseItem.class));
+        update();
+    }
+
+    /**
+     * Called to update the displayed items in the panel, it also updates the pagination information.
+     */
+    public void update() {
+        try {
+            this.paginationPanel.getSearchData().runSearch();
+        } catch (EmptyQueryException ex) {
+            reset();
+            DialogUtil.informationMessage("No results were found.", "No Results Found");
         }
-        fillPane(newList);
+        if (this.paginationPanel.getSearchData().getResults().size() == 0) {
+            reset();
+            DialogUtil.informationMessage("No results were found.", "No Results Found");
+        }
+        this.paginationPanel.update();
+        fillPane(this.paginationPanel.getSearchData().getResults());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (Command.SEARCH.equals(e.getActionCommand())) {
+            LOG.info("Search button pressed.");
             if (!this.searchField.getText().equals("")) {
                 searchList(this.searchField.getText());
+            } else {
+                DialogUtil.warningMessage("Please enter the search terms into the search bar.", "No Search Terms");
             }
         } else if (Command.CLEAR.equals(e.getActionCommand())) {
-            this.searchField.setText("");
-            fillPane(this.items);
+            LOG.info("Clear button pressed.");
+            reset();
+        } else if (PaginationPanel.NEXT_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Next button pressed.");
+            this.paginationPanel.nextPressed();
+            fillPane(this.paginationPanel.getSearchData().getResults());
+        } else if (PaginationPanel.PREVIOUS_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Previous button pressed.");
+            this.paginationPanel.previousPressed();
+            fillPane(this.paginationPanel.getSearchData().getResults());
+        } else if (PaginationPanel.GOTO_PRESS.equals(e.getActionCommand())) {
+            LOG.info("Go To button pressed.");
+            this.paginationPanel.goToPressed();
+            fillPane(this.paginationPanel.getSearchData().getResults());
         }
     }
 
-    /**
-     * Sets the items list of the class and clears the search panel then fills the scroll pane.
-     * @param items The List of items of the system.
-     */
-    public void setItems(List<BaseItem> items) {
-        this.items = items;
-        this.searchField.setText("");
-        fillPane(items);
+    public PaginationPanel<BaseItem> getPaginationPanel() {
+        return this.paginationPanel;
+    }
+
+    public void setPaginationPanel(PaginationPanel<BaseItem> pagePanel) {
+        this.paginationPanel = pagePanel;
     }
 
     public BaseItem getSelectedItem() {
