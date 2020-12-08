@@ -264,6 +264,10 @@ public final class DatabaseTest {
         }
     }
 
+    /**
+     * Get the Library from the database.
+     * @return The Library object contained in the database.
+     */
     @SuppressWarnings("unchecked")
     public static Library getLibrary() {
         List<Library> list = null;
