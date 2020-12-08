@@ -15,7 +15,6 @@ import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
-import java.util.List;
 
 /**
  * This class is used to provide methods related to the Librarian services.
@@ -37,7 +36,7 @@ public final class LibrarianServices {
      * @param control The GUIController of the application.
      */
     public static void createUser(GUIController control) {
-        BaseUser user = control.getFrame().getPanelComp().getAddUserPanel().tryCreate(control.getLogins());
+        BaseUser user = control.getFrame().getPanelComp().getAddUserPanel().tryCreate();
         if (user != null) {
             UserDAO userDAO = new UserDAO();
             try {
@@ -49,7 +48,6 @@ public final class LibrarianServices {
             }
             DialogUtil.informationMessage("The user was added successfully.\nusername: " + user.getUserName() + "\n",
                     "Update Information");
-            control.getLogins().put(user.getUserName(), user);
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
         }
     }
@@ -84,13 +82,8 @@ public final class LibrarianServices {
      * @param frame The MainFrame of the application.
      */
     public static void viewManageUsers(MainFrame frame) {
-        // TODO try to add pagination for scalability
+        frame.getPanelComp().getAllUsersPanel().reset();
         frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_USERS);
-        UserDAO userDAO = new UserDAO();
-        userDAO.openSessionwithTransaction();
-        List<BaseUser> list = userDAO.findAll();
-        userDAO.closeSessionwithTransaction();
-        frame.getPanelComp().getAllUsersPanel().setUsers(list);
     }
 
     /**
@@ -112,10 +105,10 @@ public final class LibrarianServices {
         UserDAO userDAO = new UserDAO();
         userDAO.openSessionwithTransaction();
         userDAO.delete(user);
-        List<BaseUser> list = userDAO.findAll();
         userDAO.closeSessionwithTransaction();
-        control.getLogins().remove(user.getUserName());
-        control.getFrame().getPanelComp().getAllUsersPanel().setUsers(list);
+        control.getFrame().getPanelComp().getAllUsersPanel().getPaginationPanel().getSearchData().runSearch();
+        control.getFrame().getPanelComp().getAllUsersPanel().getPaginationPanel().update();
+        control.getFrame().getPanelComp().getAllUsersPanel().update();
     }
 
     /**
@@ -133,7 +126,6 @@ public final class LibrarianServices {
             } finally {
                 userDAO.closeSession();
             }
-            control.getLogins().put(user.getUserName(), user);
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_USERS);
             DialogUtil.informationMessage("The update was successful.", "Update Information");
         }
@@ -146,13 +138,8 @@ public final class LibrarianServices {
      * @param frame The MainFrame of the application.
      */
     public static void viewManageItems(MainFrame frame) {
-        // TODO try to add pagination for scalability
+        frame.getPanelComp().getAllItemsPanel().reset();
         frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_ITEMS);
-        ItemDAO itemDAO = new ItemDAO();
-        itemDAO.openSessionwithTransaction();
-        List<BaseItem> list = itemDAO.findAll();
-        itemDAO.closeSessionwithTransaction();
-        frame.getPanelComp().getAllItemsPanel().setItems(list);
     }
 
     /**
@@ -210,9 +197,10 @@ public final class LibrarianServices {
         ItemDAO itemDAO = new ItemDAO();
         itemDAO.openSessionwithTransaction();
         itemDAO.delete(item);
-        List<BaseItem> list = itemDAO.findAll();
         itemDAO.closeSessionwithTransaction();
-        control.getFrame().getPanelComp().getAllItemsPanel().setItems(list);
+        control.getFrame().getPanelComp().getAllItemsPanel().getPaginationPanel().getSearchData().runSearch();
+        control.getFrame().getPanelComp().getAllItemsPanel().getPaginationPanel().update();
+        control.getFrame().getPanelComp().getAllItemsPanel().update();
     }
 
     /**
