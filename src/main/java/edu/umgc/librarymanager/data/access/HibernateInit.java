@@ -22,12 +22,15 @@ import edu.umgc.librarymanager.data.model.user.LibrarianUser;
 import edu.umgc.librarymanager.data.model.user.PatronUser;
 import edu.umgc.librarymanager.data.model.user.UserException;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
@@ -35,6 +38,7 @@ import org.hibernate.search.Search;
 
 /**
  * Initializes the data in the Hibernate database.
+ * 
  * @author Scott
  */
 public final class HibernateInit {
@@ -42,10 +46,10 @@ public final class HibernateInit {
     private HibernateInit() {}
 
     /**
-     * This method is used to call other methods that initialize the database from .csv data files.
+     * This method is used to call other methods that initialize the database from
+     * .csv data files.
      */
     public static void initHibernate() {
-
         buildSearchIndex();
         DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
         deweyDAO.openSessionwithTransaction();
@@ -63,6 +67,29 @@ public final class HibernateInit {
         initUserList();
         initHibernateBookList();
         initTransactionList();
+    }
+
+    /**
+     * Checks if a database file exists in the resources folder, if it doesn't then the lucene indexes
+     * are deleted and the initHibernate method is called to generate a database and indexes.
+     */
+    public static void databaseCheck() {
+        if (!dbFileExists()) {
+            deleteIndexDirectory();
+            initHibernate();
+        }
+    }
+
+    private static boolean dbFileExists() {
+        return new File("./src/main/resources/", "database.mv.db").exists();
+    }
+
+    private static void deleteIndexDirectory() {
+        try {
+            FileUtils.deleteDirectory(new File("./src/main/resources/lucene/indexes/"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
