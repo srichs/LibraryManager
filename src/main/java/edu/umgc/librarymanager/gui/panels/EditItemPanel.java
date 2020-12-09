@@ -7,6 +7,8 @@
 package edu.umgc.librarymanager.gui.panels;
 
 import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.user.BaseUser;
+import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
@@ -50,6 +52,7 @@ public class EditItemPanel extends JPanel {
     private LabelFieldPanel checkoutPeriodPanel;
     private JButton button;
     private BaseItem item;
+    private GUIController controller;
 
     /**
      * The constructor of the class.
@@ -73,6 +76,7 @@ public class EditItemPanel extends JPanel {
         this.statusPanel = new LabelFieldPanel();
         this.checkoutPeriodPanel = new LabelFieldPanel();
         this.button = new JButton("Update");
+        this.controller = control;
         createPanel(control);
     }
 
@@ -89,6 +93,12 @@ public class EditItemPanel extends JPanel {
         if (item == null) {
             return;
         }
+        BaseUser user = controller.getCurrentUser();
+        boolean isPatron = user == null ? false : user.getUserType() == UserType.Patron;
+        titlePanel.getTextField().setEditable(!isPatron);
+        descriptionPanel.getTextField().setEditable(!isPatron);
+        summaryPanel.getTextField().setEditable(!isPatron);
+        button.setVisible(!isPatron);
         this.idPanel.setText(String.valueOf(item.getId()));
         this.deweyPanel.setText(item.getClassificationGroup().getDewey().getCode());
         this.locPanel.setText(item.getClassificationGroup().getLOC().getCode());

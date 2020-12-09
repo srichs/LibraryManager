@@ -73,8 +73,8 @@ public class ItemView extends JPanel {
         leftPanel.setBorder(new EmptyBorder(new Insets(5, 20, 5, 5)));
         leftPanel.add(new JLabel("Title: " + item.getTitle())); // TODO make view more detailed
         /*leftPanel.add(new JLabel("Email: " + user.getEmail()));*/
-        this.setPreferredSize(new Dimension(860, 80));
-        this.setMaximumSize(new Dimension(860, 80));
+        this.setPreferredSize(new Dimension(860, 100));
+        this.setMaximumSize(new Dimension(860, 100));
         this.setLayout(new BorderLayout());
         this.setBorder(new BevelBorder(BevelBorder.RAISED));
         this.add(leftPanel, BorderLayout.WEST);
@@ -118,6 +118,11 @@ public class ItemView extends JPanel {
             if (this.item.getStatus() == ItemStatus.Available) {
                 label.setForeground(new Color(24, 166, 22));
                 firstBtn.setEnabled(true);
+                btnNumber = 2;
+                secondBtn.setText("View");
+                secondBtn.addActionListener(listener);
+                secondBtn.setActionCommand(Command.VIEW_ITEM);
+                secondBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
             } else {
                 label.setForeground(Color.RED);
                 firstBtn.setEnabled(false);

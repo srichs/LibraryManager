@@ -11,6 +11,7 @@ import edu.umgc.librarymanager.data.access.SearchData;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.GUIController;
+import edu.umgc.librarymanager.service.LibrarianServices;
 import edu.umgc.librarymanager.service.PatronServices;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -153,7 +154,10 @@ public class SearchResultsPanel extends JPanel implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             setSelectedItem(this.item);
-            if (Command.ITEM_RESERVED.equals(e.getActionCommand())) {
+            if (Command.VIEW_ITEM.equals(e.getActionCommand())) {
+                LOG.info("View Item button pressed.");
+                LibrarianServices.viewItem(getController().getFrame(), this.item); // TODO
+            } else if (Command.ITEM_RESERVED.equals(e.getActionCommand())) {
                 LOG.info("Reserve button pressed.");
                 PatronServices.reserveItem(getController(), this.item);
             }
