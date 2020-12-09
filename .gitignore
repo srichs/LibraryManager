@@ -55,7 +55,11 @@ buildNumber.properties
 # Lucene - Hibernate Search
 #
 
-#lucene/
+lucene/
+
+# Database
+
+*.db
 
 #
 
