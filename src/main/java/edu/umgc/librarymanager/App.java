@@ -7,6 +7,7 @@
 package edu.umgc.librarymanager;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.data.access.HibernateInit;
 import edu.umgc.librarymanager.gui.GUIController;
 import javax.swing.SwingUtilities;
 import org.apache.logging.log4j.LogManager;
@@ -28,9 +29,7 @@ public final class App {
      */
     public static void main(String[] args) {
         LOG.info("\n" + DatabaseTest.getHeader());
-        // The line below is used to preload database with data in the csv files.
-        //HibernateInit.initHibernate(); // TODO can be removed for final product
-
+        HibernateInit.databaseCheck(); // Checks if database file exists, creates it if not
         LOG.info("Application Started.");
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
