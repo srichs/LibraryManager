@@ -7,16 +7,24 @@
 package edu.umgc.librarymanager.service;
 
 import edu.umgc.librarymanager.data.access.DeweyCategoryDAO;
-import edu.umgc.librarymanager.data.access.ItemDAO;
-import edu.umgc.librarymanager.data.access.UserDAO;
-import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
+import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.data.access.ItemDAO;
+import edu.umgc.librarymanager.data.access.TransactionDAO;
+import edu.umgc.librarymanager.data.access.UserDAO;
+import edu.umgc.librarymanager.data.model.BaseTransaction;
+import edu.umgc.librarymanager.data.model.Library;
+import edu.umgc.librarymanager.data.model.TransactionType;
+import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
+import java.time.ZonedDateTime;
+import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 
 /**
@@ -140,8 +148,8 @@ public final class LibrarianServices {
      * Used to manage the items of the library.
      * @param frame The MainFrame of the application.
      */
-    public static void viewManageItems(MainFrame frame) {
-        frame.getPanelComp().getAllItemsPanel().reset();
+    public static void viewManageItems(MainFrame frame, String command) {
+        frame.getPanelComp().getAllItemsPanel().reset(command);
         frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_ITEMS);
     }
 
@@ -228,5 +236,80 @@ public final class LibrarianServices {
         frame.getPanelComp().getEditItemPanel().setItem(item);
         frame.getLayout().show(frame.getPanels(), PanelComposite.EDIT_ITEM);
     }
+    
+    /**
+     * This method is used to reserve an item.
+     * @param control The GUIController of the applicaton.
+     * @param item The BaseItem to be reserved.
+     */
+    public static void returnItem(GUIController control, BaseItem item) {
+        item.setStatus(ItemStatus.Available);
+        ItemDAO itemDAO = new ItemDAO();
+        try {
+            itemDAO.openSessionwithTransaction();
+            itemDAO.update(item);
+            itemDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            itemDAO.closeSession();
+        }
 
+        Library library = DatabaseTest.getLibrary();
+        BaseTransaction transaction = new BaseTransaction(library, item, control.getCurrentUser(),
+                ZonedDateTime.now(), null, 0.0, null, 0, TransactionType.Reserve);
+
+        TransactionDAO transDAO = new TransactionDAO();
+        try {
+            transDAO.openSessionwithTransaction();
+            transDAO.persist(transaction);
+            transDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            transDAO.closeSession();
+        }
+        DialogUtil.informationMessage("The item was successfully returned.", "Return Successful");
+        control.getFrame().getPanelComp().getAllItemsPanel().update();
+    }
+    
+    /**
+     * This method is used to reserve an item.
+     * @param control The GUIController of the applicaton.
+     * @param item The BaseItem to be reserved.
+     */
+    public static void checkOutItem(GUIController control, BaseItem item) {
+        int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to check out:\n"
+                + item.getTitle() + "?", "Check Out Item", JOptionPane.YES_NO_OPTION);
+        if (dialogResult == JOptionPane.YES_OPTION) {
+            item.setStatus(ItemStatus.CheckedOut);
+            ItemDAO itemDAO = new ItemDAO();
+            try {
+                itemDAO.openSessionwithTransaction();
+                itemDAO.update(item);
+                itemDAO.closeSessionwithTransaction();
+            } catch (HibernateException ex) {
+                ex.printStackTrace();
+            } finally {
+                itemDAO.closeSession();
+            }
+
+            Library library = DatabaseTest.getLibrary();
+            BaseTransaction transaction = new BaseTransaction(library, item, control.getCurrentUser(),
+                    ZonedDateTime.now(), null, 0.0, null, 0, TransactionType.Reserve);
+
+            TransactionDAO transDAO = new TransactionDAO();
+            try {
+                transDAO.openSessionwithTransaction();
+                transDAO.persist(transaction);
+                transDAO.closeSessionwithTransaction();
+            } catch (HibernateException ex) {
+                ex.printStackTrace();
+            } finally {
+                transDAO.closeSession();
+            }
+            DialogUtil.informationMessage("The item was successfully checked out.", "Check Out Successful");
+            control.getFrame().getPanelComp().getAllItemsPanel().update();
+        }
+    }
 }

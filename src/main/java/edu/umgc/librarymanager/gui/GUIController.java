@@ -80,10 +80,10 @@ public class GUIController implements ActionListener {
             LibrarianServices.addItem(this.frame);
         } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
             LOG.info("Checkout Item button pressed.");
-            DialogUtil.informationMessage("Checkout item not yet configured.", "Checkout Item"); // TODO checkout item
+            LibrarianServices.viewManageItems(this.frame, Command.CHECKOUT_ITEM);
         } else if (Command.RETURN_ITEM.equals(e.getActionCommand())) {
             LOG.info("Return Item button pressed.");
-            DialogUtil.informationMessage("Return item not yet configured.", "Return Item"); // TODO return item
+            LibrarianServices.viewManageItems(this.frame, Command.RETURN_ITEM);
         } else if (Command.ITEM_RETURNED.equals(e.getActionCommand())) {
             LOG.info("Returned button pressed.");
             //PatronServices.renewItem(this); // TODO
@@ -95,7 +95,7 @@ public class GUIController implements ActionListener {
             LibrarianServices.manageUpdateUser(this);
         } else if (Command.MANAGE_ITEMS.equals(e.getActionCommand())) {
             LOG.info("Manage Items panel displayed.");
-            LibrarianServices.viewManageItems(this.frame);
+            LibrarianServices.viewManageItems(this.frame, Command.MANAGE_ITEMS);
         } else if (Command.MANAGE_UPDATE_ITEM.equals(e.getActionCommand())) {
             LOG.info("Update Item button pressed.");
             LibrarianServices.manageUpdateItem(this);
