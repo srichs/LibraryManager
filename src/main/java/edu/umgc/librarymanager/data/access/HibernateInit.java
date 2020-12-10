@@ -15,6 +15,7 @@ import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
+import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.item.PublishData;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
@@ -22,12 +23,16 @@ import edu.umgc.librarymanager.data.model.user.LibrarianUser;
 import edu.umgc.librarymanager.data.model.user.PatronUser;
 import edu.umgc.librarymanager.data.model.user.UserException;
 import edu.umgc.librarymanager.data.model.user.UserLogin;
+import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.search.FullTextSession;
@@ -42,10 +47,10 @@ public final class HibernateInit {
     private HibernateInit() {}
 
     /**
-     * This method is used to call other methods that initialize the database from .csv data files.
+     * This method is used to call other methods that initialize the database from
+     * .csv data files.
      */
     public static void initHibernate() {
-
         buildSearchIndex();
         DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
         deweyDAO.openSessionwithTransaction();
@@ -63,6 +68,29 @@ public final class HibernateInit {
         initUserList();
         initHibernateBookList();
         initTransactionList();
+    }
+
+    /**
+     * Checks if a database file exists in the resources folder, if it doesn't then the lucene indexes
+     * are deleted and the initHibernate method is called to generate a database and indexes.
+     */
+    public static void databaseCheck() {
+        if (!dbFileExists()) {
+            deleteIndexDirectory();
+            initHibernate();
+        }
+    }
+
+    private static boolean dbFileExists() {
+        return new File("./src/main/resources/", "database.mv.db").exists();
+    }
+
+    private static void deleteIndexDirectory() {
+        try {
+            FileUtils.deleteDirectory(new File("./src/main/resources/lucene/indexes/"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -91,6 +119,11 @@ public final class HibernateInit {
      */
     public static void initHibernateBookList() {
         String file = "./src/main/resources/data/books.csv";
+        HashMap<String, String> deweyMap = null;
+        DeweyCategoryDAO deweyCatDAO = new DeweyCategoryDAO();
+        deweyCatDAO.openSessionwithTransaction();
+        deweyMap = deweyCatDAO.getDDCHashMap();
+        deweyCatDAO.closeSessionwithTransaction();
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         LocalDate dueDate = LocalDate.of(2020, Month.DECEMBER, 10);
         Period period = Period.between(checkDate, dueDate);
@@ -106,8 +139,9 @@ public final class HibernateInit {
                 classGroup.setDewey(new Classification(line[1], ClassType.DeweyDecimal));
                 classGroup.setLOC(new Classification(line[2], ClassType.LibraryOfCongress));
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
+                String genre = deweyMap.get(DeweyDecimalUtility.parseCode(line[1]));
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
-                Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, "A Genre",
+                Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, genre,
                         line[8], ItemStatus.intToItemStatus(Integer.valueOf(line[9]).intValue()), period, line[10],
                         line[11]);
                 session.save(book);

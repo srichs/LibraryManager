@@ -6,15 +6,18 @@
 
 package edu.umgc.librarymanager.service;
 
+import edu.umgc.librarymanager.data.access.DeweyCategoryDAO;
 import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
 import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
+import org.hibernate.HibernateException;
 
 /**
  * This class is used to provide methods related to the Librarian services.
@@ -174,11 +177,24 @@ public final class LibrarianServices {
     public static void createItem(GUIController control) {
         BaseItem item = control.getFrame().getPanelComp().getAddItemPanel().tryCreate();
         if (item != null) {
+            DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
+            try {
+                deweyDAO.openSessionwithTransaction();
+                item.setGenre(deweyDAO.findByCode(DeweyDecimalUtility.parseCode(item.getClassificationGroup()
+                        .getDewey().getCode())).getCategory());
+                deweyDAO.closeSessionwithTransaction();
+            } catch (HibernateException ex) {
+                ex.printStackTrace();
+            } finally {
+                deweyDAO.closeSession();
+            }
             ItemDAO itemDAO = new ItemDAO();
             try {
                 itemDAO.openSessionwithTransaction();
                 itemDAO.persist(item);
                 itemDAO.closeSessionwithTransaction();
+            } catch (HibernateException ex) {
+                ex.printStackTrace();
             } finally {
                 itemDAO.closeSession();
             }

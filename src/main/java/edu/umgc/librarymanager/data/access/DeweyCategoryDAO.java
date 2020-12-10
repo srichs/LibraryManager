@@ -8,6 +8,7 @@ package edu.umgc.librarymanager.data.access;
 
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
+import java.util.HashMap;
 import java.util.List;
 import org.hibernate.query.Query;
 
@@ -39,6 +40,21 @@ public class DeweyCategoryDAO extends BaseDAO<DeweyCategory> {
             }
         }
         return null;
+    }
+
+    /**
+     * Gets a hashmap of all of the dewey decimal categories.
+     * @return A HashMap of DDC values, the code is the key and the category is the value.
+     */
+    @SuppressWarnings("unchecked")
+    public HashMap<String, String> getDDCHashMap() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        List<DeweyCategory> list = (List<DeweyCategory>) getSession().createQuery("From DeweyCategory")
+                .getResultList();
+        for (int i = 0; i < list.size(); i++) {
+            map.put(list.get(i).getCode(), list.get(i).getCategory());
+        }
+        return map;
     }
 
     @Override
