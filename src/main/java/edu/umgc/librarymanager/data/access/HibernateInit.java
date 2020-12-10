@@ -15,6 +15,7 @@ import edu.umgc.librarymanager.data.model.item.ClassType;
 import edu.umgc.librarymanager.data.model.item.Classification;
 import edu.umgc.librarymanager.data.model.item.ClassificationGroup;
 import edu.umgc.librarymanager.data.model.item.DeweyCategory;
+import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.data.model.item.PublishData;
 import edu.umgc.librarymanager.data.model.user.BaseUser;
@@ -30,6 +31,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -38,7 +40,6 @@ import org.hibernate.search.Search;
 
 /**
  * Initializes the data in the Hibernate database.
- * 
  * @author Scott
  */
 public final class HibernateInit {
@@ -118,6 +119,11 @@ public final class HibernateInit {
      */
     public static void initHibernateBookList() {
         String file = "./src/main/resources/data/books.csv";
+        HashMap<String, String> deweyMap = null;
+        DeweyCategoryDAO deweyCatDAO = new DeweyCategoryDAO();
+        deweyCatDAO.openSessionwithTransaction();
+        deweyMap = deweyCatDAO.getDDCHashMap();
+        deweyCatDAO.closeSessionwithTransaction();
         LocalDate checkDate = LocalDate.of(2020, Month.NOVEMBER, 26);
         LocalDate dueDate = LocalDate.of(2020, Month.DECEMBER, 10);
         Period period = Period.between(checkDate, dueDate);
@@ -133,8 +139,9 @@ public final class HibernateInit {
                 classGroup.setDewey(new Classification(line[1], ClassType.DeweyDecimal));
                 classGroup.setLOC(new Classification(line[2], ClassType.LibraryOfCongress));
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
+                String genre = deweyMap.get(DeweyDecimalUtility.parseCode(line[1]));
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
-                Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, "A Genre",
+                Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, genre,
                         line[8], ItemStatus.intToItemStatus(Integer.valueOf(line[9]).intValue()), period, line[10],
                         line[11]);
                 session.save(book);
