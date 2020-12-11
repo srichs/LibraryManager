@@ -7,6 +7,7 @@
 package edu.umgc.librarymanager.service;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.data.access.AdvSearchPart;
 import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.ItemField;
 import edu.umgc.librarymanager.data.access.Pagination;
@@ -44,6 +45,44 @@ public final class PatronServices {
     public static void viewSearch(GUIController control) {
         control.getFrame().getPanelComp().getSearchPanel().reset();
         control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.SEARCH);
+    }
+
+    public static void viewAdvancedSearch(GUIController control) {
+        control.getFrame().getPanelComp().getAdvancedSearchPanel().reset();
+        control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ADVANCED_SEARCH);
+    }
+
+    public static void clearAdvancedSearch(GUIController control) {
+        control.getFrame().getPanelComp().getAdvancedSearchPanel().reset();
+    }
+
+    public static void viewAdvancedSearchResults(GUIController control) {
+        //List<AdvSearchPart> list = control.getFrame().getPanelComp().getAdvancedSearchPanel().buildAdvanceSearch();
+        /*if (list != null) {
+            control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel().setSearchData(
+                    new SearchData<BaseItem>(list, new Pagination(20, 0, 1), BaseItem.class));
+            try {
+                control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel()
+                        .getSearchData().runSearch();
+            } catch (EmptyQueryException ex) {
+                control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel().setSearchData(
+                        new SearchData<BaseItem>(null, null, new Pagination(20, 0, 1), BaseItem.class));
+                DialogUtil.informationMessage("No results were found.", "No Results Found");
+                return;
+            }
+            if (control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel().getSearchData()
+                    .getResults() == null) {
+                DialogUtil.informationMessage("No results were found.", "No Results Found");
+                return;
+            } else if (control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel().getSearchData()
+                    .getResults().size() == 0) {
+                DialogUtil.informationMessage("No results were found.", "No Results Found");
+                return;
+            }
+            control.getFrame().getPanelComp().getSearchResultsPanel().update();
+            control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.SEARCH_RESULTS);
+        }*/
+        DialogUtil.informationMessage("Advanced search not complete", "Not Complete");
     }
 
     /**
