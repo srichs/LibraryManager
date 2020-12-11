@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import org.apache.lucene.analysis.core.LowerCaseFilterFactory;
 import org.apache.lucene.analysis.core.StopFilterFactory;
 import org.apache.lucene.analysis.ngram.NGramFilterFactory;
+import org.apache.lucene.analysis.snowball.SnowballPorterFilterFactory;
 import org.apache.lucene.analysis.standard.StandardFilterFactory;
 import org.apache.lucene.analysis.standard.StandardTokenizerFactory;
 import org.hibernate.search.annotations.Analyzer;
@@ -48,9 +49,18 @@ import org.hibernate.search.annotations.TokenizerDef;
         @TokenFilterDef(factory = StopFilterFactory.class),
         @TokenFilterDef(factory = NGramFilterFactory.class,
         params = {
-            @Parameter(name = "minGramSize", value = "4"),
+            @Parameter(name = "minGramSize", value = "3"),
             @Parameter(name = "maxGramSize", value = "4")
         })
+    }
+)
+@AnalyzerDef(name = "text_analyzer",
+    tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+    filters = {
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+        @TokenFilterDef(factory = SnowballPorterFilterFactory.class,
+            params = {@Parameter(name = "language", value = "English")}
+        )
     }
 )
 @Entity
