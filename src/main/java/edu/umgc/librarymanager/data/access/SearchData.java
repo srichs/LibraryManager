@@ -6,6 +6,7 @@
 
 package edu.umgc.librarymanager.data.access;
 
+import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import java.util.List;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
@@ -32,6 +33,7 @@ public final class SearchData<T> {
     private Class<T> clazz;
     private List<T> results;
     private List<AdvSearchPart> advSearchList;
+    private ItemStatus advStatusFilter;
 
     /**
      * The default constructor of the class.
@@ -43,6 +45,7 @@ public final class SearchData<T> {
         this.clazz = null;
         this.results = null;
         this.advSearchList = null;
+        this.advStatusFilter = null;
     }
 
     /**
@@ -59,10 +62,19 @@ public final class SearchData<T> {
         this.clazz = clazz;
         this.results = null;
         this.advSearchList = null;
+        this.advStatusFilter = null;
     }
 
-    public SearchData(List<AdvSearchPart> advSearchList, Pagination pagination, Class<T> clazz) {
+    /**
+     * The constructor of the class for when an Advanced Search will be conducted.
+     * @param advSearchList The List of AdvSearchParts to build the advance search query from.
+     * @param pagination The pagination information to fetch the results for the specified page.
+     * @param clazz The Class of the Type of data that will be searched.
+     * @param advStatusFilter The ItemStatus to filter the results by.
+     */
+    public SearchData(List<AdvSearchPart> advSearchList, Pagination pagination, Class<T> clazz, ItemStatus advStatusFilter) {
         this.advSearchList = advSearchList;
+        this.advStatusFilter = advStatusFilter;
         this.pagination = pagination;
         this.clazz = clazz;
         this.results = null;
@@ -108,6 +120,14 @@ public final class SearchData<T> {
         this.advSearchList = advSearchList;
     }
 
+    public ItemStatus getAdvStatusFilter() {
+        return this.advStatusFilter;
+    }
+
+    public void setAdvStatusFilter(ItemStatus advStatusFilter) {
+        this.advStatusFilter = advStatusFilter;
+    }
+
     /**
      * Runs the search with the given SearchData parameters. If the fields information is null then it will find
      * all of the records for the given information. If the pagination information is null then it will display
@@ -120,7 +140,20 @@ public final class SearchData<T> {
             FullTextSession fullTextSession = Search.getFullTextSession(session);
             session.getTransaction().begin();
 
-            if (this.fields == null) { // if searchData is null then findAll records of the given Type
+            if (this.advSearchList != null) { // Checks if advSearchList is not null and then does advanced search.
+                QueryBuilder qb = fullTextSession.getSearchFactory()
+                        .buildQueryBuilder().forEntity(this.clazz).get();
+                org.apache.lucene.search.Query luceneQuery = buildAdvancedSearchQuery(qb);
+
+                FullTextQuery query = fullTextSession
+                        .createFullTextQuery(luceneQuery, this.clazz);
+                if (this.pagination != null) {
+                    this.pagination.setTotalCount(query.getResultSize());
+                    query.setFirstResult((this.pagination.getDesiredPage() - 1) * this.pagination.getPageSize());
+                    query.setMaxResults(this.pagination.getPageSize());
+                }
+                this.results = query.getResultList();
+            } else if (this.fields == null) { // if searchData is null then findAll records of the given Type
                 Query<Long> countQuery = null;
                 Query<T> selectQuery = null;
                 if (this.clazz.getSimpleName().equals("BaseItem")) {
@@ -141,16 +174,11 @@ public final class SearchData<T> {
             } else {
                 QueryBuilder qb = fullTextSession.getSearchFactory()
                         .buildQueryBuilder().forEntity(this.clazz).get();
-                org.apache.lucene.search.Query luceneQuery = null;
-                if (advSearchList == null) {
-                    luceneQuery = qb
-                            .keyword()
-                            .onFields(this.fields)
-                            .matching(this.terms)
-                            .createQuery();
-                } else {
-                    luceneQuery = buildAdvancedSearchQuery(qb);
-                }
+                org.apache.lucene.search.Query luceneQuery = qb
+                        .keyword()
+                        .onFields(this.fields)
+                        .matching(this.terms)
+                        .createQuery();
 
                 FullTextQuery query = fullTextSession
                         .createFullTextQuery(luceneQuery, this.clazz);
@@ -171,11 +199,17 @@ public final class SearchData<T> {
         }
     }
 
+    /**
+     * Used to build an Advanced Search query, which uses a BooleanQuery to form a complex search from user input.
+     * @param qb The QueryBuilder Object that will be used to build the query.
+     * @return The Query that can be used to get the results of the advanced search parameters.
+     */
     public org.apache.lucene.search.Query buildAdvancedSearchQuery(QueryBuilder qb) {
         BooleanQuery.Builder bqb = new BooleanQuery.Builder();
         for (int i = 0; i < advSearchList.size(); i++) {
             AdvSearchPart asp = advSearchList.get(i);
-            org.apache.lucene.search.Query q = qb.keyword().onField(asp.getField().toString()).matching(asp.getSearchTerm()).createQuery();
+            org.apache.lucene.search.Query q = qb.keyword().onField(asp.getField().toString())
+                    .matching(asp.getSearchTerm()).createQuery();
             if (asp.getLogicOperator() == LogicalType.And) {
                 bqb.add(q, BooleanClause.Occur.MUST);
             } else if (asp.getLogicOperator() == LogicalType.Or) {
@@ -183,6 +217,10 @@ public final class SearchData<T> {
             } else if (asp.getLogicOperator() == LogicalType.Not) {
                 bqb.add(q, BooleanClause.Occur.MUST_NOT);
             }
+        }
+        if (this.advStatusFilter != null) {
+            bqb.add(qb.keyword().onField(ItemField.Status.toString()).matching(this.advStatusFilter).createQuery(),
+                    BooleanClause.Occur.MUST);
         }
         return bqb.build();
     }
