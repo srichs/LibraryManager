@@ -43,7 +43,7 @@ public class MenuBar extends JMenuBar {
         addMenuItem("View Checked Items", fileMenu, Command.CHECKED_ITEMS, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
-        JMenu helpMenu = new JMenu("Help");
+        JMenu helpMenu = new JMenu("About");
         addMenuItem("About", helpMenu, Command.ABOUT, control);
         //addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(fileMenu);
@@ -66,7 +66,7 @@ public class MenuBar extends JMenuBar {
         addMenuItem("Return Items", fileMenu, Command.RETURN_ITEM, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
-        JMenu helpMenu = new JMenu("Help");
+        JMenu helpMenu = new JMenu("About");
         JMenuItem item = new JMenuItem("About");
         item.setActionCommand(Command.ABOUT);
         item.addActionListener((ActionListener) control);
@@ -84,7 +84,7 @@ public class MenuBar extends JMenuBar {
      */
     public void setLoginMenuBar(GUIController control) {
         JMenuBar menuBar = new JMenuBar();
-        JMenu helpMenu = new JMenu("Help");
+        JMenu helpMenu = new JMenu("About");
         addMenuItem("About", helpMenu, Command.ABOUT, control);
         //addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(helpMenu);
