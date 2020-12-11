@@ -10,6 +10,7 @@ import edu.umgc.librarymanager.data.access.ItemField;
 import edu.umgc.librarymanager.data.access.Pagination;
 import edu.umgc.librarymanager.data.access.SearchData;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.item.ItemStatus;
 import edu.umgc.librarymanager.gui.Command;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
@@ -51,6 +52,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
     private BaseItem selectedItem;
     private PaginationPanel<BaseItem> paginationPanel;
     private GUIController control;
+    private ItemViewType viewType = ItemViewType.View;
 
     /**
      * The constructor of the class.
@@ -112,7 +114,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         }
         this.itemPanel.removeAll();
         for (int i = 0; i < list.size(); i++) {
-            ItemView view = new ItemView(list.get(i), ItemViewType.View, new ItemActionListener(list.get(i)));
+            ItemView view = new ItemView(list.get(i), viewType, new ItemActionListener(list.get(i)));
             this.itemPanel.add(view);
         }
         this.scrollPane.getVerticalScrollBar().setValue(0);
@@ -133,9 +135,33 @@ public class AllItemsPanel extends JPanel implements ActionListener {
      * Resets the search bar and the displayed items.
      */
     public void reset() {
+        reset(Command.MANAGE_ITEMS);
+    }
+    
+    public void reset(String commandType) {
         this.searchField.setText("");
-        this.paginationPanel.setSearchData(new SearchData<BaseItem>(
-                null, null, new Pagination(20, 0, 1), BaseItem.class));
+        SearchData search = null;
+        String[] fields = {ItemField.Status.toString()};
+        switch(commandType) {
+            case Command.CHECKOUT_ITEM:
+                viewType = ItemViewType.Checkout;
+                search = new SearchData<BaseItem>(
+                    fields, ItemStatus.OnHold, new Pagination(20, 0, 1), BaseItem.class);
+                break;
+            case Command.RETURN_ITEM:
+                viewType = ItemViewType.Return_;
+                search = new SearchData<BaseItem>(
+                    fields, ItemStatus.CheckedOut, new Pagination(20, 0, 1), BaseItem.class);
+                break;
+            case Command.MANAGE_ITEMS:
+            default:    
+                viewType = ItemViewType.View;
+                search = new SearchData<BaseItem>(
+                    null, null, new Pagination(20, 0, 1), BaseItem.class);
+                break;
+        }
+        
+        this.paginationPanel.setSearchData(search);
         update();
     }
 
@@ -146,13 +172,16 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         try {
             this.paginationPanel.getSearchData().runSearch();
         } catch (EmptyQueryException ex) {
-            reset();
+            //reset();
             DialogUtil.informationMessage("No results were found.", "No Results Found");
+            return;
         }
         if (this.paginationPanel.getSearchData().getResults().size() == 0) {
-            reset();
+            //reset();
             DialogUtil.informationMessage("No results were found.", "No Results Found");
+            return;
         }
+        
         this.paginationPanel.update();
         fillPane(this.paginationPanel.getSearchData().getResults());
     }
@@ -222,6 +251,12 @@ public class AllItemsPanel extends JPanel implements ActionListener {
             if (Command.VIEW_ITEM.equals(e.getActionCommand())) {
                 LOG.info("View Item button pressed.");
                 LibrarianServices.viewItem(getController().getFrame(), this.item); // TODO
+            } else if (Command.ITEM_RETURNED.equals(e.getActionCommand())) {
+            LOG.info("Clear button pressed.");
+            LibrarianServices.returnItem(control, selectedItem);
+            } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
+                LOG.info("Clear button pressed.");
+                LibrarianServices.checkOutItem(control, selectedItem);
             } else if (Command.DELETE_ITEM.equals(e.getActionCommand())) {
                 LOG.info("Delete Item button pressed.");
                 LibrarianServices.deleteItem(getController(), this.item);

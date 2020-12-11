@@ -229,7 +229,7 @@
           <suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
           <suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
-          <skip>${skipTests}</skip>
+          <skip>true</skip>
         </configuration>
         <executions>
           <execution>

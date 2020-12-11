@@ -27,7 +27,7 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 public final class SearchData<T> {
 
     private String[] fields;
-    private String terms;
+    private Object terms;
     private Pagination pagination;
     private Class<T> clazz;
     private List<T> results;
@@ -52,7 +52,7 @@ public final class SearchData<T> {
      * @param pagination The pagination information to fetch the results for the specified page.
      * @param clazz The Class of the Type of data that will be searched.
      */
-    public SearchData(String[] fields, String terms, Pagination pagination, Class<T> clazz) {
+    public SearchData(String[] fields, Object terms, Pagination pagination, Class<T> clazz) {
         this.fields = fields;
         this.terms = terms;
         this.pagination = pagination;
@@ -76,7 +76,7 @@ public final class SearchData<T> {
         this.fields = fields;
     }
 
-    public String getTerms() {
+    public Object getTerms() {
         return this.terms;
     }
 

@@ -35,7 +35,7 @@ public final class AboutPane {
         sb.append(space);
         sb.append("Scott Richards\n");
         sb.append(space);
-        sb.append("Jonathan Dreksler\n\n");
+//        sb.append("Jonathan Dreksler\n\n");
         return sb.toString();
     }
 

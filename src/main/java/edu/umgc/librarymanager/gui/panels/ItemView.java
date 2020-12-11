@@ -108,6 +108,20 @@ public class ItemView extends JPanel {
             firstBtn.addActionListener(listener);
             firstBtn.setActionCommand(Command.ITEM_RETURNED); // TODO
             firstBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+//            secondBtn.setText("View");
+//            secondBtn.addActionListener(listener);
+//            secondBtn.setActionCommand(Command.VIEW_ITEM);
+//            secondBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        } else if (this.type == ItemViewType.Checkout) {
+            btnNumber = 1;
+            firstBtn.setText(ItemViewType.Checkout.toString());
+            firstBtn.addActionListener(listener);
+            firstBtn.setActionCommand(Command.CHECKOUT_ITEM); // TODO
+            firstBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+//            secondBtn.setText("View");
+//            secondBtn.addActionListener(listener);
+//            secondBtn.setActionCommand(Command.VIEW_ITEM);
+//            secondBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         } else if (this.type == ItemViewType.Reserve) {
             btnNumber = 1;
             firstBtn.setText(ItemViewType.Reserve.toString());
