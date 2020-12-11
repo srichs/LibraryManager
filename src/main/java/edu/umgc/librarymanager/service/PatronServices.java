@@ -7,6 +7,7 @@
 package edu.umgc.librarymanager.service;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
+import edu.umgc.librarymanager.data.access.AdvSearchPart;
 import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.ItemField;
 import edu.umgc.librarymanager.data.access.Pagination;
@@ -56,10 +57,15 @@ public final class PatronServices {
     }
 
     public static void viewAdvancedSearchResults(GUIController control) {
-        //List<AdvSearchPart> list = control.getFrame().getPanelComp().getAdvancedSearchPanel().buildAdvanceSearch();
-        /*if (list != null) {
+        List<AdvSearchPart> list = control.getFrame().getPanelComp().getAdvancedSearchPanel().buildAdvanceSearch();
+        ItemStatus filter = null;
+        if (control.getFrame().getPanelComp().getAdvancedSearchPanel().getStatusBox().getSelectedIndex() != 0) {
+            filter = ItemStatus.stringToItemStatus((String) control.getFrame().getPanelComp()
+                    .getAdvancedSearchPanel().getStatusBox().getSelectedItem());
+        }
+        if (list != null) {
             control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel().setSearchData(
-                    new SearchData<BaseItem>(list, new Pagination(20, 0, 1), BaseItem.class));
+                    new SearchData<BaseItem>(list, new Pagination(20, 0, 1), BaseItem.class, filter));
             try {
                 control.getFrame().getPanelComp().getSearchResultsPanel().getPaginationPanel()
                         .getSearchData().runSearch();
@@ -80,8 +86,7 @@ public final class PatronServices {
             }
             control.getFrame().getPanelComp().getSearchResultsPanel().update();
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.SEARCH_RESULTS);
-        }*/
-        DialogUtil.informationMessage("Advanced search not complete", "Not Complete");
+        }
     }
 
     /**
