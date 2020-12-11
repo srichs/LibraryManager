@@ -13,45 +13,56 @@ package edu.umgc.librarymanager.data.access;
 public enum ItemField {
 
     /**
-     * An enum value for the dewey code field.
+     * An enum value for the title field.
      */
-    DeweyCode,
-    /**
-     * An enum value for the loc code field.
-     */
-    LOCCode,
+    Title("Title"),
     /**
      * An enum value for the description field.
      */
-    Description,
-    /**
-     * An enum value for the title field.
-     */
-    Title,
-    /**
-     * An enum value for the publisher field.
-     */
-    Publisher,
-    /**
-     * An enum value for the publish date field.
-     */
-    PublishDate,
-    /**
-     * An enum value for the publish location field.
-     */
-    PublishLocation,
+    Description("Description"),
     /**
      * An enum value for the genre field.
      */
-    Genre,
+    Genre("Genre"),
     /**
      * An enum value for the summary field.
      */
-    Summary,
+    Summary("Summary"),
+    /**
+     * An enum value for the dewey code field.
+     */
+    DeweyCode("Dewey Code"),
+    /**
+     * An enum value for the loc code field.
+     */
+    LOCCode("LoC Code"),
+    /**
+     * An enum value for the publisher field.
+     */
+    Publisher("Publisher"),
+    /**
+     * An enum value for the publish location field.
+     */
+    PublishLocation("Publish Location"),
     /**
      * An enum value for the status field.
      */
-    Status;
+    Status("Status");
+
+    public final String label;
+
+    private ItemField(String label) {
+        this.label = label;
+    }
+
+    public static ItemField valueOfLabel(String label) {
+        for (ItemField field : values()) {
+            if (field.label.equals(label)) {
+                return field;
+            }
+        }
+        return null;
+    }
 
     public ItemField getItemField() {
         return this;
@@ -74,8 +85,6 @@ public enum ItemField {
                 return Title;
             case "publisher.publisher":
                 return Publisher;
-            case "publisher.publish_date":
-                return PublishDate;
             case "publisher.publish_location":
                 return PublishLocation;
             case "genre":
@@ -104,8 +113,6 @@ public enum ItemField {
                 return "title";
             case Publisher:
                 return "publisher.publisher";
-            case PublishDate:
-                return "publisher.publish_date";
             case PublishLocation:
                 return "publisher.publish_location";
             case Genre:
