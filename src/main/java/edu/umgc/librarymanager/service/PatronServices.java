@@ -7,7 +7,6 @@
 package edu.umgc.librarymanager.service;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
-import edu.umgc.librarymanager.data.access.AdvSearchPart;
 import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.ItemField;
 import edu.umgc.librarymanager.data.access.Pagination;
