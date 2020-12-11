@@ -68,6 +68,10 @@ public class PanelComposite {
      * A String for the Checked Out panel for use in CardLayout.
      */
     public static final String CHECKED_OUT = "CheckedOutPanel";
+    /**
+     * A String for the Advanced Search panel for use in CardLayout.
+     */
+    public static final String ADVANCED_SEARCH = "AdvancedSearchPanel";
 
     private LoginPanel loginPanel;
     private LibrarianMenuPanel librarianMenuPanel;
@@ -82,6 +86,7 @@ public class PanelComposite {
     private EditItemPanel editItemPanel;
     private SearchResultsPanel searchResultsPanel;
     private CheckedOutPanel checkedOutPanel;
+    private AdvancedSearchPanel advancedSearchPanel;
 
     /**
      * The constructor of the class.
@@ -109,6 +114,7 @@ public class PanelComposite {
         this.editItemPanel = new EditItemPanel(control);
         this.searchResultsPanel = new SearchResultsPanel(control);
         this.checkedOutPanel = new CheckedOutPanel(control);
+        this.advancedSearchPanel = new AdvancedSearchPanel(control);
     }
 
     public LoginPanel getLoginPanel() {
@@ -213,6 +219,14 @@ public class PanelComposite {
 
     public void setCheckedOutPanel(CheckedOutPanel checkedOutPanel) {
         this.checkedOutPanel = checkedOutPanel;
+    }
+
+    public AdvancedSearchPanel getAdvancedSearchPanel() {
+        return this.advancedSearchPanel;
+    }
+
+    public void setAdvancedSearchPanel(AdvancedSearchPanel advancedSearchPanel) {
+        this.advancedSearchPanel = advancedSearchPanel;
     }
 
 }

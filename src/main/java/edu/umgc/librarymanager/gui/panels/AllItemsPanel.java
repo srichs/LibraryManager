@@ -140,7 +140,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
     
     public void reset(String commandType) {
         this.searchField.setText("");
-        SearchData search = null;
+        SearchData<BaseItem> search = null;
         String[] fields = {ItemField.Status.toString()};
         switch(commandType) {
             case Command.CHECKOUT_ITEM:

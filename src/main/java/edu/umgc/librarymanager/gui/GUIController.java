@@ -116,8 +116,13 @@ public class GUIController implements ActionListener {
             PatronServices.viewSearchResults(this);
         } else if (Command.ADV_SEARCH_PRESS.equals(e.getActionCommand())) {
             LOG.info("Advanced search button pressed.");
-            DialogUtil.informationMessage("Advanced Search not yet configured.", "Search Item");
-            //PatronServices.viewProfile(this); // TODO advanced search function
+            PatronServices.viewAdvancedSearch(this);
+        } else if (Command.ADVANCED_SEARCH.equals(e.getActionCommand())) {
+            LOG.info("Advanced search button pressed.");
+            PatronServices.viewAdvancedSearchResults(this);
+        } else if (Command.ADV_SEARCH_CLEAR.equals(e.getActionCommand())) {
+            LOG.info("Advanced search clear button pressed.");
+            PatronServices.clearAdvancedSearch(this);
         }
     }
 

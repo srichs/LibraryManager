@@ -126,6 +126,14 @@ public final class Command {
      */
     public static final String ADV_SEARCH_PRESS = "advanced_search_press";
     /**
+     * A string for an ActionCommand of 'advanced_search'.
+     */
+    public static final String ADVANCED_SEARCH = "advanced_search";
+    /**
+     * A string for an ActionCommand of 'advanced_search_clear'.
+     */
+    public static final String ADV_SEARCH_CLEAR = "advanced_search_clear";
+    /**
      * A string for an ActionCommand of 'checked_items'.
      */
     public static final String CHECKED_ITEMS = "checked_items";
