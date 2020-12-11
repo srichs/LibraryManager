@@ -45,7 +45,7 @@ public class MenuBar extends JMenuBar {
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");
         addMenuItem("About", helpMenu, Command.ABOUT, control);
-        addMenuItem("Help", helpMenu, Command.HELP, control);
+        //addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         this.removeAll();
@@ -67,8 +67,11 @@ public class MenuBar extends JMenuBar {
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("Help");
+        JMenuItem item = new JMenuItem("About");
+        item.setActionCommand(Command.ABOUT);
+        item.addActionListener((ActionListener) control);
         addMenuItem("About", helpMenu, Command.ABOUT, control);
-        addMenuItem("Help", helpMenu, Command.HELP, control);
+        //addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(fileMenu);
         menuBar.add(helpMenu);
         this.removeAll();
@@ -83,7 +86,7 @@ public class MenuBar extends JMenuBar {
         JMenuBar menuBar = new JMenuBar();
         JMenu helpMenu = new JMenu("Help");
         addMenuItem("About", helpMenu, Command.ABOUT, control);
-        addMenuItem("Help", helpMenu, Command.HELP, control);
+        //addMenuItem("Help", helpMenu, Command.HELP, control);
         menuBar.add(helpMenu);
         this.removeAll();
         this.add(menuBar);
