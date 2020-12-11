@@ -50,7 +50,7 @@ import org.hibernate.search.annotations.TokenizerDef;
         @TokenFilterDef(factory = NGramFilterFactory.class,
         params = {
             @Parameter(name = "minGramSize", value = "3"),
-            @Parameter(name = "maxGramSize", value = "4")
+            @Parameter(name = "maxGramSize", value = "5")
         })
     }
 )
