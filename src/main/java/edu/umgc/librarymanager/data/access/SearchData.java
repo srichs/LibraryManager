@@ -7,12 +7,15 @@
 package edu.umgc.librarymanager.data.access;
 
 import java.util.List;
+import org.apache.lucene.search.BooleanClause;
+import org.apache.lucene.search.BooleanQuery;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
 import org.hibernate.search.exception.EmptyQueryException;
+import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
@@ -28,6 +31,7 @@ public final class SearchData<T> {
     private Pagination pagination;
     private Class<T> clazz;
     private List<T> results;
+    private List<AdvSearchPart> advSearchList;
 
     /**
      * The default constructor of the class.
@@ -38,6 +42,7 @@ public final class SearchData<T> {
         this.pagination = new Pagination();
         this.clazz = null;
         this.results = null;
+        this.advSearchList = null;
     }
 
     /**
@@ -50,6 +55,14 @@ public final class SearchData<T> {
     public SearchData(String[] fields, String terms, Pagination pagination, Class<T> clazz) {
         this.fields = fields;
         this.terms = terms;
+        this.pagination = pagination;
+        this.clazz = clazz;
+        this.results = null;
+        this.advSearchList = null;
+    }
+
+    public SearchData(List<AdvSearchPart> advSearchList, Pagination pagination, Class<T> clazz) {
+        this.advSearchList = advSearchList;
         this.pagination = pagination;
         this.clazz = clazz;
         this.results = null;
@@ -87,6 +100,14 @@ public final class SearchData<T> {
         return this.results;
     }
 
+    public List<AdvSearchPart> getAdvSearchList() {
+        return this.advSearchList;
+    }
+
+    public void setAdvSearchList(List<AdvSearchPart> advSearchList) {
+        this.advSearchList = advSearchList;
+    }
+
     /**
      * Runs the search with the given SearchData parameters. If the fields information is null then it will find
      * all of the records for the given information. If the pagination information is null then it will display
@@ -120,13 +141,18 @@ public final class SearchData<T> {
             } else {
                 QueryBuilder qb = fullTextSession.getSearchFactory()
                         .buildQueryBuilder().forEntity(this.clazz).get();
-                org.apache.lucene.search.Query luceneQuery = qb
-                        .keyword()
-                        .onFields(this.fields)
-                        .matching(this.terms)
-                        .createQuery();
+                org.apache.lucene.search.Query luceneQuery = null;
+                if (advSearchList == null) {
+                    luceneQuery = qb
+                            .keyword()
+                            .onFields(this.fields)
+                            .matching(this.terms)
+                            .createQuery();
+                } else {
+                    luceneQuery = buildAdvancedSearchQuery(qb);
+                }
 
-                org.hibernate.search.jpa.FullTextQuery query = fullTextSession
+                FullTextQuery query = fullTextSession
                         .createFullTextQuery(luceneQuery, this.clazz);
                 if (this.pagination != null) {
                     this.pagination.setTotalCount(query.getResultSize());
@@ -143,6 +169,22 @@ public final class SearchData<T> {
         } finally {
             session.close();
         }
+    }
+
+    public org.apache.lucene.search.Query buildAdvancedSearchQuery(QueryBuilder qb) {
+        BooleanQuery.Builder bqb = new BooleanQuery.Builder();
+        for (int i = 0; i < advSearchList.size(); i++) {
+            AdvSearchPart asp = advSearchList.get(i);
+            org.apache.lucene.search.Query q = qb.keyword().onField(asp.getField().toString()).matching(asp.getSearchTerm()).createQuery();
+            if (asp.getLogicOperator() == LogicalType.And) {
+                bqb.add(q, BooleanClause.Occur.MUST);
+            } else if (asp.getLogicOperator() == LogicalType.Or) {
+                bqb.add(q, BooleanClause.Occur.SHOULD);
+            } else if (asp.getLogicOperator() == LogicalType.Not) {
+                bqb.add(q, BooleanClause.Occur.MUST_NOT);
+            }
+        }
+        return bqb.build();
     }
 
     /**
