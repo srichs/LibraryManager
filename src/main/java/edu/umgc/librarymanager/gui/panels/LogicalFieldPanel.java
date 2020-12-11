@@ -12,7 +12,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import javax.swing.JComboBox;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import edu.umgc.librarymanager.data.access.ItemField;
@@ -43,12 +42,16 @@ public class LogicalFieldPanel extends JPanel {
         createPanel();
     }
 
+    // Used to fill the fieldBox of the panel which is used to display options for fields to be searched.
     private void fillFieldBox() {
         for (ItemField field : ItemField.values()) {
-            this.fieldBox.addItem(field.label);
+            if (field != ItemField.Status) {
+                this.fieldBox.addItem(field.label);
+            }
         }
     }
 
+    // Creates the panel.
     private void createPanel() {
         mainPanel.setSize(new Dimension(880, 40));
         GridBagConstraints c = new GridBagConstraints();
@@ -107,10 +110,13 @@ public class LogicalFieldPanel extends JPanel {
         this.searchField = searchField;
     }
 
+    /**
+     * Used to hide the logical operator box for the first panel on the advanced search panel.
+     */
     public void hideLogicBox() {
         this.logicBox.setVisible(false);
-        JLabel findLabel = new JLabel("Find");
-        findLabel.setPreferredSize(new Dimension(40, 20));
+        JPanel tempPanel = new JPanel();
+        tempPanel.setPreferredSize(new Dimension(48, 20));
         GridBagConstraints c = new GridBagConstraints();
         c.insets = new Insets(0, 5, 0, 5);
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -119,9 +125,12 @@ public class LogicalFieldPanel extends JPanel {
         c.weightx = 0.1;
         c.gridwidth = 1;
         c.gridy = 0;
-        mainPanel.add(findLabel, c);
+        mainPanel.add(tempPanel, c);
     }
 
+    /**
+     * Used to reset this panel to default values.
+     */
     public void reset() {
         this.logicBox.setSelectedIndex(0);
         this.fieldBox.setSelectedIndex(0);
