@@ -8,12 +8,10 @@ package edu.umgc.librarymanager.service;
 
 import edu.umgc.librarymanager.data.access.DeweyCategoryDAO;
 import edu.umgc.librarymanager.data.model.item.DeweyDecimalUtility;
-import edu.umgc.librarymanager.data.DatabaseTest;
 import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.TransactionDAO;
 import edu.umgc.librarymanager.data.access.UserDAO;
 import edu.umgc.librarymanager.data.model.BaseTransaction;
-import edu.umgc.librarymanager.data.model.Library;
 import edu.umgc.librarymanager.data.model.TransactionType;
 import edu.umgc.librarymanager.data.model.item.BaseItem;
 import edu.umgc.librarymanager.data.model.item.ItemStatus;
@@ -24,7 +22,6 @@ import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
 import java.time.ZonedDateTime;
-import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 
@@ -244,21 +241,12 @@ public final class LibrarianServices {
      * @param item The BaseItem to be reserved.
      */
     public static void returnItem(GUIController control, BaseItem item) {
-        item.setStatus(ItemStatus.Available);
-        ItemDAO itemDAO = new ItemDAO();
-        try {
-            itemDAO.openSessionwithTransaction();
-            itemDAO.update(item);
-            itemDAO.closeSessionwithTransaction();
-        } catch (HibernateException ex) {
-            ex.printStackTrace();
-        } finally {
-            itemDAO.closeSession();
-        }
+        System.out.println(item.toString());
         TransactionDAO transDAO = new TransactionDAO();
         try {
             transDAO.openSessionwithTransaction();
             BaseTransaction trans = transDAO.findByItem(item);
+            ((BaseItem) trans.getItem()).setStatus(ItemStatus.Available);
             trans.setTransactionDateTime(ZonedDateTime.now());
             trans.setTransactionType(TransactionType.Return);
             transDAO.update(trans);
@@ -269,6 +257,9 @@ public final class LibrarianServices {
             transDAO.closeSession();
         }
         DialogUtil.informationMessage("The item was successfully returned.", "Return Successful");
+        if (control == null) {
+            System.out.println("Control is null");
+        }
         control.getFrame().getPanelComp().getAllItemsPanel().update();
     }
     
@@ -281,25 +272,13 @@ public final class LibrarianServices {
         int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to check out:\n"
                 + item.getTitle() + "?", "Check Out Item", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.YES_OPTION) {
-            item.setStatus(ItemStatus.CheckedOut);
-            ItemDAO itemDAO = new ItemDAO();
-            try {
-                itemDAO.openSessionwithTransaction();
-                itemDAO.update(item);
-                itemDAO.closeSessionwithTransaction();
-            } catch (HibernateException ex) {
-                ex.printStackTrace();
-            } finally {
-                itemDAO.closeSession();
-            }
-
-            Library library = DatabaseTest.getLibrary();
             TransactionDAO transDAO = new TransactionDAO();
             try {
                 transDAO.openSessionwithTransaction();
-                BaseTransaction trans = transDAO.findByItem(item);
+                BaseTransaction trans = null;
+                trans = transDAO.findByItem(item);
+                ((BaseItem) trans.getItem()).setStatus(ItemStatus.Available);
                 trans.setDueDate(ZonedDateTime.now().plusDays(14));
-                trans.setLibrary(library);
                 trans.setTransactionDateTime(ZonedDateTime.now());
                 trans.setTransactionType(TransactionType.CheckOut);
                 transDAO.update(trans);

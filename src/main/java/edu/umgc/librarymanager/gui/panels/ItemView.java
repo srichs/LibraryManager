@@ -72,7 +72,7 @@ public class ItemView extends JPanel {
         leftPanel.setLayout(new GridLayout(3, 2));
         leftPanel.setBorder(new EmptyBorder(new Insets(5, 20, 5, 5)));
         leftPanel.add(new JLabel("Title: " + item.getTitle())); // TODO make view more detailed
-        /*leftPanel.add(new JLabel("Email: " + user.getEmail()));*/
+
         this.setPreferredSize(new Dimension(860, 100));
         this.setMaximumSize(new Dimension(860, 100));
         this.setLayout(new BorderLayout());

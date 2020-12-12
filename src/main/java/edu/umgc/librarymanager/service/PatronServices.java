@@ -8,7 +8,6 @@ package edu.umgc.librarymanager.service;
 
 import edu.umgc.librarymanager.data.DatabaseTest;
 import edu.umgc.librarymanager.data.access.AdvSearchPart;
-import edu.umgc.librarymanager.data.access.ItemDAO;
 import edu.umgc.librarymanager.data.access.ItemField;
 import edu.umgc.librarymanager.data.access.Pagination;
 import edu.umgc.librarymanager.data.access.SearchData;
@@ -132,21 +131,9 @@ public final class PatronServices {
                 + item.getTitle() + "?", "Reserve Item", JOptionPane.YES_NO_OPTION);
         if (dialogResult == JOptionPane.YES_OPTION) {
             item.setStatus(ItemStatus.OnHold);
-            ItemDAO itemDAO = new ItemDAO();
-            try {
-                itemDAO.openSessionwithTransaction();
-                itemDAO.update(item);
-                itemDAO.closeSessionwithTransaction();
-            } catch (HibernateException ex) {
-                ex.printStackTrace();
-            } finally {
-                itemDAO.closeSession();
-            }
-
             Library library = DatabaseTest.getLibrary();
             BaseTransaction transaction = new BaseTransaction(library, item, control.getCurrentUser(),
-                    ZonedDateTime.now(), null, 0.0, null, 0, TransactionType.Reserve);
-
+                    ZonedDateTime.now(), ZonedDateTime.now(), 0.0, ZonedDateTime.now(), 0, TransactionType.Reserve);
             TransactionDAO transDAO = new TransactionDAO();
             try {
                 transDAO.openSessionwithTransaction();
