@@ -52,24 +52,23 @@ public final class HibernateInit {
      */
     public static void initHibernate() {
         try {
-        buildSearchIndex();
-        
-        DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
-        deweyDAO.openSessionwithTransaction();
-        deweyDAO.deleteAll();
-        deweyDAO.closeSessionwithTransaction();
-        UserDAO userDAO = new UserDAO();
-        userDAO.openSessionwithTransaction();
-        userDAO.deleteAll();
-        userDAO.closeSessionwithTransaction();
-        ItemDAO itemDAO = new ItemDAO();
-        itemDAO.openSessionwithTransaction();
-        itemDAO.deleteAll();
-        itemDAO.closeSessionwithTransaction();
-        initDeweyCategoryList();
-        initUserList();
-        initHibernateBookList();
-        initTransactionList();
+            buildSearchIndex();
+            DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
+            deweyDAO.openSessionwithTransaction();
+            deweyDAO.deleteAll();
+            deweyDAO.closeSessionwithTransaction();
+            UserDAO userDAO = new UserDAO();
+            userDAO.openSessionwithTransaction();
+            userDAO.deleteAll();
+            userDAO.closeSessionwithTransaction();
+            ItemDAO itemDAO = new ItemDAO();
+            itemDAO.openSessionwithTransaction();
+            itemDAO.deleteAll();
+            itemDAO.closeSessionwithTransaction();
+            initDeweyCategoryList();
+            initUserList();
+            initHibernateBookList();
+            initTransactionsFromCSV();
         } catch (Error ex) {
             ex.printStackTrace();
         }
@@ -146,9 +145,17 @@ public final class HibernateInit {
                 ZonedDateTime zdt = ZonedDateTime.parse(line[3]);
                 String genre = deweyMap.get(DeweyDecimalUtility.parseCode(line[1]));
                 PublishData publish = new PublishData("A Publisher", ZonedDateTime.now(), "Denver, CO");
-                Book book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, genre,
-                        line[8], ItemStatus.intToItemStatus(Integer.valueOf(line[9]).intValue()), period, line[10],
-                        line[11]);
+                ItemStatus status = ItemStatus.stringToItemStatus(line[9]);
+                Book book = null;
+                if (status == ItemStatus.CheckedOut) {
+                    book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, genre,
+                            line[8], status, period, line[10],
+                            line[11]);
+                } else {
+                    book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, genre,
+                            line[8], status, null, line[10],
+                            line[11]);
+                }
                 session.save(book);
             }
             transaction.commit();
@@ -210,7 +217,7 @@ public final class HibernateInit {
             transaction = session.beginTransaction();
             while ((line = reader.readNext()) != null) {
                 BaseUser user = null;
-                String dtg = line[0].trim();
+                String dtg = line[1].trim();
 //                if ((int) dtg.charAt(0) == 65279) {
 //                    dtg = dtg.substring(1);
 //                }
@@ -221,18 +228,19 @@ public final class HibernateInit {
                         zdt = ZonedDateTime.parse(dtg);
                         break;
                     } catch (Exception ex) {
+                        ex.printStackTrace();
                     }
                     dtg = dtg.substring(1);
                 }
                 if (zdt == null) continue;
-                if (line[8].equals("Librarian")) {
-                    user = new LibrarianUser(zdt, line[1], line[2], new UserLogin(line[3],
-                            line[4]), line[5], line[6], line[7]);
-                } else if (line[8].equals("Patron")) {
-                    user = new PatronUser(zdt, line[1], line[2], new UserLogin(line[3],
-                            line[4]), line[5], line[6], line[7]);
+                if (line[9].equals("Librarian")) {
+                    user = new LibrarianUser(zdt, line[2], line[3], new UserLogin(line[4],
+                            line[5]), line[6], line[7], line[8]);
+                } else if (line[9].equals("Patron")) {
+                    user = new PatronUser(zdt, line[2], line[3], new UserLogin(line[4],
+                            line[5]), line[6], line[7], line[8]);
                 } else {
-                    UserException ex = new UserException("The user: " + line[3] + " could not be added");
+                    UserException ex = new UserException("The user: " + line[4] + " could not be added");
                     throw ex;
                 }
                 session.save(user);
@@ -267,10 +275,14 @@ public final class HibernateInit {
                 itemDAO.closeSessionwithTransaction();
                 bt.setLibrary(library);
                 bt.setFee(new BigDecimal("0.00"));
-                bt.setDueDate(zdt);
+                if (bt.getItem().getStatus() == ItemStatus.CheckedOut) {
+                    bt.setDueDate(zdt.plusDays(14));
+                } else {
+                    bt.setDueDate(zdt);
+                }
                 bt.setTransactionDateTime(zdt);
                 bt.setRenewCount(0);
-                bt.setRenewDate(null);
+                bt.setRenewDate(zdt);
                 bt.setTransactionType(TransactionType.CheckOut);
                 session = HibernateUtility.getSessionFactory().openSession();
                 transaction = session.beginTransaction();
@@ -280,6 +292,46 @@ public final class HibernateInit {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    public static void initTransactionsFromCSV() {
+        String file = "./src/main/resources/data/transactions.csv";
+        Library library = new Library("1234 Fake Avenue, Nashville, TN 37011",
+                "Nashville Public Library", "615-867-5309");
+        BaseTransaction bt = null;
+        UserDAO userDAO = new UserDAO();
+        ItemDAO itemDAO = new ItemDAO();
+        CSVReader reader = null;
+        Transaction transaction = null;
+        Session session = null;
+        try {
+            reader = new CSVReader(new FileReader(file));
+            String[] line;
+            reader.readNext();
+            while ((line = reader.readNext()) != null) {
+                bt = new BaseTransaction();
+                userDAO.openSessionwithTransaction();
+                bt.setUser(userDAO.findById(Integer.valueOf(line[3])));
+                userDAO.closeSessionwithTransaction();
+                itemDAO.openSessionwithTransaction();
+                bt.setItem(itemDAO.findById(Integer.valueOf(line[2])));
+                itemDAO.closeSessionwithTransaction();
+                bt.setLibrary(library);
+                bt.setFee(new BigDecimal(line[6]));
+                bt.setTransactionType(TransactionType.stringToTransactionType(line[9]));
+                bt.setDueDate(ZonedDateTime.parse(line[5]));
+                bt.setTransactionDateTime(ZonedDateTime.parse(line[4]));
+                bt.setRenewCount(0);
+                bt.setRenewDate(ZonedDateTime.parse(line[7]));
+                session = HibernateUtility.getSessionFactory().openSession();
+                transaction = session.beginTransaction();
+                session.save(bt);
+                transaction.commit();
+                session.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
