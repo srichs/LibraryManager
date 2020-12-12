@@ -22,6 +22,9 @@ import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZonedDateTime;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -178,6 +181,12 @@ public final class PatronServices {
         } finally {
             transDAO.closeSession();
         }
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).getTransactionType() == TransactionType.Return) {
+                results.remove(i);
+            }
+            System.out.println(results.get(i).getItem().toString() + "\n" + results.get(i).getTransactionType().toString());
+        }
         return results;
     }
 
@@ -214,6 +223,9 @@ public final class PatronServices {
                     trans.setRenewDate(ZonedDateTime.now());
                     trans.setTransactionType(TransactionType.Renew);
                     trans.setDueDate(trans.getDueDate().plusDays(14));
+                    LocalDate dueDate = LocalDate.from(trans.getDueDate().toLocalDate());
+                    LocalDate checkDate = LocalDate.from(dueDate.minusDays(trans.getRenewCount() * 14 + 14));
+                    ((BaseItem) trans.getItem()).setCheckoutPeriod(Period.between(checkDate, dueDate));
                     transDAO.update(trans);
                     DialogUtil.informationMessage("The new due date for this item is "
                             + trans.getDueDate().toLocalDate(), "Due Date");
@@ -226,6 +238,26 @@ public final class PatronServices {
             }
             control.getFrame().getPanelComp().getCheckedOutPanel().update();
         }
+    }
+
+    public static void viewFees(GUIController control) {
+        List<BaseTransaction> results = null;
+        TransactionDAO transDAO = new TransactionDAO();
+        try {
+            transDAO.openSessionwithTransaction();
+            results = transDAO.findByUser(control.getCurrentUser());
+            transDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            transDAO.closeSession();
+        }
+        DecimalFormat df = new DecimalFormat("#.00");
+        double totalFees = 0.0;
+        for (int i = 0; i < results.size(); i++) {
+            totalFees += results.get(i).getFee();
+        }
+        DialogUtil.informationMessage("You currently owe\n\n$ " + df.format(totalFees) + "\n", "Fees Owed");
     }
 
 }
