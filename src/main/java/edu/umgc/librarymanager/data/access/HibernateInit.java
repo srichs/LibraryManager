@@ -51,7 +51,9 @@ public final class HibernateInit {
      * .csv data files.
      */
     public static void initHibernate() {
+        try {
         buildSearchIndex();
+        
         DeweyCategoryDAO deweyDAO = new DeweyCategoryDAO();
         deweyDAO.openSessionwithTransaction();
         deweyDAO.deleteAll();
@@ -68,6 +70,9 @@ public final class HibernateInit {
         initUserList();
         initHibernateBookList();
         initTransactionList();
+        } catch (Error ex) {
+            ex.printStackTrace();
+        }
     }
 
     /**
@@ -206,10 +211,20 @@ public final class HibernateInit {
             while ((line = reader.readNext()) != null) {
                 BaseUser user = null;
                 String dtg = line[0].trim();
-                if ((int) dtg.charAt(0) == 65279) {
+//                if ((int) dtg.charAt(0) == 65279) {
+//                    dtg = dtg.substring(1);
+//                }
+                ZonedDateTime zdt = null;
+                int len = dtg.length();
+                for (int i = 0; i < len; i++) {
+                    try {
+                        zdt = ZonedDateTime.parse(dtg);
+                        break;
+                    } catch (Exception ex) {
+                    }
                     dtg = dtg.substring(1);
                 }
-                ZonedDateTime zdt = ZonedDateTime.parse(dtg);
+                if (zdt == null) continue;
                 if (line[8].equals("Librarian")) {
                     user = new LibrarianUser(zdt, line[1], line[2], new UserLogin(line[3],
                             line[4]), line[5], line[6], line[7]);
