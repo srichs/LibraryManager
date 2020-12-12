@@ -47,7 +47,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
     private static final Logger LOG = LogManager.getLogger(AllItemsPanel.class);
 
     private JScrollPane scrollPane;
-    private JPanel itemPanel;
+    private JPanel itemPanel, searchPanel;
     private JTextField searchField;
     private BaseItem selectedItem;
     private PaginationPanel<BaseItem> paginationPanel;
@@ -70,7 +70,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
      */
     private void createPanel(GUIController control) {
         JPanel mainPanel = new JPanel(new BorderLayout());
-        JPanel searchPanel = new JPanel(new FlowLayout());
+        searchPanel = new JPanel(new FlowLayout());
         searchPanel.setPreferredSize(new Dimension(880, 60));
         searchPanel.setMinimumSize(new Dimension(880, 60));
         searchPanel.setBorder(new EmptyBorder(new Insets(5, 5, 5, 5)));
@@ -145,17 +145,20 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         switch(commandType) {
             case Command.CHECKOUT_ITEM:
                 viewType = ItemViewType.Checkout;
+                searchPanel.setVisible(false);
                 search = new SearchData<BaseItem>(
                     fields, ItemStatus.OnHold, new Pagination(20, 0, 1), BaseItem.class);
                 break;
             case Command.RETURN_ITEM:
                 viewType = ItemViewType.Return_;
+                searchPanel.setVisible(false);
                 search = new SearchData<BaseItem>(
                     fields, ItemStatus.CheckedOut, new Pagination(20, 0, 1), BaseItem.class);
                 break;
             case Command.MANAGE_ITEMS:
             default:    
                 viewType = ItemViewType.View;
+                searchPanel.setVisible(true);
                 search = new SearchData<BaseItem>(
                     null, null, new Pagination(20, 0, 1), BaseItem.class);
                 break;
@@ -172,12 +175,10 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         try {
             this.paginationPanel.getSearchData().runSearch();
         } catch (EmptyQueryException ex) {
-            //reset();
             DialogUtil.informationMessage("No results were found.", "No Results Found");
             return;
         }
         if (this.paginationPanel.getSearchData().getResults().size() == 0) {
-            //reset();
             DialogUtil.informationMessage("No results were found.", "No Results Found");
             return;
         }
@@ -251,15 +252,15 @@ public class AllItemsPanel extends JPanel implements ActionListener {
             if (Command.VIEW_ITEM.equals(e.getActionCommand())) {
                 LOG.info("View Item button pressed.");
                 LibrarianServices.viewItem(getController().getFrame(), this.item); // TODO
-            } else if (Command.ITEM_RETURNED.equals(e.getActionCommand())) {
-            LOG.info("Clear button pressed.");
-            LibrarianServices.returnItem(control, selectedItem);
-            } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
-                LOG.info("Clear button pressed.");
-                LibrarianServices.checkOutItem(control, selectedItem);
             } else if (Command.DELETE_ITEM.equals(e.getActionCommand())) {
                 LOG.info("Delete Item button pressed.");
                 LibrarianServices.deleteItem(getController(), this.item);
+            } else if (Command.ITEM_RETURNED.equals(e.getActionCommand())) {
+                LOG.info("Return button pressed.");
+                LibrarianServices.returnItem(getController(), this.item);
+            } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
+                LOG.info("Checkout button pressed.");
+                LibrarianServices.checkOutItem(getController(), this.item);
             }
         }
     }
