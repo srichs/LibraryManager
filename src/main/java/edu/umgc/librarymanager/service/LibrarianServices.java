@@ -24,6 +24,7 @@ import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
 import java.time.ZonedDateTime;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 
@@ -254,15 +255,13 @@ public final class LibrarianServices {
         } finally {
             itemDAO.closeSession();
         }
-
-        Library library = DatabaseTest.getLibrary();
-        BaseTransaction transaction = new BaseTransaction(library, item, control.getCurrentUser(),
-                ZonedDateTime.now(), null, 0.0, null, 0, TransactionType.Reserve);
-
         TransactionDAO transDAO = new TransactionDAO();
         try {
             transDAO.openSessionwithTransaction();
-            transDAO.persist(transaction);
+            BaseTransaction trans = transDAO.findByItem(item);
+            trans.setTransactionDateTime(ZonedDateTime.now());
+            trans.setTransactionType(TransactionType.Return);
+            transDAO.update(trans);
             transDAO.closeSessionwithTransaction();
         } catch (HibernateException ex) {
             ex.printStackTrace();
@@ -295,13 +294,15 @@ public final class LibrarianServices {
             }
 
             Library library = DatabaseTest.getLibrary();
-            BaseTransaction transaction = new BaseTransaction(library, item, control.getCurrentUser(),
-                    ZonedDateTime.now(), null, 0.0, null, 0, TransactionType.Reserve);
-
             TransactionDAO transDAO = new TransactionDAO();
             try {
                 transDAO.openSessionwithTransaction();
-                transDAO.persist(transaction);
+                BaseTransaction trans = transDAO.findByItem(item);
+                trans.setDueDate(ZonedDateTime.now().plusDays(14));
+                trans.setLibrary(library);
+                trans.setTransactionDateTime(ZonedDateTime.now());
+                trans.setTransactionType(TransactionType.CheckOut);
+                transDAO.update(trans);
                 transDAO.closeSessionwithTransaction();
             } catch (HibernateException ex) {
                 ex.printStackTrace();
