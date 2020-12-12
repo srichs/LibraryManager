@@ -123,6 +123,9 @@ public class GUIController implements ActionListener {
         } else if (Command.ADV_SEARCH_CLEAR.equals(e.getActionCommand())) {
             LOG.info("Advanced search clear button pressed.");
             PatronServices.clearAdvancedSearch(this);
+        } else if (Command.VIEW_FEES.equals(e.getActionCommand())) {
+            LOG.info("Advanced search clear button pressed.");
+            PatronServices.viewFees(this);
         }
     }
 

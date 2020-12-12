@@ -41,6 +41,7 @@ public class MenuBar extends JMenuBar {
         addMenuItem("Search", fileMenu, Command.SEARCH, control);
         addMenuItem("View Profile", fileMenu, Command.PROFILE, control);
         addMenuItem("View Checked Items", fileMenu, Command.CHECKED_ITEMS, control);
+        addMenuItem("View Renewal Fees", fileMenu, Command.VIEW_FEES, control);
         fileMenu.addSeparator();
         addMenuItem("Logout", fileMenu, Command.LOGOUT, control);
         JMenu helpMenu = new JMenu("About");
