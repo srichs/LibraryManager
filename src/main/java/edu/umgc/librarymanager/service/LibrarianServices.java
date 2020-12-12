@@ -20,6 +20,7 @@ import edu.umgc.librarymanager.data.model.user.UserType;
 import edu.umgc.librarymanager.gui.DialogUtil;
 import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
+import edu.umgc.librarymanager.gui.panels.ItemViewType;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
 import java.time.ZonedDateTime;
 import javax.swing.JOptionPane;
@@ -148,6 +149,11 @@ public final class LibrarianServices {
      */
     public static void viewManageItems(MainFrame frame, String command) {
         frame.getPanelComp().getAllItemsPanel().reset(command);
+        if ((frame.getPanelComp().getAllItemsPanel().getViewType() == ItemViewType.Checkout
+                || frame.getPanelComp().getAllItemsPanel().getViewType() == ItemViewType.Return_)
+                && frame.getPanelComp().getAllItemsPanel().getPaginationPanel().getSearchData().getResults().size() == 0) {
+            return;
+        }
         frame.getLayout().show(frame.getPanels(), PanelComposite.ALL_ITEMS);
     }
 

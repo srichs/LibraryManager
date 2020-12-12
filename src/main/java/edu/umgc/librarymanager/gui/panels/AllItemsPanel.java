@@ -175,10 +175,16 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         try {
             this.paginationPanel.getSearchData().runSearch();
         } catch (EmptyQueryException ex) {
+            if (viewType == ItemViewType.Checkout || viewType == ItemViewType.Return_) {
+                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
+            }
             DialogUtil.informationMessage("No results were found.", "No Results Found");
             return;
         }
         if (this.paginationPanel.getSearchData().getResults().size() == 0) {
+            if (viewType == ItemViewType.Checkout || viewType == ItemViewType.Return_) {
+                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
+            }
             DialogUtil.informationMessage("No results were found.", "No Results Found");
             return;
         }
@@ -232,6 +238,10 @@ public class AllItemsPanel extends JPanel implements ActionListener {
 
     public GUIController getController() {
         return this.control;
+    }
+
+    public ItemViewType getViewType() {
+        return this.viewType;
     }
 
     /**
