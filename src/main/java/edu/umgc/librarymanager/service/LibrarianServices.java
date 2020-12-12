@@ -22,7 +22,12 @@ import edu.umgc.librarymanager.gui.GUIController;
 import edu.umgc.librarymanager.gui.MainFrame;
 import edu.umgc.librarymanager.gui.panels.ItemViewType;
 import edu.umgc.librarymanager.gui.panels.PanelComposite;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZonedDateTime;
+import javax.mail.MessagingException;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 
@@ -81,7 +86,7 @@ public final class LibrarianServices {
             if (user.getUserType() == UserType.Librarian) {
                 control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
             } else {
-                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.PATRON_MENU);
+                control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.SEARCH);
             }
             control.setCurrentUser(user);
         }
@@ -253,8 +258,10 @@ public final class LibrarianServices {
             transDAO.openSessionwithTransaction();
             BaseTransaction trans = transDAO.findByItem(item);
             ((BaseItem) trans.getItem()).setStatus(ItemStatus.Available);
+            ((BaseItem) trans.getItem()).setCheckoutPeriod(Period.ZERO);
             trans.setTransactionDateTime(ZonedDateTime.now());
             trans.setTransactionType(TransactionType.Return);
+            ((BaseItem) trans.getItem()).setNotified(false);
             transDAO.update(trans);
             transDAO.closeSessionwithTransaction();
         } catch (HibernateException ex) {
@@ -282,11 +289,14 @@ public final class LibrarianServices {
             try {
                 transDAO.openSessionwithTransaction();
                 BaseTransaction trans = null;
-                trans = transDAO.findByItem(item);
-                ((BaseItem) trans.getItem()).setStatus(ItemStatus.Available);
+                trans = transDAO.findByItemAndStatus(item, TransactionType.Reserve);
+                ((BaseItem) trans.getItem()).setStatus(ItemStatus.CheckedOut);
                 trans.setDueDate(ZonedDateTime.now().plusDays(14));
                 trans.setTransactionDateTime(ZonedDateTime.now());
                 trans.setTransactionType(TransactionType.CheckOut);
+                LocalDate checkDate = LocalDate.now();
+                LocalDate dueDate = LocalDate.now().plusDays(14);
+                ((BaseItem) trans.getItem()).setCheckoutPeriod(Period.between(checkDate, dueDate));
                 transDAO.update(trans);
                 transDAO.closeSessionwithTransaction();
             } catch (HibernateException ex) {
@@ -298,4 +308,39 @@ public final class LibrarianServices {
             control.getFrame().getPanelComp().getAllItemsPanel().update();
         }
     }
+
+    public static void notifyUser(GUIController control, BaseItem item) {
+        boolean wasSent = false;
+        TransactionDAO transDAO = new TransactionDAO();
+        BaseTransaction trans = null;
+        try {
+            transDAO.openSessionwithTransaction();
+            trans = transDAO.findByItemAndStatus(item, TransactionType.Reserve);
+            try {
+                wasSent = true;
+                GmailUtility.sendNotificationEmail((BaseUser) trans.getUser(), trans.getLibrary().getName(),
+                        (BaseItem) trans.getItem());
+            } catch (IOException | MessagingException | GeneralSecurityException e) {
+                wasSent = false;
+                DialogUtil.errorMessage("The application was unable to send the notification.",
+                        "Notification Failure");
+                e.printStackTrace();
+            }
+            if (wasSent) {
+                ((BaseItem) trans.getItem()).setNotified(true);
+            }
+            transDAO.update(trans);
+            transDAO.closeSessionwithTransaction();
+        } catch (HibernateException ex) {
+            ex.printStackTrace();
+        } finally {
+            transDAO.closeSession();
+        }
+        control.getFrame().getPanelComp().getAllItemsPanel().update();
+        if (wasSent) {
+            DialogUtil.informationMessage("The notification for " + trans.getItem().getTitle()
+                    + " was sent successfully.", "Notification Successful");
+        }
+    }
+
 }

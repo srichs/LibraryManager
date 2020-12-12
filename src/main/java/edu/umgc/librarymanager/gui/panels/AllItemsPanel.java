@@ -271,6 +271,9 @@ public class AllItemsPanel extends JPanel implements ActionListener {
             } else if (Command.CHECKOUT_ITEM.equals(e.getActionCommand())) {
                 LOG.info("Checkout button pressed.");
                 LibrarianServices.checkOutItem(getController(), this.item);
+            } else if (Command.NOTIFY.equals(e.getActionCommand())) {
+                LOG.info("Notify button pressed.");
+                LibrarianServices.notifyUser(getController(), this.item);
             }
         }
     }

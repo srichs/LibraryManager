@@ -90,6 +90,9 @@ public abstract class BaseItem implements ILibraryItem {
     @Column(name = "type")
     private ItemType itemType;
 
+    @Column(name = "notified")
+    private Boolean notified;
+
     /**
      * The default constructor of the class.
      */
@@ -105,6 +108,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.status = null;
         this.checkoutPeriod = null;
         this.itemType = null;
+        this.notified = false;
     }
 
     /**
@@ -135,6 +139,7 @@ public abstract class BaseItem implements ILibraryItem {
         this.status = status;
         this.checkoutPeriod = checkoutPeriod;
         this.itemType = type;
+        this.notified = false;
     }
 
     @Override
@@ -255,6 +260,14 @@ public abstract class BaseItem implements ILibraryItem {
 
     public void setItemType(ItemType itemType) {
         this.itemType = itemType;
+    }
+    
+    public Boolean wasNotified() {
+        return this.notified;
+    }
+
+    public void setNotified(Boolean notified) {
+        this.notified = notified;
     }
 
     /**

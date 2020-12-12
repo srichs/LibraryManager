@@ -20,6 +20,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.api.services.gmail.model.Message;
+import edu.umgc.librarymanager.data.model.item.BaseItem;
+import edu.umgc.librarymanager.data.model.user.BaseUser;
 import java.io.ByteArrayOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -141,10 +143,28 @@ public final class GmailUtility {
 
     /*public static void main(String[] args) {
         try {
-            sendEmail("scott.l.richards@email.com", "Hello", "From the LibraryManager Application.");
+            sendEmail("scott.l.richards@mail.com", "Hello", "From the LibraryManager Application.");
         } catch (IOException | MessagingException | GeneralSecurityException e) {
             e.printStackTrace();
         }
     }*/
+
+    public static void sendNotificationEmail(BaseUser user, String libraryName, BaseItem item) throws IOException,
+            MessagingException, GeneralSecurityException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Hello ");
+        sb.append(user.getFirstName());
+        sb.append(",\n\nThe ");
+        sb.append(item.getItemType().toString().toLowerCase());
+        sb.append(" titled ");
+        sb.append(item.getTitle());
+        sb.append(",");
+        sb.append(" that you reserved from the ");
+        sb.append(libraryName);
+        sb.append(" is available for pick-up. Please pick-up");
+        sb.append(" your item within 7 days or your reservation may be cancelled.\n\nThank you!\n\n\nThis is");
+        sb.append(" an automated email please don't reply.");
+        sendEmail(user.getEmail(), "Library Item Ready for Pick-up", sb.toString());
+    }
 
 }
