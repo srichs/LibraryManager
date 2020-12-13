@@ -47,15 +47,15 @@ public class BaseTransaction implements ILibraryTransaction {
     private long id;
 
     @IndexedEmbedded(includeEmbeddedObjectId = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
     private Library library;
 
     @IndexedEmbedded(includeEmbeddedObjectId = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
     private BaseItem item;
 
     @IndexedEmbedded(includeEmbeddedObjectId = true)
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = false)
     private BaseUser user;
 
     @Field(name = "transaction_date")

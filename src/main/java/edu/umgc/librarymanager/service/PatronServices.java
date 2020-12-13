@@ -185,7 +185,6 @@ public final class PatronServices {
             if (results.get(i).getTransactionType() == TransactionType.Return) {
                 results.remove(i);
             }
-            System.out.println(results.get(i).getItem().toString() + "\n" + results.get(i).getTransactionType().toString());
         }
         return results;
     }

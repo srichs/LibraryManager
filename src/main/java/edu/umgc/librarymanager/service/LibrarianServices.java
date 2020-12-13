@@ -27,7 +27,9 @@ import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZonedDateTime;
+import java.util.List;
 import javax.mail.MessagingException;
+import javax.persistence.OptimisticLockException;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
 
@@ -59,6 +61,7 @@ public final class LibrarianServices {
                 userDAO.persist(user);
                 userDAO.closeSessionwithTransaction();
             } finally {
+                if (userDAO.getSession() != null)
                 userDAO.closeSession();
             }
             DialogUtil.informationMessage("The user was added successfully.\nusername: " + user.getUserName() + "\n",
@@ -81,7 +84,8 @@ public final class LibrarianServices {
                 userDAO.closeSessionwithTransaction();
                 DialogUtil.informationMessage("The update was successful.", "Update Information");
             } finally {
-                userDAO.closeSession();
+                if (userDAO.getSession() != null)
+                    userDAO.closeSession();
             }
             if (user.getUserType() == UserType.Librarian) {
                 control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.LIBRARIAN_MENU);
@@ -117,10 +121,35 @@ public final class LibrarianServices {
      * @param user A BaseUser object.
      */
     public static void deleteUser(GUIController control, BaseUser user) {
+        TransactionDAO transDAO = new TransactionDAO();
         UserDAO userDAO = new UserDAO();
-        userDAO.openSessionwithTransaction();
-        userDAO.delete(user);
-        userDAO.closeSessionwithTransaction();
+        try {
+            transDAO.openSessionwithTransaction();
+            if (transDAO.hasCheckedItems(user)) {
+                transDAO.closeSessionwithTransaction();
+                DialogUtil.warningMessage("The user cannot be deleted because they have items that are"
+                        + " checked out.", "Unable to Delete User");
+                return;
+            }
+            List<BaseTransaction> trans = transDAO.findByUser(user);
+            for (int i = 0; i < trans.size(); i++) {
+                ((BaseItem) trans.get(i).getItem()).setStatus(ItemStatus.Available);
+                trans.get(i).setLibrary(null);
+                trans.get(i).setItem(null);
+                transDAO.delete(trans.get(i));
+            }
+            transDAO.closeSessionwithTransaction();
+            userDAO.openSessionwithTransaction();
+            userDAO.delete(user);
+            userDAO.closeSessionwithTransaction();
+        } catch (HibernateException | OptimisticLockException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (transDAO.getSession() != null)
+                transDAO.closeSession();
+            if (userDAO.getSession() != null)
+                userDAO.closeSession();
+        }
         control.getFrame().getPanelComp().getAllUsersPanel().getPaginationPanel().getSearchData().runSearch();
         control.getFrame().getPanelComp().getAllUsersPanel().getPaginationPanel().update();
         control.getFrame().getPanelComp().getAllUsersPanel().update();
@@ -139,7 +168,8 @@ public final class LibrarianServices {
                 userDAO.update(user);
                 userDAO.closeSessionwithTransaction();
             } finally {
-                userDAO.closeSession();
+                if (userDAO.getSession() != null)
+                    userDAO.closeSession();
             }
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_USERS);
             DialogUtil.informationMessage("The update was successful.", "Update Information");
@@ -175,7 +205,8 @@ public final class LibrarianServices {
                 itemDAO.update(item);
                 itemDAO.closeSessionwithTransaction();
             } finally {
-                itemDAO.closeSession();
+                if (itemDAO.getSession() != null)
+                    itemDAO.closeSession();
             }
             control.getFrame().getLayout().show(control.getFrame().getPanels(), PanelComposite.ALL_ITEMS);
             DialogUtil.informationMessage("The update was successful.", "Update Information");
@@ -213,7 +244,8 @@ public final class LibrarianServices {
             } catch (HibernateException ex) {
                 ex.printStackTrace();
             } finally {
-                itemDAO.closeSession();
+                if (itemDAO.getSession() != null)
+                    itemDAO.closeSession();
             }
             DialogUtil.informationMessage("The item was added successfully.\ntitle: " + item.getTitle() + "\n",
                     "Update Information");
@@ -227,10 +259,34 @@ public final class LibrarianServices {
      * @param item The item to be deleted.
      */
     public static void deleteItem(GUIController control, BaseItem item) {
+        TransactionDAO transDAO = new TransactionDAO();
         ItemDAO itemDAO = new ItemDAO();
-        itemDAO.openSessionwithTransaction();
-        itemDAO.delete(item);
-        itemDAO.closeSessionwithTransaction();
+        try {
+            transDAO.openSessionwithTransaction();
+            if (transDAO.itemCheckedOut(item)) {
+                transDAO.closeSessionwithTransaction();
+                DialogUtil.warningMessage("The item cannot be deleted because it is currently checked out",
+                        "Unable to Delete Item");
+                return;
+            }
+            List<BaseTransaction> trans = transDAO.findByItem(item);
+            for (int i = 0; i < trans.size(); i++) {
+                trans.get(i).setLibrary(null);
+                trans.get(i).setUser(null);
+                transDAO.delete(trans.get(i));
+            }
+            transDAO.closeSessionwithTransaction();
+            itemDAO.openSessionwithTransaction();
+            itemDAO.delete(item);
+            itemDAO.closeSessionwithTransaction();
+        } catch (HibernateException | OptimisticLockException ex) {
+            ex.printStackTrace();
+        } finally {
+            if (transDAO.getSession() != null)
+                transDAO.closeSession();
+            if (itemDAO.getSession() != null)
+                itemDAO.closeSession();
+        }
         control.getFrame().getPanelComp().getAllItemsPanel().getPaginationPanel().getSearchData().runSearch();
         control.getFrame().getPanelComp().getAllItemsPanel().getPaginationPanel().update();
         control.getFrame().getPanelComp().getAllItemsPanel().update();
@@ -252,11 +308,10 @@ public final class LibrarianServices {
      * @param item The BaseItem to be reserved.
      */
     public static void returnItem(GUIController control, BaseItem item) {
-        System.out.println(item.toString());
         TransactionDAO transDAO = new TransactionDAO();
         try {
             transDAO.openSessionwithTransaction();
-            BaseTransaction trans = transDAO.findByItem(item);
+            BaseTransaction trans = transDAO.findByItemAndItemStatus(item, ItemStatus.CheckedOut);
             ((BaseItem) trans.getItem()).setStatus(ItemStatus.Available);
             ((BaseItem) trans.getItem()).setCheckoutPeriod(Period.ZERO);
             trans.setTransactionDateTime(ZonedDateTime.now());
@@ -267,7 +322,8 @@ public final class LibrarianServices {
         } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
-            transDAO.closeSession();
+            if (transDAO.getSession() != null)
+                transDAO.closeSession();
         }
         DialogUtil.informationMessage("The item was successfully returned.", "Return Successful");
         if (control == null) {
@@ -302,7 +358,8 @@ public final class LibrarianServices {
             } catch (HibernateException ex) {
                 ex.printStackTrace();
             } finally {
-                transDAO.closeSession();
+                if (transDAO.getSession() != null)
+                    transDAO.closeSession();
             }
             DialogUtil.informationMessage("The item was successfully checked out.", "Check Out Successful");
             control.getFrame().getPanelComp().getAllItemsPanel().update();
@@ -336,7 +393,8 @@ public final class LibrarianServices {
         } catch (HibernateException ex) {
             ex.printStackTrace();
         } finally {
-            transDAO.closeSession();
+            if (transDAO.getSession() != null)
+                transDAO.closeSession();
         }
         control.getFrame().getPanelComp().getAllItemsPanel().update();
         if (wasSent) {
