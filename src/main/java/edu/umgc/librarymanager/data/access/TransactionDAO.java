@@ -43,6 +43,38 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
     }
 
     @SuppressWarnings("unchecked")
+    public boolean hasCheckedItems(BaseUser user) {
+        List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
+                .createQuery("From BaseTransaction t Where t.user = :user")
+                .setParameter("user", user).getResultList();
+        if (transactions.size() > 0) {
+            for (int i = 0; i < transactions.size(); i++) {
+                if (transactions.get(i).getTransactionType() != TransactionType.Return
+                        && transactions.get(i).getTransactionType() != TransactionType.Reserve) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean itemCheckedOut(BaseItem item) {
+        List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
+                .createQuery("From BaseTransaction t Where t.item.id = :itemid")
+                .setParameter("itemid", item.getId()).getResultList();
+        if (transactions.size() > 0) {
+            for (int i = 0; i < transactions.size(); i++) {
+                if (transactions.get(i).getTransactionType() != TransactionType.Return
+                        && transactions.get(i).getTransactionType() != TransactionType.Reserve) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*@SuppressWarnings("unchecked")
     public List<BaseTransaction> findFees(BaseUser user) {
         List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
                 .createQuery("From BaseTransaction t Where t.user.id = :user And t.fee > 0.0")
@@ -51,7 +83,7 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
             return transactions;
         }
         return null;
-    }
+    }*/
 
     /**
      * Finds the transactions for an item.
@@ -59,12 +91,27 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
      * @return A list of transactions for the given item.
      */
     @SuppressWarnings("unchecked")
-    public BaseTransaction findByItem(BaseItem item) {
+    public List<BaseTransaction> findByItem(BaseItem item) {
         List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
                 .createQuery("From BaseTransaction t Where t.item.id = :itemid")
                 .setParameter("itemid", item.getId()).getResultList();
         if (transactions.size() > 0) {
-            return transactions.get(0);
+            return transactions;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public BaseTransaction findByItemAndItemStatus(BaseItem item, ItemStatus status) {
+        List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
+                .createQuery("From BaseTransaction t Where t.item.id = :itemid")
+                .setParameter("itemid", item.getId()).getResultList();
+        if (transactions.size() > 0) {
+            for (int i = 0; i < transactions.size(); i++) {
+                if (transactions.get(i).getItem().getStatus() == status) {
+                    return transactions.get(i);
+                }
+            }
         }
         return null;
     }
