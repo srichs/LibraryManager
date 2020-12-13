@@ -153,7 +153,7 @@ public final class HibernateInit {
                             line[11]);
                 } else {
                     book = new Book(classGroup, zdt, line[4], new BigDecimal(line[5]), line[6], publish, genre,
-                            line[8], status, null, line[10],
+                            line[8], status, Period.ZERO, line[10],
                             line[11]);
                 }
                 session.save(book);

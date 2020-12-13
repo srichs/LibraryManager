@@ -110,6 +110,10 @@ public final class Command {
      * A string for an ActionCommand of 'librarian_menu'.
      */
     public static final String LIBRARIAN_MENU = "librarian_menu";
+    /**
+     * A string for an ActionCommand of 'librarian_menu'.
+     */
+    public static final String NOTIFY = "notify_user";
 
     // PATRON
 
@@ -149,6 +153,10 @@ public final class Command {
      * A string for an ActionCommand of 'item_reserved'.
      */
     public static final String ITEM_RESERVED = "item_reserved";
+    /**
+     * A string for an ActionCommand of 'item_reserved'.
+     */
+    public static final String VIEW_FEES = "view_fees";
     /**
      * A string for an ActionCommand of 'patron_menu'.
      */

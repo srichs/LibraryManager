@@ -34,7 +34,18 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
     @SuppressWarnings("unchecked")
     public List<BaseTransaction> findByUser(BaseUser user) {
         List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
-                .createQuery("From BaseTransaction t Where t.user.id = :user")
+                .createQuery("From BaseTransaction t Where t.user = :user")
+                .setParameter("user", user).getResultList();
+        if (transactions.size() > 0) {
+            return transactions;
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<BaseTransaction> findFees(BaseUser user) {
+        List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
+                .createQuery("From BaseTransaction t Where t.user.id = :user And t.fee > 0.0")
                 .setParameter("user", user.getId()).getResultList();
         if (transactions.size() > 0) {
             return transactions;
@@ -54,6 +65,21 @@ public class TransactionDAO extends BaseDAO<BaseTransaction> {
                 .setParameter("itemid", item.getId()).getResultList();
         if (transactions.size() > 0) {
             return transactions.get(0);
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public BaseTransaction findByItemAndStatus(BaseItem item, TransactionType type) {
+        List<BaseTransaction> transactions = (List<BaseTransaction>) getSession()
+                .createQuery("From BaseTransaction t Where t.item.id = :itemid")
+                .setParameter("itemid", item.getId()).getResultList();
+        if (transactions.size() > 0) {
+            for (int i = 0; i < transactions.size(); i++) {
+                if (transactions.get(i).getTransactionType() == type) {
+                    return transactions.get(i);
+                }
+            }
         }
         return null;
     }

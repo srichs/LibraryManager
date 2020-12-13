@@ -69,10 +69,11 @@ public class ItemView extends JPanel {
         rightPanel.setPreferredSize(new Dimension(120, 70));
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         createButtonPanel(rightPanel, listener);
-        leftPanel.setLayout(new GridLayout(3, 2));
+        leftPanel.setLayout(new GridLayout(3, 1));
         leftPanel.setBorder(new EmptyBorder(new Insets(5, 20, 5, 5)));
         leftPanel.add(new JLabel("Title: " + item.getTitle())); // TODO make view more detailed
-
+        leftPanel.add(new JLabel("Genre: " + item.getGenre()));
+        leftPanel.add(new JLabel("Publisher: " + item.getPublisher().getPublisher()));
         this.setPreferredSize(new Dimension(860, 100));
         this.setMaximumSize(new Dimension(860, 100));
         this.setLayout(new BorderLayout());
@@ -113,15 +114,19 @@ public class ItemView extends JPanel {
 //            secondBtn.setActionCommand(Command.VIEW_ITEM);
 //            secondBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
         } else if (this.type == ItemViewType.Checkout) {
-            btnNumber = 1;
+            btnNumber = 2;
             firstBtn.setText(ItemViewType.Checkout.toString());
             firstBtn.addActionListener(listener);
             firstBtn.setActionCommand(Command.CHECKOUT_ITEM); // TODO
             firstBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
-//            secondBtn.setText("View");
-//            secondBtn.addActionListener(listener);
-//            secondBtn.setActionCommand(Command.VIEW_ITEM);
-//            secondBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+            secondBtn.setText("Notify");
+            secondBtn.addActionListener(listener);
+            secondBtn.setActionCommand(Command.NOTIFY);
+            secondBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+            if (this.item.wasNotified()) {
+                secondBtn.setEnabled(false);
+                secondBtn.setText("Notified");
+            }
         } else if (this.type == ItemViewType.Reserve) {
             btnNumber = 1;
             firstBtn.setText(ItemViewType.Reserve.toString());
