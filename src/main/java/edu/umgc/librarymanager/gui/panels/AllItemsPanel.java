@@ -26,6 +26,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -35,10 +36,10 @@ import org.apache.logging.log4j.Logger;
 import org.hibernate.search.exception.EmptyQueryException;
 
 /**
- * This class is used to view all items of the Library system. It uses the ItemView class
- * to display each item in a list of items in a scroll pane. Each individual item can
- * be viewed or deleted. There is also an option to search the items title and to
- * add a new item.
+ * This class is used to view all items of the Library system. It uses the
+ * ItemView class to display each item in a list of items in a scroll pane. Each
+ * individual item can be viewed or deleted. There is also an option to search
+ * the items title and to add a new item.
  * @author Scott
  */
 public class AllItemsPanel extends JPanel implements ActionListener {
@@ -53,15 +54,23 @@ public class AllItemsPanel extends JPanel implements ActionListener {
     private PaginationPanel<BaseItem> paginationPanel;
     private GUIController control;
     private ItemViewType viewType = ItemViewType.View;
+    private JLabel emailStatus;
 
     /**
      * The constructor of the class.
+     * 
      * @param control The GUIController of the application.
      */
     public AllItemsPanel(GUIController control) {
-        this.paginationPanel = new PaginationPanel<BaseItem>(new SearchData<BaseItem>(
-                null, null, new Pagination(20, 0, 1), BaseItem.class), this);
+        this.paginationPanel = new PaginationPanel<BaseItem>(
+                new SearchData<BaseItem>(null, null, new Pagination(20, 0, 1), BaseItem.class), this);
         this.control = control;
+        JPanel labelPanel = new JPanel(new FlowLayout());
+        labelPanel.setBorder(new EmptyBorder(new Insets(5, 10, 5, 10)));
+        this.emailStatus = new JLabel("");
+        labelPanel.add(this.emailStatus);
+        this.emailStatus.setVisible(true);
+        this.paginationPanel.add(labelPanel, BorderLayout.WEST);
         createPanel(control);
     }
 
@@ -122,11 +131,11 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         this.scrollPane.repaint();
     }
 
-    // Used to search the list then provide the items that match the search characters.
+    // Used to search the list then provide the items that match the search
+    // characters.
     private void searchList(String title) {
-        String[] fields = {ItemField.Title.toString()};
-        SearchData<BaseItem> sd = new SearchData<BaseItem>(fields, title,
-                new Pagination(20, 0, 1), BaseItem.class);
+        String[] fields = { ItemField.Title.toString() };
+        SearchData<BaseItem> sd = new SearchData<BaseItem>(fields, title, new Pagination(20, 0, 1), BaseItem.class);
         this.paginationPanel.setSearchData(sd);
         update();
     }
@@ -137,39 +146,38 @@ public class AllItemsPanel extends JPanel implements ActionListener {
     public void reset() {
         reset(Command.MANAGE_ITEMS);
     }
-    
+
     public void reset(String commandType) {
         this.searchField.setText("");
         SearchData<BaseItem> search = null;
-        String[] fields = {ItemField.Status.toString()};
-        switch(commandType) {
+        String[] fields = { ItemField.Status.toString() };
+        switch (commandType) {
             case Command.CHECKOUT_ITEM:
                 viewType = ItemViewType.Checkout;
                 searchPanel.setVisible(false);
-                search = new SearchData<BaseItem>(
-                    fields, ItemStatus.OnHold, new Pagination(20, 0, 1), BaseItem.class);
+                search = new SearchData<BaseItem>(fields, ItemStatus.OnHold, new Pagination(20, 0, 1), BaseItem.class);
                 break;
             case Command.RETURN_ITEM:
                 viewType = ItemViewType.Return_;
                 searchPanel.setVisible(false);
-                search = new SearchData<BaseItem>(
-                    fields, ItemStatus.CheckedOut, new Pagination(20, 0, 1), BaseItem.class);
+                search = new SearchData<BaseItem>(fields, ItemStatus.CheckedOut, new Pagination(20, 0, 1),
+                        BaseItem.class);
                 break;
             case Command.MANAGE_ITEMS:
-            default:    
+            default:
                 viewType = ItemViewType.View;
                 searchPanel.setVisible(true);
-                search = new SearchData<BaseItem>(
-                    null, null, new Pagination(20, 0, 1), BaseItem.class);
+                search = new SearchData<BaseItem>(null, null, new Pagination(20, 0, 1), BaseItem.class);
                 break;
         }
-        
+
         this.paginationPanel.setSearchData(search);
         update();
     }
 
     /**
-     * Called to update the displayed items in the panel, it also updates the pagination information.
+     * Called to update the displayed items in the panel, it also updates the
+     * pagination information.
      */
     public void update() {
         try {
@@ -188,7 +196,7 @@ public class AllItemsPanel extends JPanel implements ActionListener {
             DialogUtil.informationMessage("No results were found.", "No Results Found");
             return;
         }
-        
+
         this.paginationPanel.update();
         fillPane(this.paginationPanel.getSearchData().getResults());
     }
@@ -244,9 +252,14 @@ public class AllItemsPanel extends JPanel implements ActionListener {
         return this.viewType;
     }
 
+    public JLabel getEmailStatus() {
+        return this.emailStatus;
+    }
+
     /**
-     * An inner class to listen to the users in the scroll pane and fire actions based on which
-     * button is pressed in an item's panel.
+     * An inner class to listen to the users in the scroll pane and fire actions
+     * based on which button is pressed in an item's panel.
+     * 
      * @author Scott
      */
     private class ItemActionListener implements ActionListener {
@@ -272,8 +285,18 @@ public class AllItemsPanel extends JPanel implements ActionListener {
                 LOG.info("Checkout button pressed.");
                 LibrarianServices.checkOutItem(getController(), this.item);
             } else if (Command.NOTIFY.equals(e.getActionCommand())) {
+                getController().getFrame().getPanelComp().getAllItemsPanel().getEmailStatus()
+                        .setText("Sending email...");
+                getController().getFrame().getPanelComp().getAllItemsPanel().repaint();
                 LOG.info("Notify button pressed.");
-                LibrarianServices.notifyUser(getController(), this.item);
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to notify the user?",
+                        "Email Notification", JOptionPane.YES_NO_OPTION);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    LibrarianServices.notifyUser(getController(), this.item);
+                } else {
+                    getController().getFrame().getPanelComp().getAllItemsPanel().getEmailStatus()
+                        .setText("");
+                }
             }
         }
     }

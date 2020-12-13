@@ -322,11 +322,13 @@ public final class LibrarianServices {
                         (BaseItem) trans.getItem());
             } catch (IOException | MessagingException | GeneralSecurityException e) {
                 wasSent = false;
+                control.getFrame().getPanelComp().getAllItemsPanel().getEmailStatus().setText("Failed");
                 DialogUtil.errorMessage("The application was unable to send the notification.",
                         "Notification Failure");
                 e.printStackTrace();
             }
             if (wasSent) {
+                control.getFrame().getPanelComp().getAllItemsPanel().getEmailStatus().setText("Sent");
                 ((BaseItem) trans.getItem()).setNotified(true);
             }
             transDAO.update(trans);
@@ -341,6 +343,7 @@ public final class LibrarianServices {
             DialogUtil.informationMessage("The notification for " + trans.getItem().getTitle()
                     + " was sent successfully.", "Notification Successful");
         }
+        control.getFrame().getPanelComp().getAllItemsPanel().getEmailStatus().setText("");
     }
 
 }
