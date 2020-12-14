@@ -162,9 +162,15 @@ public class PaginationPanel<T> extends JPanel {
                     "No Page Entered");
         } else {
             if (this.pageField.getText().matches("[0-9]{1,3}")) {
-                this.searchData.getPagination().setDesiredPage(Integer.valueOf(this.pageField.getText()));
-                this.searchData.runSearch();
-                update();
+                if (Integer.valueOf(this.pageField.getText()) > this.searchData.getPagination().getLastPageNumber()
+                        || Integer.valueOf(this.pageField.getText()) < 1) {
+                    DialogUtil.warningMessage("The entered page number is outside of the page range.",
+                            "Invalid Page Number");
+                } else {
+                    this.searchData.getPagination().setDesiredPage(Integer.valueOf(this.pageField.getText()));
+                    this.searchData.runSearch();
+                    update();
+                }
             } else {
                 DialogUtil.warningMessage("The page entered in the go to page field is invalid.",
                         "Invalid Page Number");
