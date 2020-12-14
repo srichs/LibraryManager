@@ -181,6 +181,7 @@ public final class LibrarianServices {
     /**
      * Used to manage the items of the library.
      * @param frame The MainFrame of the application.
+     * @param command The ActionCommand that is being called.
      */
     public static void viewManageItems(MainFrame frame, String command) {
         frame.getPanelComp().getAllItemsPanel().reset(command);
